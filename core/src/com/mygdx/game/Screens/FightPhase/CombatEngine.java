@@ -1,6 +1,7 @@
 package com.mygdx.game.Screens.FightPhase;
 
 import com.mygdx.game.Characters.Battler;
+import com.mygdx.game.SingleGame;
 import com.mygdx.game.Spells.Spell;
 import com.mygdx.game.Spells.SpellEffectType;
 import com.mygdx.game.Spells.Statuss.Status;
@@ -37,8 +38,8 @@ public class CombatEngine
 
     public void simulate()
     {
-        BattlerFrame initalPlayer = new BattlerFrame(player.getMaxHealth(),player.getMana(),spellLists[0].get(0).getCastTime(),0,new ArrayList<Status>(),true);
-        BattlerFrame initalEnemy = new BattlerFrame(enemy.getMaxHealth(),enemy.getMana(),spellLists[1].get(0).getCastTime(),0,new ArrayList<Status>(),true);
+        BattlerFrame initalPlayer = new BattlerFrame(SingleGame.maxHealth,player.getMana(),spellLists[0].get(0).getCastTime(),0,new ArrayList<Status>(),true);
+        BattlerFrame initalEnemy = new BattlerFrame(SingleGame.maxHealth,enemy.getMana(),spellLists[1].get(0).getCastTime(),0,new ArrayList<Status>(),true);
         fightSequence.add(gameStep(new FightFrame(initalPlayer,initalEnemy)));
 
 
@@ -91,32 +92,39 @@ public class CombatEngine
                     newBattlers[i].setSpellPointer(battlers[i].getSpellPointer() + 1);
                 }
 
-                if (cS.checkForMana(spellLists[i].get(newBattlers[i].getSpellPointer()), battlers[i], newBattlers[i]))
-                {
-
-                }
-                else
-                {
-                    newBattlers[i].setCooldown(1);
-                }
-
 
                 if (newBattlers[i].getSpellSuccess()) {
                     newBattlers[i].setCooldown(spellLists[i].get(newBattlers[i].getSpellPointer()).getCastTime());
+                    newBattlers[i].setCooldown(newBattlers[i].getCooldown() - 1);
                 }
-                newBattlers[i].setCooldown(newBattlers[i].getCooldown() - 1);
+
+
 
             } else {
                 newBattlers[i].setCooldown(battlers[i].getCooldown() - 1);
             }
+
+            if (!(cS.checkForMana(spellLists[i].get(newBattlers[i].getSpellPointer()), battlers[i], newBattlers[i])))
+            {
+                newBattlers[i].setCooldown(0);
+            }
         }
 
-
+        formalizeBattlerFrame(newBattlers[0]);
+        formalizeBattlerFrame(newBattlers[1]);
         return new FightFrame(newBattlers[0],newBattlers[1]);
 
     }
 
     public LinkedList<FightFrame> getFightSequence() {
         return fightSequence;
+    }
+
+    public void formalizeBattlerFrame(BattlerFrame bf)
+    {
+        if (bf.getHealth() > SingleGame.maxHealth)
+        {
+            bf.setHealth(SingleGame.maxHealth);
+        }
     }
 }

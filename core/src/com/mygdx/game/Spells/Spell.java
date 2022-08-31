@@ -27,7 +27,7 @@ public enum Spell
     ACIDRAIN("Acid Rain",Asset.POISON,3,5,new Effect[]{new Effect(EffectType.POISON,8),new Effect(EffectType.EXPUNGE,5)}),
     TOXICDRAIN("Toxic Drain",Asset.POISON,3,5,new Effect[]{new Effect(HealEffect.POISONHEAL,1)}),
     //HEAL
-    HEALBALL("Healball",Asset.HEALBALL,4,30,new Effect[]{new Effect(HealEffect.HEAL,15)}),
+    HEALBALL("Healball",Asset.HEALBALL,2,30,new Effect[]{new Effect(HealEffect.HEAL,35)}),
 
     //CONTROL
     COUNTERSPELL("Counter Spell",Asset.COUNTERSPELL,1,1,new Effect[]{new Effect(EffectType.COUNTERSPELL,1)}),

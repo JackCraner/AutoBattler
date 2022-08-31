@@ -23,6 +23,7 @@ public class CombatSystem
     {
         if (checkForMana(s,userCurrent,userNew) && checkForBlocks(userCurrent,userNew,targetCurrent,targetNew))
         {
+            spendMana(s,userCurrent,userNew);
             for (Effect e:s.getEffects())
             {
                 EffectSystem handler = (e.getType().getSystem());
@@ -71,7 +72,6 @@ public class CombatSystem
     {
         if (userNew.getMana() > s.getManaCost())
         {
-            userNew.setMana(userCurrent.getMana() - s.getManaCost());
             userNew.setSpellSuccess(true);
             return true;
         }
@@ -82,6 +82,11 @@ public class CombatSystem
         }
 
     }
+    public void spendMana(Spell s,BattlerFrame userCurrent, BattlerFrame userNew)
+    {
+        userNew.setMana(userCurrent.getMana() - s.getManaCost());
+    }
+
 
 
     public static final class DamageSystem implements EffectSystem
@@ -133,6 +138,7 @@ public class CombatSystem
         {
             return false;
         }
+
     }
 
     public static final class HealSystem implements EffectSystem
@@ -144,14 +150,15 @@ public class CombatSystem
 
             if (effect.getType() == HealEffect.HEAL)
             {
-                userNew.setHealth(user.getHealth()+((Effect) effect).getStrength());
+                userNew.setHealth(user.getHealth()+ effect.getStrength());
             }
             else if(effect.getType() == HealEffect.POISONHEAL)
             {
                 Status s = target.getStatus(EffectType.POISON);
                 if (s!=null)
                 {
-                    userNew.setHealth(userNew.getHealth()+s.getStackNumber());
+                    userNew.setHealth(user.getHealth()+s.getStackNumber());
+
                 }
             }
 
@@ -162,6 +169,8 @@ public class CombatSystem
         public boolean tick(Status s, BattlerFrame user, BattlerFrame userNew) {
             return false;
         }
+
+
     }
 
     public static final class PoisonSystem implements EffectSystem

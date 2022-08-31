@@ -12,6 +12,7 @@ import com.mygdx.game.Characters.Battler;
 import com.mygdx.game.Characters.BattlerSprite;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Screens.BuyPhase.Card;
+import com.mygdx.game.SingleGame;
 import com.mygdx.game.Spells.Spell;
 import com.mygdx.game.Spells.Statuss.Status;
 import com.mygdx.game.Spells.Statuss.StatusAsset;
@@ -47,7 +48,7 @@ public class BattlerMesh extends Group
         this.statusRow = new StatusRow();
 
 
-        health = new ProgressBar(0,b.getMaxHealth(),1f,false,MyGdxGame.skin);
+        health = new ProgressBar(0, SingleGame.maxHealth,1f,false,MyGdxGame.skin);
         mana = new ProgressBar(0,50,1f,false,MyGdxGame.skin);
 
         castTime = new ProgressBar(0,1,1f,false, MyGdxGame.skin);

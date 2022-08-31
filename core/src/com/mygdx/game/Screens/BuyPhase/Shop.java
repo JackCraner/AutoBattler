@@ -44,7 +44,12 @@ public class Shop extends Group
         rollShopButton.addListener(new InputListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                rollShop();
+                if (spendMana(5))
+                {
+                    rollShop();
+                }
+
+
                 return super.touchDown(event, x, y, pointer, button);
             }
         });
@@ -103,13 +108,12 @@ public class Shop extends Group
     }
     private void rollShop()
     {
-        if (spendMana(5))
-        {
-            removeActor(card1);
-            removeActor(card2);
-            removeActor(card3);
-            setShop();
-        }
+
+        removeActor(card1);
+        removeActor(card2);
+        removeActor(card3);
+        setShop();
+
 
     }
     private void buyCard(Card c)
@@ -125,8 +129,8 @@ public class Shop extends Group
     }
     private boolean spendMana(int cost)
     {
-        return true;
-        /**
+        //return true;
+
         if (player.getMana() >= cost)
         {
             player.setMana(player.getMana() - cost);
@@ -134,7 +138,7 @@ public class Shop extends Group
             return true;
         }
         return false;
-         **/
+
     }
 
     public void updateMana()

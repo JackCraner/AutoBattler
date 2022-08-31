@@ -13,6 +13,8 @@ public class SingleGame extends ScreenAdapter
 
     Battler player;
     MyGdxGame parent;
+
+    public static int maxHealth = 100;
     ScreenAdapter currentScreen;
     public SpriteBatch batch;
     public SingleGame(MyGdxGame parent)
