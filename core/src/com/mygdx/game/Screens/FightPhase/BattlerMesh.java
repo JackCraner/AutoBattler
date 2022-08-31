@@ -1,0 +1,200 @@
+package com.mygdx.game.Screens.FightPhase;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
+import com.badlogic.gdx.utils.Align;
+import com.mygdx.game.Characters.Battler;
+import com.mygdx.game.Characters.BattlerSprite;
+import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.Screens.BuyPhase.Card;
+import com.mygdx.game.Spells.Effects.Effect;
+import com.mygdx.game.Spells.Effects.EffectType;
+import com.mygdx.game.Spells.Spell;
+import com.mygdx.game.Spells.Statuss.Status;
+import com.mygdx.game.Spells.Statuss.StatusAsset;
+
+import java.util.ArrayList;
+
+public class BattlerMesh extends Group
+{
+
+
+    float scale = 1;
+    float height = 478 ;
+    float width =336;
+
+    Battler host;
+    BattlerSprite hostBody;
+    Card currentSpell;
+    ProgressBar castTime;
+    ProgressBar health;
+    ProgressBar mana;
+
+    StatusRow statusRow;
+    boolean isFlip = false;
+    float pad = (60 * scale);
+    int currentCastID;
+    BattlerMesh(Battler b)
+    {
+
+        this.host = b;
+        this.hostBody = new BattlerSprite(host.getcT(),scale);
+        addActor(hostBody);
+        this.currentCastID = -1;
+        this.statusRow = new StatusRow();
+
+
+        health = new ProgressBar(0,b.getMaxHealth(),1f,false,MyGdxGame.skin);
+        mana = new ProgressBar(0,b.getMana(),1f,false,MyGdxGame.skin);
+        health.setPosition(getPad(),-200);
+        health.setWidth(width);
+        health.setColor(Color.RED);
+        addActor(health);
+        statusRow.setPosition(health.getX() + health.getWidth()/2 + 50, health.getY() + 50);
+
+        addActor(statusRow);
+    }
+
+    @Override
+    public void setPosition(float x, float y)
+    {
+        super.setPosition(x, y);
+
+    }
+
+    @Override
+    protected void positionChanged() {
+        super.positionChanged();
+
+    }
+    public float getPad()
+    {
+        return isFlip? -pad:pad;
+    }
+
+    public void newFrame(BattlerFrame bf)
+    {
+        int index = bf.getSpellPointer();
+        if (index != currentCastID)
+        {
+            currentCastID = index;
+            Spell s = host.getSpellDeck().getSpellList().get(index);
+            currentSpell = new Card(s,0.8f);
+            castTime = new ProgressBar(0,(s.getCastTime()*FightScene.gameTicksInAturn-1),1f,false, MyGdxGame.skin);
+            castTime.setWidth(hostBody.getWidth());
+
+
+
+            castTime.setPosition(getPad(),height+ currentSpell.getHeight() + (100 * scale));
+            currentSpell.setPosition(getPad(),height + pad );
+
+            currentSpell.remove();
+            castTime.remove();
+            addActor(castTime);
+            addActor(currentSpell);
+        }
+        updateHealthBar(bf);
+
+
+        statusRow.setStatusRow(bf.getAllStatus());
+
+
+    }
+
+    public void updateHealthBar(BattlerFrame bF)
+    {
+        health.setValue(bF.getHealth());
+
+
+    }
+
+
+
+    public void updateCastTime()
+    {
+        castTime.setValue(castTime.getValue()+1);
+    }
+
+
+
+    public void flip(boolean a, boolean b)
+    {
+
+        isFlip = a;
+        hostBody.flip(a,b);
+        health.setPosition(getPad(),-200);
+        if (isFlip)
+        {
+            statusRow.setPosition(health.getX() - health.getWidth()/2 + 170, health.getY() + 50);
+        }
+        else
+        {
+            statusRow.setPosition(health.getX() + health.getWidth()/2 + 50, health.getY() + 50);
+        }
+    }
+
+
+
+}
+class StatusRow extends Group
+{
+    ArrayList<StatusBox> statusBoxes;
+    public StatusRow()
+    {
+        statusBoxes = new ArrayList<>();
+
+    }
+    public void setStatusRow(ArrayList<Status> statuses)
+    {
+        clear();
+        statusBoxes.clear();
+        int counter =0;
+        for (Status s: statuses)
+        {
+            StatusBox sB = new StatusBox(s);
+            sB.setPosition(100 * counter + 10,0);
+            statusBoxes.add(sB);
+            addActor(sB);
+            counter++;
+        }
+    }
+
+    @Override
+    public void setPosition(float x, float y) {
+        super.setPosition(x, y);
+    }
+    
+    private class StatusBox extends Group
+    {
+        private Image icon;
+        private Label stack;
+        private float scale = 2;
+
+        public StatusBox(Status status)
+        {
+            icon = new Image(new Texture(Gdx.files.local(StatusAsset.statusAssetReference.get(status.getType()).getIcon())));
+            icon.setSize(100,100);
+            stack = new Label(Integer.toString(status.getStackNumber()),MyGdxGame.skin,"try");
+            stack.setSize(80,80);
+            stack.setPosition(10,10);
+            stack.setFontScale(2);
+            stack.setAlignment(Align.center);
+            stack.setColor(Color.WHITE);
+            addActor(icon);
+            addActor(stack);
+        }
+
+        @Override
+        public void setPosition(float x, float y)
+        {
+            super.setPosition(x, y);
+        }
+    }
+    
+}
+
