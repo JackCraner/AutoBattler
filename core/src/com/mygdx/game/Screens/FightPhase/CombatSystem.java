@@ -1,8 +1,9 @@
 package com.mygdx.game.Screens.FightPhase;
 
 import com.mygdx.game.Spells.Effects.Effect;
-import com.mygdx.game.Spells.Effects.EffectBase;
-import com.mygdx.game.Spells.Effects.EffectType;
+import com.mygdx.game.Spells.Effects.EffectTypes.EffectType;
+import com.mygdx.game.Spells.Effects.EffectTypes.HealEffect;
+import com.mygdx.game.Spells.Effects.EffectTypes.ManaEffect;
 import com.mygdx.game.Spells.Spell;
 import com.mygdx.game.Spells.SpellEffectType;
 import com.mygdx.game.Spells.Statuss.Status;
@@ -12,19 +13,7 @@ import java.util.Map;
 
 public class CombatSystem
 {
-    public static Map<SpellEffectType,EffectSystem> logicMap = new HashMap<>();
 
-
-    static
-    {
-        logicMap.put(EffectType.DAMAGE,new DamageSystem());
-        logicMap.put(EffectType.HEAL,new HealSystem());
-        logicMap.put(EffectType.POISON,new PoisonSystem());
-        logicMap.put(EffectType.BURN,new BurnSystem());
-        logicMap.put(EffectType.COUNTERSPELL,new CounterSpellSystem());
-        logicMap.put(EffectType.EXPUNGE,new ExpungeSystem());
-        logicMap.put(EffectType.POISONHEAL,new PoisonHealSystem());
-    }
     public CombatSystem()
     {
 
@@ -36,7 +25,7 @@ public class CombatSystem
         {
             for (Effect e:s.getEffects())
             {
-                EffectSystem handler = logicMap.get(e.getType());
+                EffectSystem handler = (e.getType().getSystem());
                 handler.execute(e,userCurrent,userNew,targetCurrent,targetNew);
             }
         }
@@ -46,8 +35,8 @@ public class CombatSystem
 
     public boolean gameTick(Status s,BattlerFrame userCurrent, BattlerFrame userNew)
     {
-        EffectSystem handler = logicMap.get(s.getType());
-        handler.tick(s,userCurrent,userNew);
+
+        s.getType().getSystem().tick(s,userCurrent,userNew);
         return false;
     }
     public boolean checkForBlocks(BattlerFrame userCurrent, BattlerFrame userNew, BattlerFrame targetCurrent, BattlerFrame targetNew)
@@ -95,9 +84,9 @@ public class CombatSystem
     }
 
 
-    private static final class DamageSystem implements EffectSystem
+    public static final class DamageSystem implements EffectSystem
     {
-
+        public final static DamageSystem instance = new DamageSystem();
 
         @Override
         public void execute(Effect effect, BattlerFrame user, BattlerFrame userNew, BattlerFrame target, BattlerFrame targetNew)
@@ -120,39 +109,64 @@ public class CombatSystem
             return false;
         }
     }
-    private static final class HealSystem implements EffectSystem
+
+    public static final class ManaSystem implements EffectSystem
     {
+        public final static  ManaSystem instance = new ManaSystem();
 
         @Override
-        public void execute(Effect effect, BattlerFrame user, BattlerFrame userNew, BattlerFrame target, BattlerFrame targetNew) {
-            userNew.setHealth(user.getHealth()+((Effect) effect).getStrength());
-        }
+        public void execute(Effect effect, BattlerFrame user, BattlerFrame userNew, BattlerFrame target, BattlerFrame targetNew)
+        {
 
-        @Override
-        public boolean tick(Status s, BattlerFrame user, BattlerFrame userNew) {
-            return false;
-        }
-    }
-    private static final class PoisonHealSystem implements EffectSystem
-    {
-        @Override
-        public void execute(Effect effect, BattlerFrame user, BattlerFrame userNew, BattlerFrame target, BattlerFrame targetNew) {
-            Status s = target.getStatus(EffectType.POISON);
-            if (s!=null)
+            if (effect.getType() == ManaEffect.MANA)
             {
-                userNew.setHealth(userNew.getHealth()+s.getStackNumber());
+                //userNew.setMana(user.getMana() + effect.getStrength());
+            }
+            else if (effect.getType() == ManaEffect.POISON)
+            {
             }
 
         }
 
         @Override
+        public boolean tick(Status s, BattlerFrame user, BattlerFrame userNew)
+        {
+            return false;
+        }
+    }
+
+    public static final class HealSystem implements EffectSystem
+    {
+        public static final HealSystem instance = new HealSystem();
+        @Override
+        public void execute(Effect effect, BattlerFrame user, BattlerFrame userNew, BattlerFrame target, BattlerFrame targetNew)
+        {
+
+            if (effect.getType() == HealEffect.HEAL)
+            {
+                userNew.setHealth(user.getHealth()+((Effect) effect).getStrength());
+            }
+            else if(effect.getType() == HealEffect.POISONHEAL)
+            {
+                Status s = target.getStatus(EffectType.POISON);
+                if (s!=null)
+                {
+                    userNew.setHealth(userNew.getHealth()+s.getStackNumber());
+                }
+            }
+
+
+        }
+
+        @Override
         public boolean tick(Status s, BattlerFrame user, BattlerFrame userNew) {
             return false;
         }
     }
 
-    private static final class PoisonSystem implements EffectSystem
+    public static final class PoisonSystem implements EffectSystem
     {
+        public static final PoisonSystem instance = new PoisonSystem();
         final int tickTime = 2;
         @Override
         public void execute(Effect effect, BattlerFrame user, BattlerFrame userNew, BattlerFrame target, BattlerFrame targetNew)
@@ -210,8 +224,9 @@ public class CombatSystem
             }
         }
     }
-    private static final class BurnSystem implements EffectSystem
+    public static final class BurnSystem implements EffectSystem
     {
+        public static final BurnSystem instance = new BurnSystem();
         final int tickTime = 2;
         @Override
         public void execute(Effect effect, BattlerFrame user, BattlerFrame userNew, BattlerFrame target, BattlerFrame targetNew) {
@@ -241,9 +256,9 @@ public class CombatSystem
             return false;
         }
     }
-    private static final class CounterSpellSystem implements EffectSystem
+    public static final class CounterSpellSystem implements EffectSystem
     {
-
+        public static final CounterSpellSystem instance = new CounterSpellSystem();
         @Override
         public void execute(Effect effect, BattlerFrame user, BattlerFrame userNew, BattlerFrame target, BattlerFrame targetNew)
         {
@@ -267,8 +282,9 @@ public class CombatSystem
             return false;
         }
     }
-    private static final class ExpungeSystem implements EffectSystem
+    public static final class ExpungeSystem implements EffectSystem
     {
+        public static final ExpungeSystem instance = new ExpungeSystem();
         int tickTime = 0;
         @Override
         public void execute(Effect effect, BattlerFrame user, BattlerFrame userNew, BattlerFrame target, BattlerFrame targetNew)

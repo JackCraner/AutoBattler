@@ -12,8 +12,6 @@ import com.mygdx.game.Characters.Battler;
 import com.mygdx.game.Characters.BattlerSprite;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Screens.BuyPhase.Card;
-import com.mygdx.game.Spells.Effects.Effect;
-import com.mygdx.game.Spells.Effects.EffectType;
 import com.mygdx.game.Spells.Spell;
 import com.mygdx.game.Spells.Statuss.Status;
 import com.mygdx.game.Spells.Statuss.StatusAsset;

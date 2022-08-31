@@ -5,12 +5,15 @@ import java.util.HashMap;
 
 public enum Asset
 {
+
     FIREBALL("Damage","Fireball"),
     POISON("Poison","PoisonBall"),
     HEALBALL("OnHP", "PoisonBall"),
     COUNTERSPELL("Counter","Fireball"),
     BURN("Burn","Fireball"),
-    EXPUNGE("Expunge","PoisonBall");
+    EXPUNGE("Expunge","PoisonBall"),
+    MANA("Mana1","Fireball")
+    ;
 
     private String icon;
     private String projectile;

@@ -1,8 +1,5 @@
 package com.mygdx.game.Spells.Statuss;
 
-import com.mygdx.game.Spells.Effects.Effect;
-import com.mygdx.game.Spells.Effects.EffectBase;
-import com.mygdx.game.Spells.Effects.EffectType;
 import com.mygdx.game.Spells.SpellEffectType;
 
 public class Status {

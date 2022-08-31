@@ -1,6 +1,5 @@
 package com.mygdx.game.Screens.FightPhase;
 
-import com.mygdx.game.Spells.Effects.EffectType;
 import com.mygdx.game.Spells.SpellEffectType;
 import com.mygdx.game.Spells.Statuss.Status;
 

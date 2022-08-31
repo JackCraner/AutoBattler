@@ -125,6 +125,8 @@ public class Shop extends Group
     }
     private boolean spendMana(int cost)
     {
+        return true;
+        /**
         if (player.getMana() >= cost)
         {
             player.setMana(player.getMana() - cost);
@@ -132,6 +134,7 @@ public class Shop extends Group
             return true;
         }
         return false;
+         **/
     }
 
     public void updateMana()

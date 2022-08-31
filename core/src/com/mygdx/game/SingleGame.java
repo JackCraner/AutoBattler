@@ -34,6 +34,7 @@ public class SingleGame extends ScreenAdapter
     }
     public void returnToShop()
     {
+        player.setMana(player.getMana() + 10);
        parent.setScreen(new BuyScene(this,player));
     }
 

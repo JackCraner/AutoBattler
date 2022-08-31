@@ -1,7 +1,6 @@
 package com.mygdx.game.Screens.FightPhase;
 
 import com.mygdx.game.Characters.Battler;
-import com.mygdx.game.Spells.Effects.EffectType;
 import com.mygdx.game.Spells.Spell;
 import com.mygdx.game.Spells.SpellEffectType;
 import com.mygdx.game.Spells.Statuss.Status;
@@ -76,14 +75,13 @@ public class CombatEngine
         BattlerFrame[] battlers = {f.getPlayer(),f.getEnemy()};
         BattlerFrame[] newBattlers = {f.getPlayer().clone(),f.getEnemy().clone()};
         for (int i = 0; i <battlers.length;i++) {
-            for (SpellEffectType effect : CombatSystem.logicMap.keySet()) {
-                Status s = newBattlers[i].getStatus(effect);
+            for (Status s : newBattlers[i].getAllStatus()) {
 
-                if (s != null) {
-                    cS.gameTick(s, battlers[i], newBattlers[i]);
-                }
+                cS.gameTick(s, battlers[i], newBattlers[i]);
+
 
             }
+
             if (battlers[i].getCooldown() == 0) {
 
                 cS.castSpell(spellLists[i].get(battlers[i].getSpellPointer()), battlers[i], newBattlers[i], battlers[Math.abs(i - 1)], newBattlers[Math.abs(i - 1)]);
