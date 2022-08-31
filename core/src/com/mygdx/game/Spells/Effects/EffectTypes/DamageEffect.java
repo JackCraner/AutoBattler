@@ -6,7 +6,7 @@ import com.mygdx.game.Spells.SpellEffectType;
 
 public enum DamageEffect implements SpellEffectType {
 
-    DAMAGE("Damage","Deal %d Damage"),
+    DAMAGE("Damage","Deal %.0f Damage"),
     ;
     private String name;
     private String description;

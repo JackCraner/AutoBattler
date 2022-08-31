@@ -6,16 +6,16 @@ import com.mygdx.game.Spells.SpellEffectType;
 public class Effect extends EffectBase
 {
 
-    private int strength;
+    private float strength;
 
-    public Effect(SpellEffectType type, int strength)
+    public Effect(SpellEffectType type, float strength)
     {
         super(type);
         this.strength = strength;
     }
 
 
-    public int getStrength() {
+    public float getStrength() {
         return strength;
     }
 

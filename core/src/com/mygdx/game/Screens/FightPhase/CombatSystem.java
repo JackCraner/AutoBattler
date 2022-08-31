@@ -103,7 +103,7 @@ public class CombatSystem
             }
             else
             {
-                targetNew.setHealth(targetNew.getHealth() - damage.getStrength());
+                targetNew.setHealth(targetNew.getHealth() - (int)damage.getStrength());
             }
 
         }
@@ -125,10 +125,15 @@ public class CombatSystem
 
             if (effect.getType() == ManaEffect.MANA)
             {
-                //userNew.setMana(user.getMana() + effect.getStrength());
+                userNew.setMana(user.getMana() + (int)effect.getStrength());
             }
             else if (effect.getType() == ManaEffect.POISON)
             {
+                Status s = target.getStatus(EffectType.POISON);
+                if (s!=null)
+                {
+                    userNew.setMana(user.getMana() + (int)Math.floor(s.getStackNumber()/effect.getStrength()));
+                }
             }
 
         }
@@ -150,7 +155,7 @@ public class CombatSystem
 
             if (effect.getType() == HealEffect.HEAL)
             {
-                userNew.setHealth(user.getHealth()+ effect.getStrength());
+                userNew.setHealth(user.getHealth()+ (int)effect.getStrength());
             }
             else if(effect.getType() == HealEffect.POISONHEAL)
             {
@@ -184,12 +189,12 @@ public class CombatSystem
             {
                 if (s.getType() == EffectType.POISON)
                 {
-                    s.setStackNumber(s.getStackNumber()+effect.getStrength());
+                    s.setStackNumber(s.getStackNumber()+(int)effect.getStrength());
 
                     return;
                 }
             }
-            targetNew.getAllStatus().add(new Status(EffectType.POISON,effect.getStrength(),getTickTime(targetNew) +1));
+            targetNew.getAllStatus().add(new Status(EffectType.POISON,(int)effect.getStrength(),getTickTime(targetNew) +1));
 
         }
 
@@ -243,12 +248,12 @@ public class CombatSystem
             {
                 if (s.getType() == EffectType.BURN)
                 {
-                    s.setStackNumber(s.getStackNumber()+effect.getStrength());
+                    s.setStackNumber(s.getStackNumber()+(int)effect.getStrength());
 
                     return;
                 }
             }
-            targetNew.getAllStatus().add(new Status(EffectType.BURN,effect.getStrength(),tickTime+1));
+            targetNew.getAllStatus().add(new Status(EffectType.BURN,(int)effect.getStrength(),tickTime+1));
         }
 
         @Override
@@ -275,12 +280,12 @@ public class CombatSystem
             {
                 if (s.getType() == EffectType.COUNTERSPELL)
                 {
-                    s.setStackNumber(Math.max(effect.getStrength(),s.getStackNumber()));
+                    s.setStackNumber((int)Math.max(effect.getStrength(),s.getStackNumber()));
 
                     return;
                 }
             }
-            userNew.getAllStatus().add(new Status(EffectType.COUNTERSPELL,effect.getStrength(),-1));
+            userNew.getAllStatus().add(new Status(EffectType.COUNTERSPELL,(int)effect.getStrength(),-1));
         }
 
         @Override
@@ -301,11 +306,11 @@ public class CombatSystem
             Status s = targetNew.getStatus(EffectType.EXPUNGE);
             if (s !=null)
             {
-                s.setStackNumber(Math.max(effect.getStrength(),s.getStackNumber()));
+                s.setStackNumber((int)Math.max(effect.getStrength(),s.getStackNumber()));
             }
             else
             {
-                targetNew.getAllStatus().add(new Status(EffectType.EXPUNGE,effect.getStrength(),tickTime+1));
+                targetNew.getAllStatus().add(new Status(EffectType.EXPUNGE,(int)effect.getStrength(),tickTime+1));
             }
             s = targetNew.getStatus(EffectType.POISON);
             if (s!=null)

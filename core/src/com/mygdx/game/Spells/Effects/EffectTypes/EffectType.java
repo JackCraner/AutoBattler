@@ -8,10 +8,10 @@ import com.mygdx.game.Spells.SpellEffectType;
 public enum EffectType implements SpellEffectType {
 
 
-    COUNTERSPELL("CounterSpell","Block the Enemies next %d spells", CombatSystem.CounterSpellSystem.instance),
-    POISON("POISON","Apply %d Stacks of Poison", CombatSystem.PoisonSystem.instance),
-    BURN("Burn", "Apply %d Stacks of Burn",CombatSystem.BurnSystem.instance),
-    EXPUNGE("Expunge","Poisons tick faster for %d seconds", CombatSystem.ExpungeSystem.instance);
+    COUNTERSPELL("CounterSpell","Block the Enemies next %.0f spells", CombatSystem.CounterSpellSystem.instance),
+    POISON("POISON","Apply %.0f Stacks of Poison", CombatSystem.PoisonSystem.instance),
+    BURN("Burn", "Apply %.0f Stacks of Burn",CombatSystem.BurnSystem.instance),
+    EXPUNGE("Expunge","Poisons tick faster for %.0f seconds", CombatSystem.ExpungeSystem.instance);
 
     private String description;
     private String name;

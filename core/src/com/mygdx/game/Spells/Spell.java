@@ -15,7 +15,7 @@ public enum Spell
     // LINK SPELL TO ASSET
     //MANA
     MANABALL("Mana Ball", Asset.MANA,1,0,new Effect[]{new Effect(ManaEffect.MANA,5)}),
-
+    MANAINFECTION("Mana Infection", Asset.MANA,2,2,new Effect[]{new Effect(ManaEffect.POISON,2)}),
     //FIRE
     FIREBALL("Fireball",Asset.FIREBALL,1,1, new Effect[]{new Effect(DamageEffect.DAMAGE,3)}),
     FireArrow("Fire Arrow", Asset.FIREBALL,2,1,new Effect[]{new Effect(DamageEffect.DAMAGE,5)}),

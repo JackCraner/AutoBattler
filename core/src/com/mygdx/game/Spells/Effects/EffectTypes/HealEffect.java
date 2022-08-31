@@ -5,7 +5,7 @@ import com.mygdx.game.Screens.FightPhase.EffectSystem;
 import com.mygdx.game.Spells.SpellEffectType;
 
 public enum HealEffect implements SpellEffectType {
-    HEAL("Heal","Heal for %d"),
+    HEAL("Heal","Heal for %.0f"),
     POISONHEAL("Poison Heal", "Heal equal to enemy Poison Stacks"),
     ;
     private String name;

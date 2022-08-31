@@ -8,8 +8,8 @@ import java.util.EnumSet;
 
 public enum ManaEffect implements SpellEffectType
 {
-    MANA("Mana_Gain_Default", "Gain %d Mana"),
-    POISON("Mana_Gain_Poison", "Gain Mana equal to Poison Stacks"),
+    MANA("Mana_Gain_Default", "Gain %.0f Mana"),
+    POISON("Mana_Gain_Poison", "Gain 1 Mana for every %.0f Poison Stacks"),
 ;
     private String name;
     private String description;
