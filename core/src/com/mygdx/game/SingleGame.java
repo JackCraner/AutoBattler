@@ -34,8 +34,7 @@ public class SingleGame extends ScreenAdapter
     }
     public void returnToShop()
     {
-        //p.reset();
-       //parent.setScreen(new BuyScene(this,p));
+       parent.setScreen(new BuyScene(this,player));
     }
 
 }

@@ -32,7 +32,7 @@ public class CombatSystem
 
     public boolean castSpell(Spell s, BattlerFrame userCurrent, BattlerFrame userNew, BattlerFrame targetCurrent, BattlerFrame targetNew)
     {
-        if (checkForBlocks(userCurrent,userNew,targetCurrent,targetNew))
+        if (checkForMana(s,userCurrent,userNew) && checkForBlocks(userCurrent,userNew,targetCurrent,targetNew))
         {
             for (Effect e:s.getEffects())
             {
@@ -78,6 +78,22 @@ public class CombatSystem
         }
         return true;
     }
+    public boolean checkForMana(Spell s,BattlerFrame userCurrent, BattlerFrame userNew)
+    {
+        if (userNew.getMana() > s.getManaCost())
+        {
+            userNew.setMana(userCurrent.getMana() - s.getManaCost());
+            userNew.setSpellSuccess(true);
+            return true;
+        }
+        else
+        {
+            userNew.setSpellSuccess(false);
+            return false;
+        }
+
+    }
+
 
     private static final class DamageSystem implements EffectSystem
     {
@@ -122,7 +138,11 @@ public class CombatSystem
         @Override
         public void execute(Effect effect, BattlerFrame user, BattlerFrame userNew, BattlerFrame target, BattlerFrame targetNew) {
             Status s = target.getStatus(EffectType.POISON);
-            userNew.setHealth(userNew.getHealth()+s.getStackNumber());
+            if (s!=null)
+            {
+                userNew.setHealth(userNew.getHealth()+s.getStackNumber());
+            }
+
         }
 
         @Override

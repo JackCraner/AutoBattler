@@ -14,6 +14,16 @@ public class BattlerFrame
     private ArrayList<Status> statusTypes;
     private int cooldown;
     private int spellPointer;
+    private boolean spellSuccess;
+    public BattlerFrame(int h,int m,int c,int sp,ArrayList statusTypes,boolean spellSuccess)
+    {
+        this.health = h;
+        this.mana = m;
+        this.cooldown = c;
+        this.statusTypes = statusTypes;
+        this.spellPointer = sp;
+        this.spellSuccess = spellSuccess;
+    }
     public BattlerFrame(int h,int m,int c,int sp,Status[] statusTypes)
     {
         this.health = h;
@@ -80,6 +90,13 @@ public class BattlerFrame
         return null;
     }
 
+    public void setSpellSuccess(boolean spellSuccess) {
+        this.spellSuccess = spellSuccess;
+    }
+    public boolean getSpellSuccess()
+    {
+        return spellSuccess;
+    }
 
     public BattlerFrame clone()
     {
@@ -88,11 +105,18 @@ public class BattlerFrame
         {
             newStatus.add(s.clone());
         }
-        return new BattlerFrame(health,mana,cooldown,spellPointer,newStatus);
+        return new BattlerFrame(health,mana,cooldown,spellPointer,newStatus,spellSuccess);
     }
 
     public String printFrame()
     {
-        return null;
+        String s= "";
+        s += "HP: " + getHealth() + "  Mana: " + getMana() + "\n";
+        s +="Casting: " + getSpellPointer() + " CD: " + getCooldown() + " Success: " + spellSuccess + "\n";
+        for (Status status:getAllStatus())
+        {
+            s += "Status: " + status.getType().getName() + " Stack: " + status.getStackNumber() + " CD: " +status.getTickCooldown() + "\n";
+        }
+        return  s + "\n";
     }
 }

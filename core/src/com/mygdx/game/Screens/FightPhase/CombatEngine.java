@@ -38,8 +38,8 @@ public class CombatEngine
 
     public void simulate()
     {
-        BattlerFrame initalPlayer = new BattlerFrame(player.getMaxHealth(),player.getMana(),spellLists[0].get(0).getCastTime(),0,new Status[]{});
-        BattlerFrame initalEnemy = new BattlerFrame(enemy.getMaxHealth(),enemy.getMana(),spellLists[1].get(0).getCastTime(),0,new Status[]{});
+        BattlerFrame initalPlayer = new BattlerFrame(player.getMaxHealth(),player.getMana(),spellLists[0].get(0).getCastTime(),0,new ArrayList<Status>(),true);
+        BattlerFrame initalEnemy = new BattlerFrame(enemy.getMaxHealth(),enemy.getMana(),spellLists[1].get(0).getCastTime(),0,new ArrayList<Status>(),true);
         fightSequence.add(gameStep(new FightFrame(initalPlayer,initalEnemy)));
 
 
@@ -48,8 +48,10 @@ public class CombatEngine
 
             FightFrame lastFrame = fightSequence.get(fightSequence.size()-1);
             fightSequence.add(gameStep(lastFrame));
+
             turnCounter ++;
         }
+        player.setMana(fightSequence.get(fightSequence.size()-1).getPlayer().getMana());
         for (FightFrame f: fightSequence)
         {
             System.out.println(f.printFrame());
@@ -73,42 +75,45 @@ public class CombatEngine
     {
         BattlerFrame[] battlers = {f.getPlayer(),f.getEnemy()};
         BattlerFrame[] newBattlers = {f.getPlayer().clone(),f.getEnemy().clone()};
-        for (int i = 0; i <battlers.length;i++)
-        {
-            for (SpellEffectType effect: CombatSystem.logicMap.keySet())
-            {
+        for (int i = 0; i <battlers.length;i++) {
+            for (SpellEffectType effect : CombatSystem.logicMap.keySet()) {
                 Status s = newBattlers[i].getStatus(effect);
 
-                if (s !=null)
-                {
-                    cS.gameTick(s,battlers[i],newBattlers[i]);
+                if (s != null) {
+                    cS.gameTick(s, battlers[i], newBattlers[i]);
                 }
 
             }
-            if (battlers[i].getCooldown() == 0)
-            {
+            if (battlers[i].getCooldown() == 0) {
+
+                cS.castSpell(spellLists[i].get(battlers[i].getSpellPointer()), battlers[i], newBattlers[i], battlers[Math.abs(i - 1)], newBattlers[Math.abs(i - 1)]);
+                if (battlers[i].getSpellPointer() == spellLists[i].size() - 1) {
+                    newBattlers[i].setSpellPointer(0);
+                } else {
+                    newBattlers[i].setSpellPointer(battlers[i].getSpellPointer() + 1);
+                }
+
+                if (cS.checkForMana(spellLists[i].get(newBattlers[i].getSpellPointer()), battlers[i], newBattlers[i]))
+                {
+
+                }
+                else
+                {
+                    newBattlers[i].setCooldown(1);
+                }
 
 
-
-                    cS.castSpell(spellLists[i].get(battlers[i].getSpellPointer()),battlers[i],newBattlers[i],battlers[Math.abs(i-1)],newBattlers[Math.abs(i-1)]);
-                    if (battlers[i].getSpellPointer() == spellLists[i].size()-1)
-                    {
-                        newBattlers[i].setSpellPointer(0);
-                    }
-                    else
-                    {
-                        newBattlers[i].setSpellPointer(battlers[i].getSpellPointer()+1);
-                    }
+                if (newBattlers[i].getSpellSuccess()) {
                     newBattlers[i].setCooldown(spellLists[i].get(newBattlers[i].getSpellPointer()).getCastTime());
+                }
+                newBattlers[i].setCooldown(newBattlers[i].getCooldown() - 1);
 
-
-
-
-
-
+            } else {
+                newBattlers[i].setCooldown(battlers[i].getCooldown() - 1);
             }
-            newBattlers[i].setCooldown(newBattlers[i].getCooldown()-1);
         }
+
+
         return new FightFrame(newBattlers[0],newBattlers[1]);
 
     }

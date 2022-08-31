@@ -50,10 +50,17 @@ public class BattlerMesh extends Group
 
 
         health = new ProgressBar(0,b.getMaxHealth(),1f,false,MyGdxGame.skin);
-        mana = new ProgressBar(0,b.getMana(),1f,false,MyGdxGame.skin);
+        mana = new ProgressBar(0,50,1f,false,MyGdxGame.skin);
+
+        castTime = new ProgressBar(0,1,1f,false, MyGdxGame.skin);
+        currentSpell = new Card(Spell.POISON,0.8f);
         health.setPosition(getPad(),-200);
         health.setWidth(width);
         health.setColor(Color.RED);
+        mana.setPosition(getPad(),-250);
+        mana.setWidth(width);
+        mana.setColor(Color.BLUE);
+        addActor(mana);
         addActor(health);
         statusRow.setPosition(health.getX() + health.getWidth()/2 + 50, health.getY() + 50);
 
@@ -82,20 +89,24 @@ public class BattlerMesh extends Group
         int index = bf.getSpellPointer();
         if (index != currentCastID)
         {
+            castTime.remove();
+            currentSpell.remove();
+
+
             currentCastID = index;
             Spell s = host.getSpellDeck().getSpellList().get(index);
             currentSpell = new Card(s,0.8f);
-            castTime = new ProgressBar(0,(s.getCastTime()*FightScene.gameTicksInAturn-1),1f,false, MyGdxGame.skin);
-            castTime.setWidth(hostBody.getWidth());
-
-
-
-            castTime.setPosition(getPad(),height+ currentSpell.getHeight() + (100 * scale));
             currentSpell.setPosition(getPad(),height + pad );
+            castTime = new ProgressBar(0,(s.getCastTime()*FightScene.gameTicksInAturn-1),1f,false, MyGdxGame.skin);
 
-            currentSpell.remove();
-            castTime.remove();
-            addActor(castTime);
+            if (bf.getSpellSuccess())
+            {
+
+                castTime.setWidth(hostBody.getWidth());
+                castTime.setPosition(getPad(),height+ currentSpell.getHeight() + (100 * scale));
+                addActor(castTime);
+            }
+
             addActor(currentSpell);
         }
         updateHealthBar(bf);
@@ -109,7 +120,7 @@ public class BattlerMesh extends Group
     public void updateHealthBar(BattlerFrame bF)
     {
         health.setValue(bF.getHealth());
-
+        mana.setValue(bF.getMana());
 
     }
 
@@ -128,6 +139,7 @@ public class BattlerMesh extends Group
         isFlip = a;
         hostBody.flip(a,b);
         health.setPosition(getPad(),-200);
+        mana.setPosition(getPad(),-250);
         if (isFlip)
         {
             statusRow.setPosition(health.getX() - health.getWidth()/2 + 170, health.getY() + 50);

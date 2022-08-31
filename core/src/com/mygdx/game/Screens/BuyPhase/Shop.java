@@ -103,23 +103,37 @@ public class Shop extends Group
     }
     private void rollShop()
     {
-        removeActor(card1);
-        removeActor(card2);
-        removeActor(card3);
-        setShop();
+        if (spendMana(5))
+        {
+            removeActor(card1);
+            removeActor(card2);
+            removeActor(card3);
+            setShop();
+        }
+
     }
     private void buyCard(Card c)
     {
-        if (player.getMana() > c.getSpell().getManaCost())
+        if (spendMana(c.getSpell().getManaCost()))
         {
             player.getSpellDeck().addSpell(c.getSpell());
-            player.setMana(player.getMana() - c.getSpell().getManaCost());
-            updateMana();
             deck.setDeck();
             rollShop();
         }
 
+
     }
+    private boolean spendMana(int cost)
+    {
+        if (player.getMana() >= cost)
+        {
+            player.setMana(player.getMana() - cost);
+            updateMana();
+            return true;
+        }
+        return false;
+    }
+
     public void updateMana()
     {
         parent.manaLabel.setText(Integer.toString(player.getMana()));

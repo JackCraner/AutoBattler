@@ -13,6 +13,7 @@ public enum Spell
 
     //FIRE
     FIREBALL("Fireball",Asset.FIREBALL,1,1, new Effect[]{new Effect(EffectType.DAMAGE,3)}),
+    FireArrow("Fire Arrow", Asset.FIREBALL,2,1,new Effect[]{new Effect(EffectType.DAMAGE,5)}),
     BURN("Burn",Asset.BURN,5,1,new Effect[]{new Effect(EffectType.BURN,10)}),
 
     //POISON
@@ -21,7 +22,7 @@ public enum Spell
     ACIDRAIN("Acid Rain",Asset.POISON,3,5,new Effect[]{new Effect(EffectType.POISON,8),new Effect(EffectType.EXPUNGE,5)}),
     TOXICDRAIN("Toxic Drain",Asset.POISON,3,5,new Effect[]{new Effect(EffectType.POISONHEAL,1)}),
     //HEAL
-    HEALBALL("Healball",Asset.HEALBALL,4,1,new Effect[]{new Effect(EffectType.HEAL,15)}),
+    HEALBALL("Healball",Asset.HEALBALL,4,30,new Effect[]{new Effect(EffectType.HEAL,15)}),
 
     //CONTROL
     COUNTERSPELL("Counter Spell",Asset.COUNTERSPELL,1,1,new Effect[]{new Effect(EffectType.COUNTERSPELL,1)}),

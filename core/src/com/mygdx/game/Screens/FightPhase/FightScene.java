@@ -5,8 +5,12 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.Characters.Battler;
@@ -32,6 +36,8 @@ public class FightScene extends ScreenAdapter
     BattlerMesh enemyMesh;
     CombatEngine cE;
     LinkedList<FightFrame> combatLog;
+
+    TextButton combatFinish;
     public FightScene(SingleGame g, Battler p, Battler e)
     {
         this.player = p;
@@ -51,7 +57,18 @@ public class FightScene extends ScreenAdapter
         scene.setPosition(0,0);
         scene.setSize(MyGdxGame.gameWidth,MyGdxGame.gameHeight);
 
-
+        combatFinish = new TextButton("Next", MyGdxGame.skin);
+        combatFinish.setSize(150,100);
+        combatFinish.getLabel().setFontScale(1.5f);
+        combatFinish.setPosition(MyGdxGame.gameWidth/2,200);
+        combatFinish.addListener(new EventListener() {
+            @Override
+            public boolean handle(Event event) {
+                game.returnToShop();
+                return true;
+            }
+        });
+        combatFinish.setVisible(false);
 
 
     }
@@ -90,6 +107,10 @@ public class FightScene extends ScreenAdapter
 
 
             }
+            else
+            {
+                combatFinish.setVisible(true);
+            }
             turnTick =0;
         }
         if (gameTick>=gameSpeed)
@@ -116,6 +137,7 @@ public class FightScene extends ScreenAdapter
         stage.addActor(playerMesh);
 
         stage.addActor(enemyMesh);
+        stage.addActor(combatFinish);
         playerMesh.setPosition(-30,640);
         enemyMesh.flip(true,false);
         enemyMesh.setPosition(780,640);

@@ -28,19 +28,9 @@ public class FightFrame
     public String printFrame()
     {
         String s = "Enemy:=\n";
-        s += "HP: " + enemy.getHealth() + "\n";
-        for (Status status:enemy.getAllStatus())
-        {
-            s += "Status: " + status.getType().getName() + " Stack: " + status.getStackNumber() + " CD: " +status.getTickCooldown() + "\n";
-         }
-
+        s += enemy.printFrame();
         s += "Player:=\n";
-        s +="HP: " + player.getHealth() + "\n";
-        for (Status status:player.getAllStatus())
-        {
-            s += "Status: " + status.getType().getName() + " Stack: " + status.getStackNumber() + " CD: " +status.getTickCooldown() + "\n";
-        }
-        s+="\n";
+        s += player.printFrame();
         return s;
         //return "Player HP:" + player.getHealth() + "Player CD: " + player.getCooldown() + " Casting:" + player.getSpellPointer() + "\n" +"Enemy HP:" + enemy.getHealth() + "Enemy CD: " + enemy.getCooldown() + " Casting:" + enemy.getSpellPointer();
     }
