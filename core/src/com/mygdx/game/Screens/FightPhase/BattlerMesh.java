@@ -32,7 +32,9 @@ public class BattlerMesh extends Group
     Card currentSpell;
     ProgressBar castTime;
     ProgressBar health;
+    Label healthLabel;
     ProgressBar mana;
+    Label manaLabel;
 
     StatusRow statusRow;
     boolean isFlip = false;
@@ -53,16 +55,23 @@ public class BattlerMesh extends Group
 
         castTime = new ProgressBar(0,1,1f,false, MyGdxGame.skin);
         currentSpell = new Card(Spell.POISON,0.8f);
-        health.setPosition(getPad(),-200);
+        health.setPosition(getPad(pad),-200);
         health.setWidth(width);
         health.setColor(Color.RED);
-        mana.setPosition(getPad(),-250);
+        healthLabel = new Label(Integer.toString(SingleGame.maxHealth),MyGdxGame.skin,"try");
+        mana.setPosition(getPad(pad),-250);
         mana.setWidth(width);
         mana.setColor(Color.BLUE);
+        manaLabel = new Label("50",MyGdxGame.skin,"try");
+        manaLabel.setPosition(getPad(pad) +mana.getWidth()/2 - manaLabel.getWidth()/2,-250);
+        healthLabel.setPosition(getPad(pad) + health.getWidth()/2 - healthLabel.getWidth()/2,-200);
+        healthLabel.setAlignment(Align.center);
+        manaLabel.setAlignment(Align.center);
         addActor(mana);
         addActor(health);
         statusRow.setPosition(health.getX() + health.getWidth()/2 + 50, health.getY() + 50);
-
+        addActor(healthLabel);
+        addActor(manaLabel);
         addActor(statusRow);
     }
 
@@ -78,9 +87,9 @@ public class BattlerMesh extends Group
         super.positionChanged();
 
     }
-    public float getPad()
+    public float getPad(float num)
     {
-        return isFlip? -pad:pad;
+        return isFlip? -num:num;
     }
 
     public void newFrame(BattlerFrame bf)
@@ -95,14 +104,14 @@ public class BattlerMesh extends Group
             currentCastID = index;
             Spell s = host.getSpellDeck().getSpellList().get(index);
             currentSpell = new Card(s,0.8f);
-            currentSpell.setPosition(getPad(),height + pad );
+            currentSpell.setPosition(getPad(pad),height + pad );
             castTime = new ProgressBar(0,(s.getCastTime()*FightScene.gameTicksInAturn-1),1f,false, MyGdxGame.skin);
 
             if (bf.getSpellSuccess())
             {
 
                 castTime.setWidth(hostBody.getWidth());
-                castTime.setPosition(getPad(),height+ currentSpell.getHeight() + (100 * scale));
+                castTime.setPosition(getPad(pad),height+ currentSpell.getHeight() + (100 * scale));
                 addActor(castTime);
             }
 
@@ -120,7 +129,8 @@ public class BattlerMesh extends Group
     {
         health.setValue(bF.getHealth());
         mana.setValue(bF.getMana());
-
+        healthLabel.setText(Integer.toString(bF.getHealth()));
+        manaLabel.setText(Integer.toString(bF.getMana()));
     }
 
 
@@ -137,8 +147,10 @@ public class BattlerMesh extends Group
 
         isFlip = a;
         hostBody.flip(a,b);
-        health.setPosition(getPad(),-200);
-        mana.setPosition(getPad(),-250);
+        health.setPosition(getPad(pad),-200);
+        mana.setPosition(getPad(pad),-250);
+        manaLabel.setPosition(getPad(pad) +mana.getWidth()/2 - manaLabel.getWidth()/2,-250);
+        healthLabel.setPosition(getPad(pad) + health.getWidth()/2 - healthLabel.getWidth()/2,-200);
         if (isFlip)
         {
             statusRow.setPosition(health.getX() - health.getWidth()/2 + 170, health.getY() + 50);
