@@ -81,7 +81,7 @@ public class FightScene extends ScreenAdapter
     float gameTick = 0;
 
 
-
+    private boolean combatEnd = false;
     @Override
     public void render(float delta) {
 
@@ -107,22 +107,31 @@ public class FightScene extends ScreenAdapter
 
 
             }
-            else
-            {
-                combatFinish.setVisible(true);
-            }
+
+
             turnTick =0;
         }
-        if (gameTick>=gameSpeed)
+        if (gameTick>=gameSpeed && !combatEnd)
         {
             playerMesh.updateCastTime();
             enemyMesh.updateCastTime();
             gameTick = 0;
         }
 
+        if (combatEnd)
+        {
+            combatFinish.setVisible(true);
+        }
+        else
+        {
+            gameTick +=delta;
+            turnTick +=delta;
+        }
+        if (combatLog.size() == 0)
+        {
+            combatEnd = true;
+        }
 
-        gameTick +=delta;
-        turnTick +=delta;
 
     }
 

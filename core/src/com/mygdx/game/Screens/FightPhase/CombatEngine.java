@@ -126,5 +126,10 @@ public class CombatEngine
         {
             bf.setHealth(SingleGame.maxHealth);
         }
+        if (bf.getHealth() <0)
+        {
+            bf.setHealth(0);
+        }
+
     }
 }

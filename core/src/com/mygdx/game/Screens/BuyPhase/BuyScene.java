@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.Characters.Battler;
@@ -52,7 +53,7 @@ public class BuyScene extends ScreenAdapter
         this.player = p;
         oC = new OrthographicCamera();
 
-        viewport = new StretchViewport(MyGdxGame.gameWidth,MyGdxGame.gameHeight, oC);
+        viewport = new FitViewport(MyGdxGame.gameWidth,MyGdxGame.gameHeight, oC);
         stage = new Stage(viewport);
         viewport.apply();
 

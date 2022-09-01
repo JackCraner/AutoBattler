@@ -70,7 +70,7 @@ public class CombatSystem
     }
     public boolean checkForMana(Spell s,BattlerFrame userCurrent, BattlerFrame userNew)
     {
-        if (userNew.getMana() > s.getManaCost())
+        if (userNew.getMana() >= s.getManaCost())
         {
             userNew.setSpellSuccess(true);
             return true;
@@ -96,15 +96,8 @@ public class CombatSystem
         @Override
         public void execute(Effect effect, BattlerFrame user, BattlerFrame userNew, BattlerFrame target, BattlerFrame targetNew)
         {
-            Effect damage = (Effect)effect;
-            if (targetNew.getHealth() - damage.getStrength() < 0)
-            {
-                targetNew.setHealth(0);
-            }
-            else
-            {
-                targetNew.setHealth(targetNew.getHealth() - (int)damage.getStrength());
-            }
+            targetNew.setHealth(targetNew.getHealth() - (int)effect.getStrength());
+
 
         }
 

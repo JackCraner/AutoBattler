@@ -22,7 +22,7 @@ public enum Spell
     BURN("Burn",Asset.BURN,5,1,new Effect[]{new Effect(EffectType.BURN,10)}),
 
     //POISON
-    POISON("PoisonArrow",Asset.POISON,1,1, new Effect[]{new Effect(EffectType.POISON,5)}),
+    POISON("PoisonArrow",Asset.POISON,1,1, new Effect[]{new Effect(EffectType.POISON,8)}),
     EXPUNGE("EXPUNGE",Asset.EXPUNGE,2,2,new Effect[]{new Effect(EffectType.EXPUNGE,6)}),
     ACIDRAIN("Acid Rain",Asset.POISON,3,5,new Effect[]{new Effect(EffectType.POISON,8),new Effect(EffectType.EXPUNGE,5)}),
     TOXICDRAIN("Toxic Drain",Asset.POISON,3,5,new Effect[]{new Effect(HealEffect.POISONHEAL,1)}),
