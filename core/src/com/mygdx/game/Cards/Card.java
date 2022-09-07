@@ -1,4 +1,4 @@
-package com.mygdx.game.Screens.BuyPhase;
+package com.mygdx.game.Cards;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -41,7 +41,7 @@ public class Card extends Group
         imageSprite.setPosition(cardSprite.getX()+(cardSprite.getWidth()*0.18f),cardSprite.getY()+(cardSprite.getHeight()*0.45f));
         addActor(imageSprite);
 
-        spellTitle = new Label(spell.getName(), MyGdxGame.skin,"title");
+        spellTitle = new Label(spell.getTitle(), MyGdxGame.skin,"title");
         spellTitle.setFontScale(scale);
         spellTitle.setWrap(true);
         spellTitle.setAlignment(Align.center);
@@ -67,7 +67,7 @@ public class Card extends Group
         spellCostLabel.setPosition(cardSprite.getX()- (float)(cardSprite.getWidth()*0.25),(cardSprite.getY()+(cardSprite.getHeight()*0.96f))-(spellCostLabel.getHeight()));
         addActor(spellCostLabel);
 
-        castTimeLabel = new Label(Integer.toString(spell.getCastTime()),MyGdxGame.skin,"title");
+        castTimeLabel = new Label(Integer.toString(spell.getOrangeBox()),MyGdxGame.skin,"title");
         castTimeLabel.setFontScale(scale);
         castTimeLabel.setWrap(true);
         castTimeLabel.setAlignment(Align.center);

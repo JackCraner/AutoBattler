@@ -1,13 +1,13 @@
-package com.mygdx.game.Screens.BuyPhase;
+package com.mygdx.game.Screens.BuyPhase.Components;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.mygdx.game.Characters.Battler;
 import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.Cards.Card;
 import com.mygdx.game.Spells.Spell;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class Deck extends Group

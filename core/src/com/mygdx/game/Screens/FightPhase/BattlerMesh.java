@@ -11,7 +11,7 @@ import com.badlogic.gdx.utils.Align;
 import com.mygdx.game.Characters.Battler;
 import com.mygdx.game.Characters.BattlerSprite;
 import com.mygdx.game.MyGdxGame;
-import com.mygdx.game.Screens.BuyPhase.Card;
+import com.mygdx.game.Cards.Card;
 import com.mygdx.game.SingleGame;
 import com.mygdx.game.Spells.Spell;
 import com.mygdx.game.Spells.Statuss.Status;
@@ -105,7 +105,7 @@ public class BattlerMesh extends Group
             Spell s = host.getSpellDeck().getSpellList().get(index);
             currentSpell = new Card(s,0.8f);
             currentSpell.setPosition(getPad(pad),height + pad );
-            castTime = new ProgressBar(0,(s.getCastTime()*FightScene.gameTicksInAturn-1),1f,false, MyGdxGame.skin);
+            castTime = new ProgressBar(0,(s.getOrangeBox()*FightScene.gameTicksInAturn-1),1f,false, MyGdxGame.skin);
 
             if (bf.getSpellSuccess())
             {

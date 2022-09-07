@@ -1,6 +1,7 @@
 package com.mygdx.game.Screens.FightPhase;
 
 import com.mygdx.game.Spells.Effects.Effect;
+import com.mygdx.game.Spells.Effects.EffectTypes.DamageEffect;
 import com.mygdx.game.Spells.Effects.EffectTypes.EffectType;
 import com.mygdx.game.Spells.Effects.EffectTypes.HealEffect;
 import com.mygdx.game.Spells.Effects.EffectTypes.ManaEffect;
@@ -96,7 +97,15 @@ public class CombatSystem
         @Override
         public void execute(Effect effect, BattlerFrame user, BattlerFrame userNew, BattlerFrame target, BattlerFrame targetNew)
         {
-            targetNew.setHealth(targetNew.getHealth() - (int)effect.getStrength());
+            if (effect.getType() == DamageEffect.DAMAGE)
+            {
+                targetNew.setHealth(targetNew.getHealth() - (int)effect.getStrength());
+            }
+            else if (effect.getType() == DamageEffect.SELF)
+            {
+                userNew.setHealth(userNew.getHealth() - (int)effect.getStrength());
+            }
+
 
 
         }

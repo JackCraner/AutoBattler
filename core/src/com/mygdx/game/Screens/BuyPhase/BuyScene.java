@@ -2,24 +2,18 @@ package com.mygdx.game.Screens.BuyPhase;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
-import com.badlogic.gdx.scenes.scene2d.Event;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.Characters.Battler;
 import com.mygdx.game.MyGdxGame;
-import com.mygdx.game.Screens.FightPhase.FightScene;
+import com.mygdx.game.Screens.BuyPhase.Components.Deck;
+import com.mygdx.game.Screens.BuyPhase.Components.Shop;
 import com.mygdx.game.SingleGame;
 
 public class BuyScene extends ScreenAdapter
@@ -30,15 +24,13 @@ public class BuyScene extends ScreenAdapter
 
     Battler player;
 
-    TextButton turnFinish;
-    ProgressBar manaBar;
-    Label manaLabel;
+
 
     SingleGame game;
     Texture img;
     Image scene;
 
-
+    BuyGUI gui;
     Shop shop;
     Deck deck;
 
@@ -53,7 +45,7 @@ public class BuyScene extends ScreenAdapter
         this.player = p;
         oC = new OrthographicCamera();
 
-        viewport = new FitViewport(MyGdxGame.gameWidth,MyGdxGame.gameHeight, oC);
+        viewport = new FillViewport(MyGdxGame.gameWidth,MyGdxGame.gameHeight, oC);
         stage = new Stage(viewport);
         viewport.apply();
 
@@ -70,26 +62,7 @@ public class BuyScene extends ScreenAdapter
 
 
         //Finish Button
-        turnFinish = new TextButton("Confirm", MyGdxGame.skin);
-        turnFinish.setSize(150,100);
-        turnFinish.getLabel().setFontScale(1.5f);
-        turnFinish.setPosition(MyGdxGame.gameWidth-200,MyGdxGame.gameHeight-200);
-        turnFinish.addListener(new EventListener() {
-            @Override
-            public boolean handle(Event event) {
-                game.findOpponent();
-                return true;
-            }
-        });
-
-        manaBar = new ProgressBar(0,50,1f,false, MyGdxGame.skin);
-        manaBar.setColor(Color.BLUE);
-        manaBar.setSize(670,100);
-        manaBar.setPosition((((float)MyGdxGame.gameWidth-200 )/2) - manaBar.getWidth()/2,MyGdxGame.gameHeight - 200);
-        manaBar.setValue(player.getMana());
-        manaLabel = new Label(Integer.toString(player.getMana()),MyGdxGame.skin,"try");
-        manaLabel.setPosition((((float)MyGdxGame.gameWidth-200 )/2) - manaLabel.getWidth()/2,MyGdxGame.gameHeight - 170);
-        manaLabel.setFontScale(2);
+        gui = new BuyGUI(player,game);
         deck = new Deck(player);
         shop = new Shop(this,player,deck);
 
@@ -123,18 +96,21 @@ public class BuyScene extends ScreenAdapter
         game.batch.setProjectionMatrix(stage.getCamera().combined);
     }
 
+    public BuyGUI getGui() {
+        return gui;
+    }
+
     @Override
     public void show() {
         super.show();
         stage.addActor(scene);
         stage.addActor(deck);
         stage.addActor(shop);
-        stage.addActor(manaBar);
-        stage.addActor(manaLabel);
-        stage.addActor(turnFinish);
+        stage.addActor(gui);
 
         shop.setPosition(10,700);
-        deck.setPosition(10,30);
+        deck.setPosition(10,100);
+        gui.setPosition((float)MyGdxGame.gameWidth/2,MyGdxGame.gameHeight - 200);
         handler = new BuySceneMultiplexer(stage,deck,shop);
         handler.addProcessor(stage);
         Gdx.input.setInputProcessor(handler);

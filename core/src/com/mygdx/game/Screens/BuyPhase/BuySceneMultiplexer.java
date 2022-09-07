@@ -7,6 +7,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.mygdx.game.Cards.Card;
+import com.mygdx.game.Screens.BuyPhase.Components.Deck;
+import com.mygdx.game.Screens.BuyPhase.Components.Shop;
 
 public class BuySceneMultiplexer extends InputMultiplexer
 {
@@ -91,17 +94,17 @@ public class BuySceneMultiplexer extends InputMultiplexer
 
             hold.setPosition(coord.x - xOffset,coord.y -yOffset);
 
-            for (int i = 0;i<d.deckCards.size();i++)
+            for (int i = 0;i<d.getDeckCards().size();i++)
             {
 
-                if (d.deckCards.get(i).getX() > hold.getX())
+                if (d.getDeckCards().get(i).getX() > hold.getX())
                 {
 
                     d.pushDeck(i);
                     return true;
                 }
             }
-            d.pushDeck(d.deckCards.size());
+            d.pushDeck(d.getDeckCards().size());
 
         }
 

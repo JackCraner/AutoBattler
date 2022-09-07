@@ -15,6 +15,7 @@ public class SingleGame extends ScreenAdapter
     MyGdxGame parent;
 
     public static int maxHealth = 100;
+    public static int maxMana = 50;
     ScreenAdapter currentScreen;
     public SpriteBatch batch;
     public SingleGame(MyGdxGame parent)

@@ -1,4 +1,4 @@
-package com.mygdx.game.Screens.BuyPhase;
+package com.mygdx.game.Screens.BuyPhase.Components;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -7,6 +7,8 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.mygdx.game.Characters.Battler;
 import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.Screens.BuyPhase.BuyScene;
+import com.mygdx.game.Cards.Card;
 import com.mygdx.game.Spells.Spell;
 
 import java.util.Random;
@@ -143,8 +145,8 @@ public class Shop extends Group
 
     public void updateMana()
     {
-        parent.manaLabel.setText(Integer.toString(player.getMana()));
-        parent.manaBar.setValue(player.getMana());
+        parent.getGui().manaLabel.setText(Integer.toString(player.getMana()));
+        parent.getGui().manaBar.setValue(player.getMana());
     }
     @Override
     public Actor hit(float x, float y, boolean touchable) {

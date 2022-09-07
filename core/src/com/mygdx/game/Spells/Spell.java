@@ -1,5 +1,6 @@
 package com.mygdx.game.Spells;
 
+import com.mygdx.game.Cards.CanCard;
 import com.mygdx.game.Spells.Effects.Effect;
 import com.mygdx.game.Spells.Effects.EffectBase;
 import com.mygdx.game.Spells.Effects.EffectTypes.DamageEffect;
@@ -7,15 +8,17 @@ import com.mygdx.game.Spells.Effects.EffectTypes.EffectType;
 import com.mygdx.game.Spells.Effects.EffectTypes.HealEffect;
 import com.mygdx.game.Spells.Effects.EffectTypes.ManaEffect;
 
-public enum Spell
+public enum Spell implements CanCard
 {
     //WHEN MAKING NEW SPELL
     // FIRST ADD HERE WITH EFFECTS
     // CREATE ASSET FOR IT
     // LINK SPELL TO ASSET
+
     //MANA
     MANABALL("Mana Ball", Asset.MANA,1,0,new Effect[]{new Effect(ManaEffect.MANA,5)}),
     MANAINFECTION("Mana Infection", Asset.MANA,2,2,new Effect[]{new Effect(ManaEffect.POISON,2)}),
+    MANAPUNCH("Mana Punch", Asset.MANA,1,1,new Effect[]{new Effect(ManaEffect.MANA,5), new Effect(DamageEffect.SELF,5)}),
     //FIRE
     FIREBALL("Fireball",Asset.FIREBALL,1,1, new Effect[]{new Effect(DamageEffect.DAMAGE,3)}),
     FireArrow("Fire Arrow", Asset.FIREBALL,2,1,new Effect[]{new Effect(DamageEffect.DAMAGE,5)}),
@@ -48,18 +51,22 @@ public enum Spell
         this.manaCost = manaCost;
         this.effects = effects;
     }
-
-    public String getName() {
+    @Override
+    public String getTitle() {
         return name;
     }
 
-    public int getCastTime() {
+    @Override
+    public int getOrangeBox() {
         return castTime;
     }
-
+    @Override
     public int getManaCost() {
         return manaCost;
     }
+
+
+
 
     public Effect[] getEffects() {
         return effects;
@@ -69,6 +76,7 @@ public enum Spell
         return asset;
     }
 
+
     public String getDescription()
     {
         String d = "";
@@ -77,5 +85,15 @@ public enum Spell
             d += e.getDescription() + "\n";
         }
         return d;
+    }
+
+    @Override
+    public String getSplashArt() {
+        return null;
+    }
+
+    @Override
+    public String getCardBase() {
+        return null;
     }
 }

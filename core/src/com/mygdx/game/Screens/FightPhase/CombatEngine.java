@@ -3,7 +3,6 @@ package com.mygdx.game.Screens.FightPhase;
 import com.mygdx.game.Characters.Battler;
 import com.mygdx.game.SingleGame;
 import com.mygdx.game.Spells.Spell;
-import com.mygdx.game.Spells.SpellEffectType;
 import com.mygdx.game.Spells.Statuss.Status;
 
 import java.util.ArrayList;
@@ -38,8 +37,8 @@ public class CombatEngine
 
     public void simulate()
     {
-        BattlerFrame initalPlayer = new BattlerFrame(SingleGame.maxHealth,player.getMana(),spellLists[0].get(0).getCastTime(),0,new ArrayList<Status>(),true);
-        BattlerFrame initalEnemy = new BattlerFrame(SingleGame.maxHealth,enemy.getMana(),spellLists[1].get(0).getCastTime(),0,new ArrayList<Status>(),true);
+        BattlerFrame initalPlayer = new BattlerFrame(SingleGame.maxHealth,player.getMana(),spellLists[0].get(0).getOrangeBox(),0,new ArrayList<Status>(),true);
+        BattlerFrame initalEnemy = new BattlerFrame(SingleGame.maxHealth,enemy.getMana(),spellLists[1].get(0).getOrangeBox(),0,new ArrayList<Status>(),true);
         fightSequence.add(gameStep(new FightFrame(initalPlayer,initalEnemy)));
 
 
@@ -94,7 +93,7 @@ public class CombatEngine
 
 
                 if (newBattlers[i].getSpellSuccess()) {
-                    newBattlers[i].setCooldown(spellLists[i].get(newBattlers[i].getSpellPointer()).getCastTime());
+                    newBattlers[i].setCooldown(spellLists[i].get(newBattlers[i].getSpellPointer()).getOrangeBox());
                     newBattlers[i].setCooldown(newBattlers[i].getCooldown() - 1);
                 }
 
@@ -131,5 +130,10 @@ public class CombatEngine
             bf.setHealth(0);
         }
 
+
+        if (bf.getMana() > SingleGame.maxMana)
+        {
+            bf.setMana(SingleGame.maxMana);
+        }
     }
 }

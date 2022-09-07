@@ -7,6 +7,7 @@ import com.mygdx.game.Spells.SpellEffectType;
 public enum DamageEffect implements SpellEffectType {
 
     DAMAGE("Damage","Deal %.0f Damage"),
+    SELF("Self", "Deal %.0f Damage to Yourself")
     ;
     private String name;
     private String description;

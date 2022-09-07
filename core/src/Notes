@@ -1,0 +1,118 @@
+
+Card types
+    - Neutral cards
+    - Elemental Cards
+    -Perks
+
+HP = 20
+Mana = 10
+
+Roll = 2 mana
+
+Damage types
+    - Fire
+       -Burn (Last for ever)
+    - Ice
+       -Freeze (at 10 stacks, 3 second Stun)
+    - Water
+        -Riptide (Gain stacks to be released for effect)
+    - Nature
+        -Poison (Decreases by 1 each tick)
+    - Rock
+       -Brittle (next Spells does 20% more dmg)
+    - Arcane
+        -Summon
+
+
+Disintigrate (Played once per fight)#
+Channel (Playing multiple in a row buffs effect)
+Unique (Once in the deck)
+
+
+Spell Cost List:
+0 Cost:
+- (1) Deal 2 Fire Damage
+- (3) Deal 8 Water Damage
+- (1) 50% Chance to Burn for 2
+- (2) Apply 2 Poison
+- (1) Deal 1 Ice damage
+- (2) Deal 3 Rock Damage
+- (2) Gain 3 mana
+- (1) 50% chance to Gain 5 mana
+- (1) Gain 5 mana but apply 1 Brittle to yourself
+- (3) Gain 5 Mana but deal 2 Water Damage to yourself
+- (1) Heal 2 Health
+- (2) Deal 6 Fire Damage but apply 1 Burn to yourself
+- (3) Deal 1 Nature Damage
+
+1 Cost:
+- (2) Apply 3 Poison
+- (2) Deal 5 Nature Damage
+- (2) Deal 1 Fire Damage, 1 Water Damage, 1 Nature Damage, 1 Ice Damage and 1 Rock Damage
+- (1) If Target Burning, apply 2 Burn
+- (1) Deal 5 Fire Damage to both
+- (1) Apply 1 Freeze
+- (2) If under 30% Health Heal for 5
+- (3) Deal 3 Ice Damage and apply 2 Freeze
+- (2) Gain 5 Mana
+- (1) Next Spell cast time halved
+- (2) Gain 2 Riptide
+- (3) Apply 2 Burn
+- (2) Apply 5 burn (Single)
+- (1) Deal 5 Arcane Damage but lose 3 mana
+
+
+2 Cost:
+- (2) Poison Ticks faster for 5 seconds
+- (2) Cancel Next spell
+- (4) Next Spell Does Double Damage
+- (1) Gain 1 Mana for every 2 Poison
+- (3) Apply 8 Poison
+- (2) Cleanse one random debuff
+- (1) Deal 5 Rock Damage and Apply 1 brittle
+- (2) Release riptide stacks to gain mana
+- (2) Lose 5 mana and gain 5 Riptide
+- (2) Deal 5 Water Damage
+- (2) Apply 4 Poison
+- (4) Consume all Brittle Stacks and Deal 10 Rock Damage
+- (1) Deal 5 Ice Damage
+- (1) If Poisoned, Apply 8 Poison
+- (1) Gain 1 Mana per Channel (Channel)
+- (2) Apply 10 Ice (Single)
+- (2) Deal 3 Ice Damage and apply 2 Freeze
+
+3 Cost:
+- (2) If Target Frozen, Deal 8 Ice Damage
+- (1) Heal equal to Burn stacks
+- (1) Release Riptide stacks and cleanse the number of debuffs
+- (2) Release Riptide and gain Permanent HP
+- (2) Steal 3 Mana
+- (2) Explode all Poison Stacks
+- (2) Gain 1 Riptide per Channel (Channel)
+- (2) Consume all Burn stacks and Gain 1 Permanent mana for every 2 Burn Stacks Consumed
+- (2) Deal 6 Fire Damage
+- (1) Deal 8 Nature Damage but apply 3 Poison to yourself
+
+4 Cost:
+- (1) Release Riptide stacks and deal Damage
+- (1) Deal 2 Arcane damage per channel (Channel)
+- (2) Convert all poison stacks into burn (Single)
+- (2) Heal 8 and Gain 1 Permanent HP
+
+5 Cost:
+- (5) Deal 20 Fire Damage
+- (2) Heal to full health (Single)
+- (3) If Target has 10 stacks of Poison and burn and is Frozen, Kill
+Perks have star ratings (1-3)
+
+
+
+Perk:
+- (1) Increase max health by 10
+- (1) Increase max mana by 5
+- (1) Increase max health by 5 and max mana by 3
+- (1) All 0 costs spells now return 1 Mana
+- (1) All probabilities increase by 20%
+- (1) Rolling now costs 1 mana
+- (1)
+- (3) All 0 cost spells deal double damage
