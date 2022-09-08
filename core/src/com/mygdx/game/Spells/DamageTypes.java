@@ -2,11 +2,21 @@ package com.mygdx.game.Spells;
 
 public enum DamageTypes
 {
-    FIRE,
-    WATER,
-    ICE,
-    NATURE,
-    ARCANE,
-    ROCK,
+    FIRE ("Fire"),
+    WATER ("Water"),
+    ICE ("Ice"),
+    NATURE ("Nature"),
+    ARCANE ("Arcane"),
+    ROCK ("Rock"),
     ;
+    String name;
+    DamageTypes(String name)
+    {
+        this.name = name;
+
+    }
+
+    public String getName() {
+        return name;
+    }
 }

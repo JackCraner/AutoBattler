@@ -8,7 +8,6 @@ import com.mygdx.game.Cards.Card;
 import com.mygdx.game.Spells.Spell;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Deck extends Group
 {
@@ -37,11 +36,11 @@ public class Deck extends Group
         deckCards = new ArrayList<>();
         clear();
 
-        List<Spell> spellList = player.getSpellDeck().getSpellList();
+        Spell[] spellList = player.getSpells();
 
-        for (int i = 0; i < spellList.size();i++)
+        for (int i = 0; i < spellList.length;i++)
         {
-            Card c = new Card(spellList.get(i),0.5f);
+            Card c = new Card(spellList[i],0.5f);
             c.setPosition(overlap * i,0);
 
             deckCards.add(c);
@@ -57,7 +56,7 @@ public class Deck extends Group
         {
             spellList.add(c.getSpell());
         }
-        player.getSpellDeck().setSpellList(spellList);
+        player.setSpellDeck(spellList);
     }
     private int currentIndex;
     public void pushDeck(int index)

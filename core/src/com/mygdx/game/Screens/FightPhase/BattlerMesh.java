@@ -12,6 +12,7 @@ import com.mygdx.game.Characters.Battler;
 import com.mygdx.game.Characters.BattlerSprite;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Cards.Card;
+import com.mygdx.game.CombatLogic.FightLogic.CastCodeTypes;
 import com.mygdx.game.SingleGame;
 import com.mygdx.game.Spells.Spell;
 import com.mygdx.game.Spells.Statuss.Status;
@@ -39,14 +40,16 @@ public class BattlerMesh extends Group
     StatusRow statusRow;
     boolean isFlip = false;
     float pad = (60 * scale);
-    int currentCastID;
+
+
+    int lastCD = 0;
     BattlerMesh(Battler b)
     {
 
         this.host = b;
         this.hostBody = new BattlerSprite(host.getcT(),scale);
         addActor(hostBody);
-        this.currentCastID = -1;
+
         this.statusRow = new StatusRow();
 
 
@@ -54,7 +57,7 @@ public class BattlerMesh extends Group
         mana = new ProgressBar(0,50,1f,false,MyGdxGame.skin);
 
         castTime = new ProgressBar(0,1,1f,false, MyGdxGame.skin);
-        currentSpell = new Card(Spell.POISON,0.8f);
+        currentSpell = new Card(Spell.FIREBALL,0.8f);
         health.setPosition(getPad(pad),-200);
         health.setWidth(width);
         health.setColor(Color.RED);
@@ -92,22 +95,22 @@ public class BattlerMesh extends Group
         return isFlip? -num:num;
     }
 
-    public void newFrame(BattlerFrame bf)
+    public void newFrame(BattlerFrameGraphic bf)
     {
-        int index = bf.getSpellPointer();
-        if (index != currentCastID)
+
+        if (bf.getCurrentCast().getCastTimer() == 1)
         {
+
+
             castTime.remove();
             currentSpell.remove();
 
-
-            currentCastID = index;
-            Spell s = host.getSpellDeck().getSpellList().get(index);
+            Spell s = bf.getCurrentCast().getSpellWrapper().getSpell();
             currentSpell = new Card(s,0.8f);
             currentSpell.setPosition(getPad(pad),height + pad );
             castTime = new ProgressBar(0,(s.getOrangeBox()*FightScene.gameTicksInAturn-1),1f,false, MyGdxGame.skin);
 
-            if (bf.getSpellSuccess())
+            if (bf.getCurrentCast().getCastCode() == CastCodeTypes.SUCCESS)
             {
 
                 castTime.setWidth(hostBody.getWidth());
@@ -120,12 +123,12 @@ public class BattlerMesh extends Group
         updateHealthBar(bf);
 
 
-        statusRow.setStatusRow(bf.getAllStatus());
+        statusRow.setStatusRow( bf.getAllStatus().toArray(new Status[bf.getAllStatus().size()]));
 
 
     }
 
-    public void updateHealthBar(BattlerFrame bF)
+    public void updateHealthBar(BattlerFrameGraphic bF)
     {
         health.setValue(bF.getHealth());
         mana.setValue(bF.getMana());
@@ -172,7 +175,7 @@ class StatusRow extends Group
         statusBoxes = new ArrayList<>();
 
     }
-    public void setStatusRow(ArrayList<Status> statuses)
+    public void setStatusRow(Status[] statuses)
     {
         clear();
         statusBoxes.clear();

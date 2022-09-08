@@ -1,12 +1,8 @@
 package com.mygdx.game.Spells.Effects.EffectTypes;
 
-import com.mygdx.game.Screens.FightPhase.CombatSystem;
-import com.mygdx.game.Screens.FightPhase.EffectSystem;
-import com.mygdx.game.Spells.SpellEffectType;
+import com.mygdx.game.CombatLogic.FightLogic.SystemInterface.CanEffectSystem;
 
-import java.util.EnumSet;
-
-public enum ManaEffect implements SpellEffectType
+public enum ManaEffect implements CanEffectType
 {
     MANA("Mana_Gain_Default", "Gain %.0f Mana"),
     POISON("Mana_Gain_Poison", "Gain 1 Mana for every %.0f Poison Stacks"),
@@ -32,7 +28,7 @@ public enum ManaEffect implements SpellEffectType
     }
 
     @Override
-    public EffectSystem getSystem() {
-        return CombatSystem.ManaSystem.instance;
+    public CanEffectSystem getSystem() {
+        return null;
     }
 }

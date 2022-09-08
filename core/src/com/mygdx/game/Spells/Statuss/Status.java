@@ -1,22 +1,22 @@
 package com.mygdx.game.Spells.Statuss;
 
-import com.mygdx.game.Spells.SpellEffectType;
+import com.mygdx.game.Spells.Effects.EffectTypes.CanEffectType;
 
 public class Status {
 
-    private SpellEffectType type;
+    private CanEffectType type;
     private int stackNumber;
 
 
     private int tickCooldown;
 
-    public Status(SpellEffectType statusType, int stackNumber, int cd) {
+    public Status(CanEffectType statusType, int stackNumber, int cd) {
        this.type = statusType;
        this.tickCooldown = cd;
        this.stackNumber = stackNumber;
     }
 
-    public SpellEffectType getType() {
+    public CanEffectType getType() {
         return type;
     }
 

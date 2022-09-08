@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.mygdx.game.Characters.Components.SpellDeck;
 import com.mygdx.game.Spells.Spell;
 
 public class BattlerSprite extends Actor

@@ -1,10 +1,8 @@
 package com.mygdx.game.Spells.Effects.EffectTypes;
 
-import com.mygdx.game.Screens.FightPhase.CombatSystem;
-import com.mygdx.game.Screens.FightPhase.EffectSystem;
-import com.mygdx.game.Spells.SpellEffectType;
+import com.mygdx.game.CombatLogic.FightLogic.SystemInterface.CanEffectSystem;
 
-public enum HealEffect implements SpellEffectType {
+public enum HealEffect implements CanEffectType {
     HEAL("Heal","Heal for %.0f"),
     POISONHEAL("Poison Heal", "Heal equal to enemy Poison Stacks"),
     ;
@@ -27,7 +25,7 @@ public enum HealEffect implements SpellEffectType {
     }
 
     @Override
-    public EffectSystem getSystem() {
-        return CombatSystem.HealSystem.instance;
+    public CanEffectSystem getSystem() {
+        return null;
     }
 }

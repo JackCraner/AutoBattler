@@ -1,6 +1,4 @@
-package com.mygdx.game.Screens.FightPhase;
-
-import com.mygdx.game.Spells.Statuss.Status;
+package com.mygdx.game.CombatLogic;
 
 public class FightFrame
 {
@@ -21,6 +19,11 @@ public class FightFrame
     public BattlerFrame getPlayer() {
         return player;
     }
+    public BattlerFrame[] getBattleFrames()
+    {
+        return new BattlerFrame[]{player,enemy};
+    }
+
     public FightFrame clone()
     {
         return new FightFrame(player.clone(),enemy.clone());

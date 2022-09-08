@@ -122,7 +122,7 @@ public class Shop extends Group
     {
         if (spendMana(c.getSpell().getManaCost()))
         {
-            player.getSpellDeck().addSpell(c.getSpell());
+            player.addSpell(c.getSpell());
             deck.setDeck();
             rollShop();
         }

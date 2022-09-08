@@ -1,23 +1,26 @@
 package com.mygdx.game.Characters;
 
-import com.mygdx.game.Characters.Components.SpellDeck;
+import com.mygdx.game.Perks.Perk;
 import com.mygdx.game.Spells.Spell;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Battler
 {
 
     private int health = 100;
     private int mana = 50;
-    private SpellDeck spellDeck;
+    private ArrayList<Spell> spellDeck;
+    private ArrayList<Perk> perks;
 
     private CharacterTypes cT;
     public Battler(CharacterTypes cT)
     {
-        this.spellDeck = new SpellDeck();
-        spellDeck.addSpell(Spell.FIREBALL);
-        spellDeck.addSpell(Spell.FIREBALL);
+        this.spellDeck = new ArrayList<>();
+        this.perks = new ArrayList<>();
+        spellDeck.add(Spell.FIREBALL);
+        spellDeck.add(Spell.FIREBALL);
     }
 
     public CharacterTypes getcT() {
@@ -37,8 +40,23 @@ public class Battler
         return health;
     }
 
+    public Perk[] getPerks()
+    {
+        return perks.toArray(new Perk[perks.size()]);
 
-    public SpellDeck getSpellDeck() {
-        return spellDeck;
+    }
+
+
+    public Spell[] getSpells()
+    {
+        return spellDeck.toArray(new Spell[spellDeck.size()]);
+    }
+    public void addSpell(Spell s)
+    {
+        spellDeck.add(s);
+    }
+    public void setSpellDeck(List<Spell> newSpellDeck)
+    {
+        this.spellDeck = (ArrayList<Spell>) newSpellDeck;
     }
 }

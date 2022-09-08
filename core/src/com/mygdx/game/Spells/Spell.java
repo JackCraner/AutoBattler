@@ -1,13 +1,16 @@
 package com.mygdx.game.Spells;
 
 import com.mygdx.game.Cards.CanCard;
+import com.mygdx.game.Cards.CardTypes;
+import com.mygdx.game.Spells.Conditions.Condition;
+import com.mygdx.game.Spells.Effects.CanEffect;
+import com.mygdx.game.Spells.Effects.DamageEffect;
 import com.mygdx.game.Spells.Effects.Effect;
-import com.mygdx.game.Spells.Effects.EffectBase;
-import com.mygdx.game.Spells.Effects.EffectTypes.DamageEffect;
-import com.mygdx.game.Spells.Effects.EffectTypes.EffectType;
-import com.mygdx.game.Spells.Effects.EffectTypes.HealEffect;
 import com.mygdx.game.Spells.Effects.EffectTypes.ManaEffect;
-
+import com.mygdx.game.Spells.Effects.EffectTypes.StatusEffect;
+import com.mygdx.game.Spells.Effects.TargetTypes;
+//Change to Class Factory Pattern so I can make new spells with same name for damage buffs/mana buffs
+// Have ENUM of all spell Names and basis stats (cast time and mana cost)
 public enum Spell implements CanCard
 {
     //WHEN MAKING NEW SPELL
@@ -16,41 +19,44 @@ public enum Spell implements CanCard
     // LINK SPELL TO ASSET
 
     //MANA
-    MANABALL("Mana Ball", Asset.MANA,1,0,new Effect[]{new Effect(ManaEffect.MANA,5)}),
-    MANAINFECTION("Mana Infection", Asset.MANA,2,2,new Effect[]{new Effect(ManaEffect.POISON,2)}),
-    MANAPUNCH("Mana Punch", Asset.MANA,1,1,new Effect[]{new Effect(ManaEffect.MANA,5), new Effect(DamageEffect.SELF,5)}),
-    //FIRE
-    FIREBALL("Fireball",Asset.FIREBALL,1,1, new Effect[]{new Effect(DamageEffect.DAMAGE,3)}),
-    FireArrow("Fire Arrow", Asset.FIREBALL,2,1,new Effect[]{new Effect(DamageEffect.DAMAGE,5)}),
-    BURN("Burn",Asset.BURN,5,1,new Effect[]{new Effect(EffectType.BURN,10)}),
-
-    //POISON
-    POISON("PoisonArrow",Asset.POISON,1,1, new Effect[]{new Effect(EffectType.POISON,8)}),
-    EXPUNGE("EXPUNGE",Asset.EXPUNGE,2,2,new Effect[]{new Effect(EffectType.EXPUNGE,6)}),
-    ACIDRAIN("Acid Rain",Asset.POISON,3,5,new Effect[]{new Effect(EffectType.POISON,8),new Effect(EffectType.EXPUNGE,5)}),
-    TOXICDRAIN("Toxic Drain",Asset.POISON,3,5,new Effect[]{new Effect(HealEffect.POISONHEAL,1)}),
-    //HEAL
-    HEALBALL("Healball",Asset.HEALBALL,2,30,new Effect[]{new Effect(HealEffect.HEAL,35)}),
-
-    //CONTROL
-    COUNTERSPELL("Counter Spell",Asset.COUNTERSPELL,1,1,new Effect[]{new Effect(EffectType.COUNTERSPELL,1)}),
-
+    MANABALL("Mana Ball", CardTypes.NEUTRAL, Asset.MANA,3,0,new CanEffect[]{new Effect(ManaEffect.MANA,5, TargetTypes.SELF)}),
+    FIREBALL("Fireball",CardTypes.FIRE,Asset.FIREBALL,1,1, new CanEffect[]{new DamageEffect(DamageTypes.FIRE,5,TargetTypes.OTHER)}),
+    POISONARROW("Poison Arrow", CardTypes.NATURE, Asset.POISON,2,2,new CanEffect[]{new Effect(StatusEffect.POISON,5,TargetTypes.OTHER)}),
+    ICEBOLT("Ice Bolt", CardTypes.ICE,Asset.HEALBALL,2,2,new CanEffect[]{new Effect(StatusEffect.FREEZE,3,TargetTypes.OTHER)})
 ;
 
 
     private String name;
     private int castTime;
     private  int manaCost;
-    private Effect[] effects;
+    private CanEffect[] effects;
     private Asset asset;
-    Spell(String name, Asset a, int castTime, int manaCost, Effect[] effects )
+    private Condition condition;
+    private CardTypes type;
+    Spell(String name, CardTypes type, Asset a, int castTime, int manaCost, CanEffect[] effects )
+    {
+        this.name = name;
+        this.type= type;
+        this.asset = a;
+        this.castTime = castTime;
+        this.manaCost = manaCost;
+        this.effects = effects;
+        this.condition = null;
+    }
+
+    Spell(String name, Asset a, int castTime, int manaCost, Condition conditionEffect)
     {
         this.name = name;
         this.asset = a;
         this.castTime = castTime;
         this.manaCost = manaCost;
-        this.effects = effects;
+        this.condition = conditionEffect;
     }
+
+
+
+
+
     @Override
     public String getTitle() {
         return name;
@@ -68,8 +74,24 @@ public enum Spell implements CanCard
 
 
 
-    public Effect[] getEffects() {
-        return effects;
+    public CanEffect[] getEffects(boolean conditionResult)
+    {
+        if (condition == null)
+        {
+            return effects;
+        }
+        else
+        {
+            if (conditionResult)
+            {
+                return condition.getEffectOnPass();
+            }
+            else
+            {
+                return condition.getEffectOnFail();
+            }
+        }
+
     }
 
     public Asset getAsset() {
@@ -80,7 +102,7 @@ public enum Spell implements CanCard
     public String getDescription()
     {
         String d = "";
-        for (EffectBase e: effects)
+        for (CanEffect e: effects)
         {
             d += e.getDescription() + "\n";
         }
@@ -89,11 +111,11 @@ public enum Spell implements CanCard
 
     @Override
     public String getSplashArt() {
-        return null;
+        return asset.getIcon();
     }
 
     @Override
-    public String getCardBase() {
-        return null;
+    public CardTypes getCardBase() {
+        return type;
     }
 }

@@ -9,12 +9,13 @@ import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.Characters.Battler;
+import com.mygdx.game.CombatLogic.FightFrame;
 import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.CombatLogic.CombatManager;
 import com.mygdx.game.SingleGame;
 
 import java.util.LinkedList;
@@ -32,9 +33,12 @@ public class FightScene extends ScreenAdapter
     Battler player;
     Battler enemy;
 
+
     BattlerMesh playerMesh;
     BattlerMesh enemyMesh;
-    CombatEngine cE;
+    BattlerMesh[] battlersMesh;
+
+    CombatManager cE;
     LinkedList<FightFrame> combatLog;
 
     TextButton combatFinish;
@@ -70,7 +74,7 @@ public class FightScene extends ScreenAdapter
         });
         combatFinish.setVisible(false);
 
-
+        battlersMesh = new BattlerMesh[]{playerMesh, enemyMesh};
     }
 
     public static float gameSpeed = 0.1f;
@@ -82,6 +86,7 @@ public class FightScene extends ScreenAdapter
 
 
     private boolean combatEnd = false;
+
     @Override
     public void render(float delta) {
 
@@ -102,8 +107,10 @@ public class FightScene extends ScreenAdapter
             if (combatLog.size() > 0)
             {
                 FightFrame newFrame = combatLog.pop();
-                playerMesh.newFrame(newFrame.getPlayer());
-                enemyMesh.newFrame(newFrame.getEnemy());
+                for (int i = 0; i < battlersMesh.length; i++)
+                {
+                    battlersMesh[i].newFrame(newFrame.getBattleFrames()[i]);
+                }
 
 
             }
@@ -113,8 +120,10 @@ public class FightScene extends ScreenAdapter
         }
         if (gameTick>=gameSpeed && !combatEnd)
         {
-            playerMesh.updateCastTime();
-            enemyMesh.updateCastTime();
+            for (BattlerMesh b: battlersMesh)
+            {
+                b.updateCastTime();
+            }
             gameTick = 0;
         }
 
@@ -153,7 +162,7 @@ public class FightScene extends ScreenAdapter
 
 
 
-        this.cE = new CombatEngine(player,enemy);
+        this.cE = new CombatManager(player,enemy);
         this.combatLog = cE.getFightSequence();
 
         FightFrame first = combatLog.pop();

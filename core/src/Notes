@@ -80,6 +80,7 @@ Spell Cost List:
 - (1) Gain 1 Mana per Channel (Channel)
 - (2) Apply 10 Ice (Single)
 - (2) Deal 3 Ice Damage and apply 2 Freeze
+- (2) Apply 5 MoonFire
 
 3 Cost:
 - (2) If Target Frozen, Deal 8 Ice Damage
@@ -92,6 +93,7 @@ Spell Cost List:
 - (2) Consume all Burn stacks and Gain 1 Permanent mana for every 2 Burn Stacks Consumed
 - (2) Deal 6 Fire Damage
 - (1) Deal 8 Nature Damage but apply 3 Poison to yourself
+- (1) Deal 3 Nature Damage, doubled if target Affected by moonfire (STARSURGE)
 
 4 Cost:
 - (1) Release Riptide stacks and deal Damage
@@ -113,6 +115,27 @@ Perk:
 - (1) Increase max health by 5 and max mana by 3
 - (1) All 0 costs spells now return 1 Mana
 - (1) All probabilities increase by 20%
-- (1) Rolling now costs 1 mana
+- (1)
 - (1)
 - (3) All 0 cost spells deal double damage
+
+
+
+
+
+
+
+
+
+
+
+
+SO a SPELL = TITLE, DESCRIPTION, MANA COST, CAST TIME, SPLASH ART, CARD TYPE and EFFECTS
+
+    An EFFECT needs: NAME, DESCRIPTION, SYSTEM_SUBSCRIPTION, STRENGTH_VALUE
+        DAMAGE_EFFECT adds: DAMAGE TYPE
+
+
+    STATUS is enum and damage type applied in logic of system
+
+
