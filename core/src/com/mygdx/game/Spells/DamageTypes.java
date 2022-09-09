@@ -3,7 +3,7 @@ package com.mygdx.game.Spells;
 public enum DamageTypes
 {
     FIRE ("Fire"),
-    WATER ("Water"),
+    WIND ("Wind"),
     ICE ("Ice"),
     NATURE ("Nature"),
     ARCANE ("Arcane"),

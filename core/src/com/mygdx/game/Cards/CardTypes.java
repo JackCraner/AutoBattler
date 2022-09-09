@@ -3,7 +3,7 @@ package com.mygdx.game.Cards;
 public enum CardTypes
 {
     FIRE("CardBase"),
-    WATER("CardBase"),
+    WIND("CardBase"),
     ICE("CardBase"),
     NATURE("CardBase"),
     ROCK("CardBase"),

@@ -14,8 +14,8 @@ Damage types
        -Burn (Last for ever)
     - Ice
        -Freeze (at 10 stacks, 3 second Stun)
-    - Water
-        -Riptide (Gain stacks to be released for effect)
+    - wind
+        -windrush (Gain stacks to be released for effect)
     - Nature
         -Poison (Decreases by 1 each tick)
     - Rock
@@ -31,8 +31,9 @@ Unique (Once in the deck)
 
 Spell Cost List:
 0 Cost:
-- (1) Deal 2 Fire Damage
-- (3) Deal 8 Water Damage
+- (1) Deal 2 Fire Damage    (*)
+- (1) Deal 2 Arcane Damage   (*)
+- (3) Deal 8 wind Damage    (*)
 - (1) 50% Chance to Burn for 2
 - (2) Apply 2 Poison
 - (1) Deal 1 Ice damage
@@ -40,7 +41,7 @@ Spell Cost List:
 - (2) Gain 3 mana
 - (1) 50% chance to Gain 5 mana
 - (1) Gain 5 mana but apply 1 Brittle to yourself
-- (3) Gain 5 Mana but deal 2 Water Damage to yourself
+- (3) Gain 5 Mana but deal 2 wind Damage to yourself
 - (1) Heal 2 Health
 - (2) Deal 6 Fire Damage but apply 1 Burn to yourself
 - (3) Deal 1 Nature Damage
@@ -48,7 +49,7 @@ Spell Cost List:
 1 Cost:
 - (2) Apply 3 Poison
 - (2) Deal 5 Nature Damage
-- (2) Deal 1 Fire Damage, 1 Water Damage, 1 Nature Damage, 1 Ice Damage and 1 Rock Damage
+- (2) Deal 1 Fire Damage, 1 wind Damage, 1 Nature Damage, 1 Ice Damage and 1 Rock Damage
 - (1) If Target Burning, apply 2 Burn
 - (1) Deal 5 Fire Damage to both
 - (1) Apply 1 Freeze
@@ -56,7 +57,7 @@ Spell Cost List:
 - (3) Deal 3 Ice Damage and apply 2 Freeze
 - (2) Gain 5 Mana
 - (1) Next Spell cast time halved
-- (2) Gain 2 Riptide
+- (2) Gain 2 windrush
 - (3) Apply 2 Burn
 - (2) Apply 5 burn (Single)
 - (1) Deal 5 Arcane Damage but lose 3 mana
@@ -70,9 +71,9 @@ Spell Cost List:
 - (3) Apply 8 Poison
 - (2) Cleanse one random debuff
 - (1) Deal 5 Rock Damage and Apply 1 brittle
-- (2) Release riptide stacks to gain mana
-- (2) Lose 5 mana and gain 5 Riptide
-- (2) Deal 5 Water Damage
+- (2) Release windrush stacks to gain mana
+- (2) Lose 5 mana and gain 5 windrush
+- (2) Deal 5 wind Damage
 - (2) Apply 4 Poison
 - (4) Consume all Brittle Stacks and Deal 10 Rock Damage
 - (1) Deal 5 Ice Damage
@@ -85,18 +86,18 @@ Spell Cost List:
 3 Cost:
 - (2) If Target Frozen, Deal 8 Ice Damage
 - (1) Heal equal to Burn stacks
-- (1) Release Riptide stacks and cleanse the number of debuffs
-- (2) Release Riptide and gain Permanent HP
+- (1) Release windrush stacks and cleanse the number of debuffs
+- (2) Release windrush and gain Permanent HP
 - (2) Steal 3 Mana
 - (2) Explode all Poison Stacks
-- (2) Gain 1 Riptide per Channel (Channel)
+- (2) Gain 1 windrush per Channel (Channel)
 - (2) Consume all Burn stacks and Gain 1 Permanent mana for every 2 Burn Stacks Consumed
 - (2) Deal 6 Fire Damage
 - (1) Deal 8 Nature Damage but apply 3 Poison to yourself
 - (1) Deal 3 Nature Damage, doubled if target Affected by moonfire (STARSURGE)
 
 4 Cost:
-- (1) Release Riptide stacks and deal Damage
+- (1) Release windrush stacks and deal Damage
 - (1) Deal 2 Arcane damage per channel (Channel)
 - (2) Convert all poison stacks into burn (Single)
 - (2) Heal 8 and Gain 1 Permanent HP

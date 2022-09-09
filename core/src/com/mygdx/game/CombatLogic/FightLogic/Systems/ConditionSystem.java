@@ -1,6 +1,7 @@
 package com.mygdx.game.CombatLogic.FightLogic.Systems;
 
 import com.mygdx.game.CombatLogic.BattlerFrame;
+import com.mygdx.game.CombatLogic.FightLogic.Cast;
 import com.mygdx.game.CombatLogic.FightLogic.SystemInterface.CanConditionSystem;
 import com.mygdx.game.Spells.Conditions.Condition;
 
@@ -24,8 +25,9 @@ public class ConditionSystem
     {
         public static OnPoison instance = new OnPoison();
 
+
         @Override
-        public boolean check() {
+        public boolean check(Cast c, BattlerFrame caster, BattlerFrame other) {
             return false;
         }
     }

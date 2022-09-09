@@ -12,7 +12,15 @@ public enum Asset
     COUNTERSPELL("Counter","Fireball"),
     BURN("Burn","Fireball"),
     EXPUNGE("Expunge","PoisonBall"),
-    MANA("Mana1","Fireball")
+    MANA("Mana1","Fireball"),
+
+
+
+    ARCANEBOLT("Arcane/1","Fireball"),
+    ARCANEMISSLE("Arcane/5","Fireball"),
+    GUST("Wind/2", "Fireball"),
+    FIREBOLT("Fire/Pyroblast","Fireball"),
+
     ;
 
     private String icon;
@@ -24,7 +32,7 @@ public enum Asset
     }
 
     public String getIcon() {
-        return "assets/" + icon+".png";
+        return "assets/SpellSplash/" + icon+".png";
     }
 
     public String getProjectile() {
