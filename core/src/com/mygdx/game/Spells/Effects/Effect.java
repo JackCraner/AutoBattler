@@ -1,5 +1,6 @@
 package com.mygdx.game.Spells.Effects;
 
+import com.mygdx.game.CombatLogic.FightLogic.SystemInterface.CanEffectSystem;
 import com.mygdx.game.Spells.Effects.EffectTypes.CanEffectType;
 
 public class Effect implements CanEffect
@@ -33,5 +34,10 @@ public class Effect implements CanEffect
 
     public CanEffectType getType() {
         return type;
+    }
+
+    @Override
+    public CanEffectSystem getSystem() {
+        return type.getSystem();
     }
 }

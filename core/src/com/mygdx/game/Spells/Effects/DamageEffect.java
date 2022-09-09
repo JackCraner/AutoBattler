@@ -2,10 +2,10 @@ package com.mygdx.game.Spells.Effects;
 
 import com.mygdx.game.CombatLogic.FightLogic.SystemInterface.CanEffectSystem;
 import com.mygdx.game.CombatLogic.FightLogic.Systems.CombatSystem;
-import com.mygdx.game.Spells.DamageTypes;
+import com.mygdx.game.Spells.Effects.EffectTypes.DamageTypes;
 import com.mygdx.game.Spells.Effects.EffectTypes.CanEffectType;
 
-public class DamageEffect implements CanEffect, CanEffectType
+public class DamageEffect implements CanEffect
 {
     DamageTypes damageType;
     float strength;
@@ -18,19 +18,9 @@ public class DamageEffect implements CanEffect, CanEffectType
         this.damageType = damageType;
     }
 
-    public DamageTypes getDamageType() {
-        return damageType;
-    }
 
-
-    @Override
     public String getName() {
-        return "Damage_" + damageType.name();
-    }
-
-    @Override
-    public CanEffectSystem getSystem() {
-        return CombatSystem.DamageSystem.instance;
+        return damageType.name();
     }
 
     @Override
@@ -50,6 +40,11 @@ public class DamageEffect implements CanEffect, CanEffectType
 
     @Override
     public CanEffectType getType() {
-        return this;
+        return damageType;
+    }
+
+    @Override
+    public CanEffectSystem getSystem() {
+        return CombatSystem.DamageSystem.instance;
     }
 }

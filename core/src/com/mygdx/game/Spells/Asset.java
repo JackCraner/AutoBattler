@@ -20,7 +20,10 @@ public enum Asset
     ARCANEMISSLE("Arcane/5","Fireball"),
     GUST("Wind/2", "Fireball"),
     FIREBOLT("Fire/Pyroblast","Fireball"),
-
+    EMBER("Fire/Ember", "Fireball"),
+    //POISONDART(""),
+    ICESPEAR("Ice/3", "Fireball"),
+    //ROCKBLAST("")
     ;
 
     private String icon;

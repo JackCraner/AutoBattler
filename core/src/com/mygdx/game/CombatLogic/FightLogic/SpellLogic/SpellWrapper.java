@@ -15,14 +15,13 @@ public class SpellWrapper
     Spell spell;
     int castTime;
     int manaCost;
-    CanEffect[] effects;
     Condition condition;
     public SpellWrapper(Spell s)
     {
         spell = s;
         castTime = s.getOrangeBox();
         manaCost = s.getManaCost();
-        effects = s.getEffects(false);
+        condition = s.getCondition();
     }
 
     public Spell getSpell() {
@@ -45,7 +44,7 @@ public class SpellWrapper
         return castTime;
     }
 
-    public CanEffect[] getEffects() {
-        return effects;
+    public Condition getCondition() {
+        return condition;
     }
 }

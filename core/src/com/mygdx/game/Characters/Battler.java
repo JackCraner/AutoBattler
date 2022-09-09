@@ -19,8 +19,8 @@ public class Battler
     {
         this.spellDeck = new ArrayList<>();
         this.perks = new ArrayList<>();
-        spellDeck.add(Spell.FIREBALL);
-        spellDeck.add(Spell.FIREBALL);
+        spellDeck.add(Spell.ARCANEBOLT);
+        spellDeck.add(Spell.ARCANEBOLT);
     }
 
     public CharacterTypes getcT() {

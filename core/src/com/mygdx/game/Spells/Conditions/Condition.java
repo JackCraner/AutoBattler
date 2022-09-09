@@ -54,4 +54,9 @@ public class Condition
     public CanEffect[] getEffectOnPass() {
         return effectOnPass;
     }
+
+    public CanEffect[] getEffect(boolean check)
+    {
+        return check?effectOnPass:effectOnFail;
+    }
 }

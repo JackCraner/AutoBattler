@@ -57,7 +57,7 @@ public class BattlerMesh extends Group
         mana = new ProgressBar(0,50,1f,false,MyGdxGame.skin);
 
         castTime = new ProgressBar(0,1,1f,false, MyGdxGame.skin);
-        currentSpell = new Card(Spell.FIREBALL,0.8f);
+        currentSpell = new Card(Spell.ARCANEBOLT,0.8f);
         health.setPosition(getPad(pad),-200);
         health.setWidth(width);
         health.setColor(Color.RED);

@@ -21,9 +21,9 @@ public class CombatSystem
         //Check for mana
         //Do spell
         //Set New cast
-        for (CanEffect effect:c.getSpellWrapper().getEffects())
+        for (CanEffect effect:c.getSpellWrapper().getCondition().getEffect(ConditionSystem.instance.checkCondition(c.getSpellWrapper().getCondition(),caster,other)))
         {
-            CanEffectSystem handler = effect.getType().getSystem();
+            CanEffectSystem handler = effect.getSystem();
             if (handler != null)
             {
                 handler.execute(effect,new BattlerFrame[]{caster,other});
