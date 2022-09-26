@@ -2,10 +2,12 @@ package com.mygdx.game.Screens.BuyPhase.Components;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.mygdx.game.Characters.Battler;
+import com.mygdx.game.Cards.CanCard;
+import com.mygdx.game.Cards.SpellTOCard;
+import com.mygdx.game.CombatLogic.Battler;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Cards.Card;
-import com.mygdx.game.Spells.Spell;
+import com.mygdx.game.SpellLogic.Spell;
 
 import java.util.ArrayList;
 
@@ -36,11 +38,11 @@ public class Deck extends Group
         deckCards = new ArrayList<>();
         clear();
 
-        Spell[] spellList = player.getSpells();
+        Spell[] spellList = player.getSpellList().getList().toArray(new Spell[0]);
 
         for (int i = 0; i < spellList.length;i++)
         {
-            Card c = new Card(spellList[i],0.5f);
+            Card c = new Card(new SpellTOCard(spellList[i]),0.5f);
             c.setPosition(overlap * i,0);
 
             deckCards.add(c);
@@ -54,9 +56,9 @@ public class Deck extends Group
         ArrayList<Spell> spellList = new ArrayList<>();
         for (Card c: deckCards)
         {
-            spellList.add(c.getSpell());
+            spellList.add(((SpellTOCard) c.getCardItem()).getSpell());
         }
-        player.setSpellDeck(spellList);
+        player.setSpellList(spellList);
     }
     private int currentIndex;
     public void pushDeck(int index)

@@ -9,8 +9,10 @@ import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.viewport.FillViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.mygdx.game.Characters.Battler;
+
+import com.mygdx.game.CombatLogic.Battler;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Screens.BuyPhase.Components.Deck;
 import com.mygdx.game.Screens.BuyPhase.Components.Shop;
@@ -110,7 +112,7 @@ public class BuyScene extends ScreenAdapter
 
         shop.setPosition(10,700);
         deck.setPosition(10,100);
-        gui.setPosition((float)MyGdxGame.gameWidth/2,MyGdxGame.gameHeight - 200);
+        gui.setPosition((float)MyGdxGame.gameWidth/2,MyGdxGame.gameHeight - 300);
         handler = new BuySceneMultiplexer(stage,deck,shop);
         handler.addProcessor(stage);
         Gdx.input.setInputProcessor(handler);

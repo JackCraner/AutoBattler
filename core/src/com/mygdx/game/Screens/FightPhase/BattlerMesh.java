@@ -8,15 +8,24 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.utils.Align;
-import com.mygdx.game.Characters.Battler;
-import com.mygdx.game.Characters.BattlerSprite;
+import com.mygdx.game.AssetFinder.StaticToIcon;
+import com.mygdx.game.Cards.CanCard;
+
+import com.mygdx.game.Cards.SpellTOCard;
+import com.mygdx.game.CombatLogic.Battler;
+import com.mygdx.game.CombatLogic.BattlerFrames.BattleFrameComponents.BattlerState;
+import com.mygdx.game.CombatLogic.BattlerFrames.BattleFrameComponents.CastComponent;
+import com.mygdx.game.CombatLogic.BattlerFrames.BattleFrameComponents.EffectListComponent;
+import com.mygdx.game.CombatLogic.BattlerFrames.BattleFrameComponents.HealthComponent;
+import com.mygdx.game.CombatLogic.BattlerFrames.BattleFrameComponents.ManaComponent;
+import com.mygdx.game.CombatLogic.BattlerFrames.BattlerFrame;
+import com.mygdx.game.CombatLogic.BattlerFrames.BattlerStates;
+import com.mygdx.game.CombatLogic.BattlerFrames.EffectOnBattler;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Cards.Card;
-import com.mygdx.game.CombatLogic.FightLogic.CastCodeTypes;
+
 import com.mygdx.game.SingleGame;
-import com.mygdx.game.Spells.Spell;
-import com.mygdx.game.Spells.Statuss.Status;
-import com.mygdx.game.Spells.Statuss.StatusAsset;
+
 
 import java.util.ArrayList;
 
@@ -47,17 +56,16 @@ public class BattlerMesh extends Group
     {
 
         this.host = b;
-        this.hostBody = new BattlerSprite(host.getcT(),scale);
+        this.hostBody = new BattlerSprite(scale);
         addActor(hostBody);
 
         this.statusRow = new StatusRow();
 
 
-        health = new ProgressBar(0, SingleGame.maxHealth,1f,false,MyGdxGame.skin);
-        mana = new ProgressBar(0,50,1f,false,MyGdxGame.skin);
+        health = new ProgressBar(0, b.getHealth(),1f,false,MyGdxGame.skin);
+        mana = new ProgressBar(0,b.getMaxMana(),1f,false,MyGdxGame.skin);
 
         castTime = new ProgressBar(0,1,1f,false, MyGdxGame.skin);
-        currentSpell = new Card(Spell.ARCANEBOLT,0.8f);
         health.setPosition(getPad(pad),-200);
         health.setWidth(width);
         health.setColor(Color.RED);
@@ -95,45 +103,47 @@ public class BattlerMesh extends Group
         return isFlip? -num:num;
     }
 
-    public void newFrame(BattlerFrameGraphic bf)
+    public void newFrame(BattlerFrame bf)
     {
+        CanCard s = new SpellTOCard(bf.getComponent(CastComponent.class).getSpell());
+        currentSpell = new Card(s,0.8f);
+        currentSpell.setPosition(getPad(pad),height + pad );
+        currentSpell.remove();
 
-        if (bf.getCurrentCast().getCastTimer() == 1)
+        if (bf.getComponent(CastComponent.class).getCastTimer() == 1)
         {
 
+            if (currentSpell !=null)
+            {
+                castTime.remove();
 
-            castTime.remove();
-            currentSpell.remove();
-
-            Spell s = bf.getCurrentCast().getSpellWrapper().getSpell();
-            currentSpell = new Card(s,0.8f);
-            currentSpell.setPosition(getPad(pad),height + pad );
+            }
             castTime = new ProgressBar(0,(s.getOrangeBox()*FightScene.gameTicksInAturn-1),1f,false, MyGdxGame.skin);
 
-            if (bf.getCurrentCast().getCastCode() == CastCodeTypes.SUCCESS)
+            if (bf.getComponent(BattlerState.class).getState() == BattlerStates.READY)
             {
-
                 castTime.setWidth(hostBody.getWidth());
                 castTime.setPosition(getPad(pad),height+ currentSpell.getHeight() + (100 * scale));
                 addActor(castTime);
             }
 
-            addActor(currentSpell);
+
         }
+        addActor(currentSpell);
         updateHealthBar(bf);
 
 
-        statusRow.setStatusRow( bf.getAllStatus().toArray(new Status[bf.getAllStatus().size()]));
+        statusRow.setStatusRow( bf.getComponent(EffectListComponent.class).getEffectOnBattlers());
 
 
     }
 
-    public void updateHealthBar(BattlerFrameGraphic bF)
+    public void updateHealthBar(BattlerFrame bF)
     {
-        health.setValue(bF.getHealth());
-        mana.setValue(bF.getMana());
-        healthLabel.setText(Integer.toString(bF.getHealth()));
-        manaLabel.setText(Integer.toString(bF.getMana()));
+        health.setValue(bF.getComponent(HealthComponent.class).getCurrentHealth());
+        mana.setValue(bF.getComponent(ManaComponent.class).getCurrentMana());
+        healthLabel.setText(Integer.toString(bF.getComponent(HealthComponent.class).getCurrentHealth()));
+        manaLabel.setText(Integer.toString(bF.getComponent(ManaComponent.class).getCurrentMana()));
     }
 
 
@@ -175,12 +185,12 @@ class StatusRow extends Group
         statusBoxes = new ArrayList<>();
 
     }
-    public void setStatusRow(Status[] statuses)
+    public void setStatusRow(ArrayList<EffectOnBattler> statuses)
     {
         clear();
         statusBoxes.clear();
         int counter =0;
-        for (Status s: statuses)
+        for (EffectOnBattler s: statuses)
         {
             StatusBox sB = new StatusBox(s);
             sB.setPosition(100 * counter + 10,0);
@@ -201,9 +211,9 @@ class StatusRow extends Group
         private Label stack;
         private float scale = 2;
 
-        public StatusBox(Status status)
+        public StatusBox(EffectOnBattler status)
         {
-            icon = new Image(new Texture(Gdx.files.local(StatusAsset.statusAssetReference.get(status.getType()).getIcon())));
+            icon = new Image(new Texture(Gdx.files.local("assets/SpellSplash/Status/" + StaticToIcon.converter.get(status.getStatusObject().getStatus_name()) + ".png")));
             icon.setSize(100,100);
             stack = new Label(Integer.toString(status.getStackNumber()),MyGdxGame.skin,"try");
             stack.setSize(80,80);

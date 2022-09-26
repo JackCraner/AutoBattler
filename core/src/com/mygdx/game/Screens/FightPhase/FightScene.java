@@ -12,7 +12,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.mygdx.game.Characters.Battler;
+import com.mygdx.game.CombatLogic.Battler;
+import com.mygdx.game.CombatLogic.BattlerFrames.BattleFrameComponents.HealthComponent;
+import com.mygdx.game.CombatLogic.BattlerFrames.BattleFrameComponents.ManaComponent;
+import com.mygdx.game.CombatLogic.BattlerFrames.BattlerFrame;
 import com.mygdx.game.CombatLogic.FightFrame;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.CombatLogic.CombatManager;
@@ -68,6 +71,7 @@ public class FightScene extends ScreenAdapter
         combatFinish.addListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
+                endOfCombat(newFrame);
                 game.returnToShop();
                 return true;
             }
@@ -87,6 +91,7 @@ public class FightScene extends ScreenAdapter
 
     private boolean combatEnd = false;
 
+    FightFrame newFrame = null;
     @Override
     public void render(float delta) {
 
@@ -106,7 +111,7 @@ public class FightScene extends ScreenAdapter
         {
             if (combatLog.size() > 0)
             {
-                FightFrame newFrame = combatLog.pop();
+                newFrame = combatLog.pop();
                 for (int i = 0; i < battlersMesh.length; i++)
                 {
                     battlersMesh[i].newFrame(newFrame.getBattleFrames()[i]);
@@ -139,6 +144,7 @@ public class FightScene extends ScreenAdapter
         if (combatLog.size() == 0)
         {
             combatEnd = true;
+
         }
 
 
@@ -162,12 +168,12 @@ public class FightScene extends ScreenAdapter
 
 
 
-        this.cE = new CombatManager(player,enemy);
-        this.combatLog = cE.getFightSequence();
+        this.cE = new CombatManager();
+        this.combatLog = cE.simulateFight(new Battler[]{player,enemy});
 
         FightFrame first = combatLog.pop();
-        playerMesh.newFrame(first.getPlayer());
-        enemyMesh.newFrame(first.getEnemy());
+        playerMesh.newFrame(first.getBattleFrames()[0]);
+        enemyMesh.newFrame(first.getBattleFrames()[1]);
     }
     @Override
     public void hide(){
@@ -185,5 +191,22 @@ public class FightScene extends ScreenAdapter
         stage.clear();
         stage.dispose();
         img.dispose();
+    }
+    public void endOfCombat(FightFrame finalFrame)
+    {
+
+        BattlerFrame playerFrame = finalFrame.getBattleFrames()[0];
+        if (finalFrame.getBattleFrames()[1].getComponent(HealthComponent.class).getCurrentHealth() > 0)
+        {
+            game.loseLife();
+        }
+        else if (playerFrame.getComponent(HealthComponent.class).getCurrentHealth() > 0 )
+        {
+            game.winCrown();
+        }
+        game.nextTurn();
+        this.player.setCurrentMana(playerFrame.getComponent(ManaComponent.class).getCurrentMana());
+        this.player.setMaxMana(playerFrame.getComponent(ManaComponent.class).getMaxMana());
+        this.player.setHealth(playerFrame.getComponent(HealthComponent.class).getMaxHealth());
     }
 }

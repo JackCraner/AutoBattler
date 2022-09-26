@@ -42,7 +42,7 @@ public class BuySceneMultiplexer extends InputMultiplexer
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         Vector2 coord = stage.screenToStageCoordinates(new Vector2(screenX,screenY));
         Actor a = d.hit(coord.x,coord.y,true);
-        if (a != null && a instanceof Card)
+        if (a instanceof Card)
         {
 
             hold = (Card)d.hit(coord.x,coord.y,true);

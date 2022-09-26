@@ -1,203 +1,194 @@
 package com.mygdx.game.CombatLogic;
 
-import com.mygdx.game.Characters.Battler;
-import com.mygdx.game.Screens.FightPhase.BattlerConstants;
-import com.mygdx.game.CombatLogic.FightLogic.Cast;
-import com.mygdx.game.CombatLogic.FightLogic.CastCodeTypes;
-import com.mygdx.game.CombatLogic.FightLogic.Systems.BuffSystem;
-import com.mygdx.game.CombatLogic.FightLogic.Systems.CombatSystem;
-import com.mygdx.game.CombatLogic.FightLogic.Systems.PerkSystem;
-import com.mygdx.game.CombatLogic.FightLogic.Systems.StatusSystem;
-import com.mygdx.game.SingleGame;
-import com.mygdx.game.Spells.Spell;
-import com.mygdx.game.Spells.Statuss.Status;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import com.mygdx.game.CombatLogic.BattlerFrames.BattleFrameComponents.ArmorArray;
+import com.mygdx.game.CombatLogic.BattlerFrames.BattleFrameComponents.BattlegroundComponent;
+import com.mygdx.game.CombatLogic.BattlerFrames.BattleFrameComponents.BattlerState;
+import com.mygdx.game.CombatLogic.BattlerFrames.BattleFrameComponents.BuffArray;
+import com.mygdx.game.CombatLogic.BattlerFrames.BattleFrameComponents.CastComponent;
+import com.mygdx.game.CombatLogic.BattlerFrames.BattleFrameComponents.CastHistoryComponent;
+import com.mygdx.game.CombatLogic.BattlerFrames.BattleFrameComponents.EffectListComponent;
+import com.mygdx.game.CombatLogic.BattlerFrames.BattleFrameComponents.HealthComponent;
+import com.mygdx.game.CombatLogic.BattlerFrames.BattleFrameComponents.ManaComponent;
+import com.mygdx.game.CombatLogic.BattlerFrames.BattleFrameComponents.SpellListComponent;
+import com.mygdx.game.CombatLogic.BattlerFrames.BattlerFrame;
+import com.mygdx.game.CombatLogic.BattlerFrames.BattlerStates;
+import com.mygdx.game.CombatLogic.CombatSystems.CastSystem;
+import com.mygdx.game.CombatLogic.CombatSystems.CastTimeSystem;
+import com.mygdx.game.CombatLogic.CombatSystems.ManaSystem;
+import com.mygdx.game.CombatLogic.EffectSystems.ApplyStatusSystem;
+import com.mygdx.game.CombatLogic.EffectSystems.BattleFieldSystem;
+import com.mygdx.game.SpellLogic.SpellEffect.Enums.BattlegroundTypes;
+
 import java.util.LinkedList;
-import java.util.List;
+import java.util.Random;
 
-public class CombatManager
-{
-
+public class CombatManager {
 
 
-
-    LinkedList<FightFrame> fightSequence = new LinkedList<>();
-    List<Spell>[] spellLists = new List[2];
-    Battler[] battlers;
-    int turnCounter;
-    public CombatManager(Battler p, Battler e)
+    public CombatManager()
     {
 
-        this.battlers = new Battler[]{p,e};
+    }
+    public BattlerFrame convertBattlerToBF(Battler b)
+    {
+        BattlerFrame bfs = new BattlerFrame();
+        bfs.addComponent(new BattlegroundComponent(BattlegroundTypes.NULL));
+        bfs.addComponent(new ArmorArray());
+        bfs.addComponent(new BuffArray());
+        bfs.addComponent(new EffectListComponent());
+        bfs.addComponent(new CastHistoryComponent());
+        bfs.addComponent(new BattlerState());
+        bfs.addComponent(new SpellListComponent(b.getSpellList()));
+        bfs.addComponent(new CastComponent(b.getSpellList().getCurrent()));
+        bfs.addComponent(new HealthComponent(b.getHealth()));
+        bfs.addComponent(new ManaComponent(b.getCurrentMana(),b.getCurrentMana()));
+        return bfs;
+    }
 
-        List<Spell>[] spellLists = new List[2];
-        spellLists[0] = Arrays.asList( PerkSystem.instance.applyPerks(battlers[0].getSpells(), battlers[0].getPerks()));
-        spellLists[1] = Arrays.asList( PerkSystem.instance.applyPerks(battlers[1].getSpells(), battlers[1].getPerks()));
-        turnCounter = 0;
+    public LinkedList<FightFrame> simulateFight(Battler[] battlers)
+    {
 
-        BattlerConstants playerConstant = new BattlerConstants(spellLists[0],battlers[0].getPerks());
-        BattlerConstants enemyConstant = new BattlerConstants(spellLists[1],battlers[1].getPerks());
-        BattlerFrame initPlayer = new BattlerFrame(playerConstant,battlers[0].getMaxHealth(), battlers[0].getMana(), new ArrayList<Status>(), new Cast(CastCodeTypes.SUCCESS, playerConstant.getBattlerSpellList().next()));
-        BattlerFrame initEnemy = new BattlerFrame(enemyConstant,battlers[1].getMaxHealth(), battlers[1].getMana(), new ArrayList<Status>(), new Cast(CastCodeTypes.SUCCESS, enemyConstant.getBattlerSpellList().next()));
-        simulate(initPlayer,initEnemy);
+        BattlerFrame bs0 = convertBattlerToBF(battlers[0]);
+        BattlerFrame bs1 = convertBattlerToBF(battlers[1]);
+
+
+        LinkedList<FightFrame> fightFrameList = new LinkedList<>();
+        fightFrameList.add(new FightFrame(bs0,bs1));
+        int turnCounter = 0;
+
+
+        while (!checkGameOver(fightFrameList.getLast().getBattleFrames()) && turnCounter < 40 )
+        {
+
+            fightFrameList.add(gameStep(fightFrameList.getLast()));
+            turnCounter ++;
+        }
+
+        for (int i=0;i<fightFrameList.size();i++)
+        {
+            System.out.println("Turn: " + i + "\n");
+            System.out.println(fightFrameList.get(i).printFrame());
+        }
+        return fightFrameList;
+    }
+    Random r = new Random();
+    public FightFrame gameStep(FightFrame lastFrame)
+    {
+        //who ever has more current mana goes first
+
+        //BattlerFrame[] newBattlers = Arrays.stream(battlers).map(BattlerFrame::clone).toArray(BattlerFrame[]::new);
+        BattlerFrame[] battlers = lastFrame.getBattleFrames();
+        FightFrame newFightFrame = lastFrame.clone();
+        BattlerFrame[] newBattlers = newFightFrame.getBattleFrames();
+
+        //cast
+        BattleFieldSystem.instance.applyBattleground(newBattlers);
+
+
+        //Order
+        int startI = 0;
+        int step = 1;
+        boolean order = true;
+        if (battlers[1].getComponent(ManaComponent.class).getCurrentMana() == battlers[0].getComponent(ManaComponent.class).getCurrentMana())
+        {
+         if (r.nextInt(10)> 5)
+         {
+             startI = 1;
+             step =-1;
+             order = false;
+         }
+        } else if (battlers[1].getComponent(ManaComponent.class).getCurrentMana() > battlers[0].getComponent(ManaComponent.class).getCurrentMana())
+        {
+            startI = 1;
+            step =-1;
+            order = false;
+        }
+
+
+
+        for (int i=startI;defineOrder(i,order);i+=step)
+        {
+
+            ApplyStatusSystem.instance.checkAllStatusEffect(newBattlers[i]);
+        }
+
+
+
+
+
+        for (int i=startI;defineOrder(i,order);i+=step)
+        {
+
+            if (battlers[i].getComponent(BattlerState.class).getState() == BattlerStates.READY)
+            {
+
+                if (ManaSystem.instance.hasMana(battlers[i]))
+                {
+                    if (CastTimeSystem.instance.isReady(battlers[i]))
+                    {
+
+                        CastSystem.instance.castSpell(newBattlers[i],newBattlers[Math.abs(i - 1)]);
+                        ManaSystem.instance.spendMana(newBattlers[i]);
+                        CastTimeSystem.instance.resetCastTime(newBattlers[i]);
+                        CastSystem.instance.archiveCast(newBattlers[i]);
+                        CastSystem.instance.updateCastComponent(newBattlers[i]);
+                        ApplyStatusSystem.instance.checkAllOnSpellEffect(newBattlers[i]);
+
+
+                    }
+                }
+                else
+                {
+                    CastTimeSystem.instance.resetCastTime(newBattlers[i]);
+                    newBattlers[i].getComponent(CastComponent.class).setSpell(newBattlers[i].getComponent(SpellListComponent.class).getNext());
+                    newBattlers[i].getComponent(CastComponent.class).setCastTimer(0);
+
+                }
+                    CastTimeSystem.instance.incrementCastTime(newBattlers[i]);
+
+            }
+            else
+            {
+                newBattlers[i].getComponent(CastComponent.class).setCastTimer(0);
+            }
+
+
+        }
+
+
+
+
+        return newFightFrame;
+
 
     }
 
-    public void simulate(BattlerFrame initPlayer, BattlerFrame initEnemy)
+
+
+    private boolean checkGameOver(BattlerFrame[] battlers)
     {
-
-        fightSequence.add(gameStep(new FightFrame(initPlayer,initEnemy)));
-        while(!checkEnd() && turnCounter < 30)
+        for (BattlerFrame b: battlers)
         {
-            FightFrame lastFrame = fightSequence.get(fightSequence.size()-1);
-            fightSequence.add(gameStep(lastFrame));
-            turnCounter ++;
-        }
-        for (FightFrame f: fightSequence)
-        {
-            System.out.println(f.printFrame());
-        }
-        /**
-         *
-
-        BattlerFrame initalPlayer = new BattlerFrame(SingleGame.maxHealth,player.getMana(),spellLists[0].get(0).getOrangeBox(),0,new ArrayList<Status>(),true);
-        BattlerFrame initalEnemy = new BattlerFrame(SingleGame.maxHealth,enemy.getMana(),spellLists[1].get(0).getOrangeBox(),0,new ArrayList<Status>(),true);
-        fightSequence.add(gameStep(new FightFrame(initalPlayer,initalEnemy)));
-
-
-        while(!checkEnd() && turnCounter < 100)
-        {
-
-            FightFrame lastFrame = fightSequence.get(fightSequence.size()-1);
-            fightSequence.add(gameStep(lastFrame));
-
-            turnCounter ++;
-        }
-        player.setMana(fightSequence.get(fightSequence.size()-1).getPlayer().getMana());
-        for (FightFrame f: fightSequence)
-        {
-            System.out.println(f.printFrame());
-        }
-
-    **/
-    }
-    public boolean checkEnd()
-    {
-        FightFrame f = fightSequence.get(fightSequence.size() -1);
-        if (f.getEnemy().getHealth() <=0 || f.getPlayer().getHealth() <= 0)
-        {
-
-            return true;
+            if (b.getComponent(HealthComponent.class).getCurrentHealth() < 0)
+            {
+                return true;
+            }
         }
         return false;
     }
-
-
-    public FightFrame gameStep(final FightFrame f) {
-        BattlerFrame[] newBattlerFrame = {f.getPlayer().clone(), f.getEnemy().clone()};
-
-        for (int i = 0; i < newBattlerFrame.length; i++) {
-            for (Status s : newBattlerFrame[i].getAllStatus())
-            {
-                if (s.getTickCooldown() == 3)
-                {
-                    StatusSystem.instance.handleTick(s, newBattlerFrame[i]);
-                    s.setTickCooldown(0);
-                }
-                s.setTickCooldown(s.getTickCooldown()+1);
-
-            }
-
-            BuffSystem.instance.applyBuffs(newBattlerFrame[i]);
-
-            checkSpell(newBattlerFrame[i].getCurrentCast(),newBattlerFrame[i]);
-
-            if (newBattlerFrame[i].getCurrentCast().getCastTimer() == newBattlerFrame[i].getCurrentCast().getSpellWrapper().getCastTime())
-            {
-                CombatSystem.instance.castSpell(newBattlerFrame[i].getCurrentCast(), newBattlerFrame[i], newBattlerFrame[Math.abs(i - 1)]);
-                newBattlerFrame[i].setCast(new Cast(CastCodeTypes.SUCCESS, newBattlerFrame[i].getBattlerConstant().getBattlerSpellList().next()));
-            }
-            newBattlerFrame[i].getCurrentCast().setCastTimer(newBattlerFrame[i].getCurrentCast().getCastTimer() +1);
-        }
-        return new FightFrame(newBattlerFrame[0], newBattlerFrame[1]);
-
-    }
-
-
-    public void checkSpell(Cast c, BattlerFrame caster)
+    public boolean defineOrder(int i,boolean t)
     {
-        if (c.getSpellWrapper().getManaCost() >caster.getMana())
+        if (t)
         {
-            c.setCastCode(CastCodeTypes.MANA_FAILURE);
+            return i < 2;
         }
-
-    }
-        /**
-        BattlerFrame[] battlers = {f.getPlayer(),f.getEnemy()};
-        BattlerFrame[] newBattlers = {f.getPlayer().clone(),f.getEnemy().clone()};
-        for (int i = 0; i <battlers.length;i++) {
-            for (Status s : newBattlers[i].getAllStatus()) {
-
-                cS.gameTick(s, battlers[i], newBattlers[i]);
-
-
-            }
-
-            if (battlers[i].getCooldown() == 0) {
-
-                cS.castSpell(spellLists[i].get(battlers[i].getSpellPointer()), battlers[i], newBattlers[i], battlers[Math.abs(i - 1)], newBattlers[Math.abs(i - 1)]);
-                if (battlers[i].getSpellPointer() == spellLists[i].size() - 1) {
-                    newBattlers[i].setSpellPointer(0);
-                } else {
-                    newBattlers[i].setSpellPointer(battlers[i].getSpellPointer() + 1);
-                }
-
-
-                if (newBattlers[i].getSpellSuccess()) {
-                    newBattlers[i].setCooldown(spellLists[i].get(newBattlers[i].getSpellPointer()).getOrangeBox());
-                    newBattlers[i].setCooldown(newBattlers[i].getCooldown() - 1);
-                }
-
-
-
-            } else {
-                newBattlers[i].setCooldown(battlers[i].getCooldown() - 1);
-            }
-
-            if (!(cS.checkForMana(spellLists[i].get(newBattlers[i].getSpellPointer()), battlers[i], newBattlers[i])))
-            {
-                newBattlers[i].setCooldown(0);
-            }
+        else
+        {
+            return i>=0;
         }
-
-        formalizeBattlerFrame(newBattlers[0]);
-        formalizeBattlerFrame(newBattlers[1]);
-        return new FightFrame(newBattlers[0],newBattlers[1]);
-
-         **/
-
-
-    public LinkedList<FightFrame> getFightSequence() {
-        return fightSequence;
     }
 
-    public void formalizeBattlerFrame(BattlerFrame bf)
-    {
-        if (bf.getHealth() > SingleGame.maxHealth)
-        {
-            bf.setHealth(SingleGame.maxHealth);
-        }
-        if (bf.getHealth() <0)
-        {
-            bf.setHealth(0);
-        }
 
 
-        if (bf.getMana() > SingleGame.maxMana)
-        {
-            bf.setMana(SingleGame.maxMana);
-        }
-    }
 }

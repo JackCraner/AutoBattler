@@ -8,14 +8,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 import com.mygdx.game.MyGdxGame;
-import com.mygdx.game.Spells.Asset;
-import com.mygdx.game.Spells.Spell;
+
 
 public class Card extends Group
 {
     private float width = 440;
     private float height = 674;
-    private Spell spell;
+    private CanCard spell;
     private Image cardSprite;
     private Image imageSprite;
     private Label spellTitle;
@@ -23,20 +22,19 @@ public class Card extends Group
     private Label spellCostLabel;
     private Label castTimeLabel;
     private float scale;
-    private Asset design;
 
 
-    public Card(Spell spell, float scale)
+
+    public Card(CanCard spell, float scale)
     {
         this.spell = spell;
         this.scale =scale;
 
-        design = spell.getAsset();
-        cardSprite = new Image(new Texture(Gdx.files.local("assets/CardBase.png")));
+        cardSprite = new Image(new Texture(Gdx.files.local(spell.getCardBase())));
         cardSprite.setSize(width * scale,height * scale);
         addActor(cardSprite);
 
-        imageSprite = new Image(new Texture(Gdx.files.local(design.getIcon())));
+        imageSprite = new Image(new Texture(Gdx.files.local(spell.getSplashArt())));
         imageSprite.setSize(300*scale,300*scale);
         imageSprite.setPosition(cardSprite.getX()+(cardSprite.getWidth()*0.18f),cardSprite.getY()+(cardSprite.getHeight()*0.45f));
         addActor(imageSprite);
@@ -79,7 +77,7 @@ public class Card extends Group
 
     }
 
-    public Spell getSpell() {
+    public CanCard getCardItem() {
         return spell;
     }
 

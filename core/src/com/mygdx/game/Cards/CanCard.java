@@ -6,7 +6,7 @@ public interface CanCard
     public String getTitle();
     public String getDescription();
     public String getSplashArt();
-    public CardTypes getCardBase();
+    public String getCardBase();
     public int getManaCost();
     public int getOrangeBox();
 

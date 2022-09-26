@@ -5,11 +5,15 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.mygdx.game.Characters.Battler;
+import com.mygdx.game.Cards.CanCard;
+import com.mygdx.game.Cards.SpellTOCard;
+
+import com.mygdx.game.CombatLogic.Battler;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Screens.BuyPhase.BuyScene;
 import com.mygdx.game.Cards.Card;
-import com.mygdx.game.Spells.Spell;
+import com.mygdx.game.SpellLogic.SpellFactory;
+
 
 import java.util.Random;
 
@@ -60,10 +64,10 @@ public class Shop extends Group
 
     }
 
-    private Spell getRandomSpell()
+    private CanCard getRandomSpell()
     {
-        Spell[] spells = Spell.values();
-        return spells[rand.nextInt(spells.length)];
+        return new SpellTOCard( SpellFactory.values()[rand.nextInt(SpellFactory.values().length)].getSpell());
+
 
     }
 
@@ -120,12 +124,17 @@ public class Shop extends Group
     }
     private void buyCard(Card c)
     {
-        if (spendMana(c.getSpell().getManaCost()))
+        if (c.getCardItem() instanceof SpellTOCard)
         {
-            player.addSpell(c.getSpell());
-            deck.setDeck();
-            rollShop();
+            SpellTOCard sTc = (SpellTOCard)c.getCardItem();
+            if (spendMana(sTc.getSpell().getManaCost()))
+            {
+                player.getSpellList().addItem(sTc.getSpell());
+                deck.setDeck();
+                rollShop();
+            }
         }
+
 
 
     }
@@ -133,9 +142,10 @@ public class Shop extends Group
     {
         //return true;
 
-        if (player.getMana() >= cost)
+        if (player.getCurrentMana() >= cost)
         {
-            player.setMana(player.getMana() - cost);
+
+            player.setCurrentMana(player.getCurrentMana() - cost);
             updateMana();
             return true;
         }
@@ -145,8 +155,8 @@ public class Shop extends Group
 
     public void updateMana()
     {
-        parent.getGui().manaLabel.setText(Integer.toString(player.getMana()));
-        parent.getGui().manaBar.setValue(player.getMana());
+        parent.getGui().manaLabel.setText(Integer.toString(player.getCurrentMana()));
+        parent.getGui().manaBar.setValue(player.getCurrentMana());
     }
     @Override
     public Actor hit(float x, float y, boolean touchable) {
