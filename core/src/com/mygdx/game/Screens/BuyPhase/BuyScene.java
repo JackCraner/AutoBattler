@@ -110,9 +110,9 @@ public class BuyScene extends ScreenAdapter
         stage.addActor(shop);
         stage.addActor(gui);
 
-        shop.setPosition(10,700);
-        deck.setPosition(10,100);
-        gui.setPosition((float)MyGdxGame.gameWidth/2,MyGdxGame.gameHeight - 300);
+        shop.setPosition(80,700);
+        deck.setPosition(80,150);
+        gui.setPosition((float)MyGdxGame.gameWidth/2+30,MyGdxGame.gameHeight - 300);
         handler = new BuySceneMultiplexer(stage,deck,shop);
         handler.addProcessor(stage);
         Gdx.input.setInputProcessor(handler);

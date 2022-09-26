@@ -20,7 +20,7 @@ import java.util.Random;
 public class Shop extends Group
 {
 
-    float scale = 0.8f;
+    float scale = 0.7f;
 
     int shopSize =3;
     Card card1;
@@ -46,7 +46,7 @@ public class Shop extends Group
         rollShopButton = new TextButton("Roll", MyGdxGame.skin);
         rollShopButton.setSize(150,100);
         rollShopButton.getLabel().setFontScale(1.5f);
-        rollShopButton.setPosition(450,-200);
+        rollShopButton.setPosition(390,-200);
         rollShopButton.addListener(new InputListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {

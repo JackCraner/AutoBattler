@@ -66,7 +66,7 @@ public class SingleGame extends ScreenAdapter
     public void findOpponent()
     {
         //generate enemy pass into fight Scene
-        Battler enemy = new Battler(20,50,new ModifierArray(),new ModifierArray(),new Spell[]{SpellFactory.FIRE2_1.getSpell()});
+        Battler enemy = new Battler(20,50,new ModifierArray(),new ModifierArray(),new Spell[]{SpellFactory.FIRE0_1.getSpell()});
         parent.setScreen(new FightScene(this,player,enemy));
     }
     public void returnToShop()

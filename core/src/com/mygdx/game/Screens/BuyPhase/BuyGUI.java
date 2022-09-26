@@ -73,7 +73,7 @@ public class BuyGUI extends Group
 
         for (int i =0;i <crownCount.length;i++)
         {
-            if (i<3)
+            if (i<game.getCrownCount())
             {
                 crownCount[i] = new Image(new Texture(Gdx.files.local("assets/BuyScreen/CrownWon.png")));
             }
@@ -82,7 +82,7 @@ public class BuyGUI extends Group
                 crownCount[i] = new Image(new Texture(Gdx.files.local("assets/BuyScreen/Crown.png")));
             }
             crownCount[i].setSize(70,70);
-            crownCount[i].setPosition(-300 + (i * 80),70);
+            crownCount[i].setPosition(-300 + (i * 75),70);
             addActor(crownCount[i]);
         }
 
