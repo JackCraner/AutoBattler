@@ -23,13 +23,13 @@ public class Deck extends Group
 
         this.player = p;
         setDeck();
-        setBounds(0,0, MyGdxGame.gameWidth,300);
+        //setBounds(0,0, MyGdxGame.gameWidth,300);
 
     }
 
     @Override
     public Actor hit(float x, float y, boolean touchable) {
-        return super.hit(x, y, touchable);
+        return super.hit(x-getX(), y-getY(), touchable);
     }
 
     public void setDeck()
@@ -121,6 +121,6 @@ public class Deck extends Group
     @Override
     public void setPosition(float x, float y) {
         super.setPosition(x, y);
-        setDeck();
+
     }
 }
