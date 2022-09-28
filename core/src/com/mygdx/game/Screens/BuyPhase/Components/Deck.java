@@ -15,7 +15,7 @@ public class Deck extends Group
 {
     Battler player;
     float overlap =100;
-
+    float scale = 0.4f;
     ArrayList<Card> deckCards;
 
     public Deck(Battler p)
@@ -42,7 +42,7 @@ public class Deck extends Group
 
         for (int i = 0; i < spellList.length;i++)
         {
-            Card c = new Card(new SpellTOCard(spellList[i]),0.5f);
+            Card c = new Card(new SpellTOCard(spellList[i]),scale);
             c.setPosition(overlap * i,0);
 
             deckCards.add(c);

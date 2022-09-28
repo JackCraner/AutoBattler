@@ -3,6 +3,7 @@ package com.mygdx.game.Screens.FightPhase;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -33,7 +34,7 @@ public class BattlerMesh extends Group
 {
 
 
-    float scale = 1;
+    float scale = 0.8f;
     float height = 478 ;
     float width =336;
 
@@ -51,7 +52,7 @@ public class BattlerMesh extends Group
     float pad = (60 * scale);
 
 
-    int lastCD = 0;
+    private Vector2 spellPosition;
     BattlerMesh(Battler b)
     {
 
@@ -61,7 +62,7 @@ public class BattlerMesh extends Group
 
         this.statusRow = new StatusRow();
 
-
+        spellPosition= new Vector2(-300,100);
         health = new ProgressBar(0, b.getHealth(),1f,false,MyGdxGame.skin);
         mana = new ProgressBar(0,b.getMaxMana(),1f,false,MyGdxGame.skin);
 
@@ -100,14 +101,14 @@ public class BattlerMesh extends Group
     }
     public float getPad(float num)
     {
-        return isFlip? -num:num;
+        return isFlip? num:-num;
     }
 
     public void newFrame(BattlerFrame bf)
     {
         CanCard s = new SpellTOCard(bf.getComponent(CastComponent.class).getSpell());
-        currentSpell = new Card(s,0.8f);
-        currentSpell.setPosition(getPad(pad),height + pad );
+        currentSpell = new Card(s,0.7f);
+        currentSpell.setPosition(spellPosition.x,spellPosition.y );
         currentSpell.remove();
 
         if (bf.getComponent(CastComponent.class).getCastTimer() == 1)
@@ -122,8 +123,8 @@ public class BattlerMesh extends Group
 
             if (bf.getComponent(BattlerState.class).getState() == BattlerStates.READY)
             {
-                castTime.setWidth(hostBody.getWidth());
-                castTime.setPosition(getPad(pad),height+ currentSpell.getHeight() + (100 * scale));
+                castTime.setWidth(currentSpell.getWidth());
+                castTime.setPosition(spellPosition.x,spellPosition.y+ currentSpell.getHeight() + (20 * scale));
                 addActor(castTime);
             }
 
@@ -162,6 +163,7 @@ public class BattlerMesh extends Group
         hostBody.flip(a,b);
         health.setPosition(getPad(pad),-200);
         mana.setPosition(getPad(pad),-250);
+        spellPosition = new Vector2(Math.abs(spellPosition.x),spellPosition.y);
         manaLabel.setPosition(getPad(pad) +mana.getWidth()/2 - manaLabel.getWidth()/2,-250);
         healthLabel.setPosition(getPad(pad) + health.getWidth()/2 - healthLabel.getWidth()/2,-200);
         if (isFlip)

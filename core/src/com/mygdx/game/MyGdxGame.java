@@ -15,8 +15,8 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 public class MyGdxGame extends Game {
 	SpriteBatch batch;
 
-	public static int gameWidth = 1080;
-	public static int gameHeight = 1920;
+	public static int gameWidth = 2400;
+	public static int gameHeight = 1500;
 
 	SingleGame currentGame;
 	public static Skin skin;

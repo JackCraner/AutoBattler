@@ -8,12 +8,13 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.viewport.FillViewport;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import com.mygdx.game.CombatLogic.Battler;
 import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.Screens.BuyPhase.Components.BuyGUI;
 import com.mygdx.game.Screens.BuyPhase.Components.Deck;
 import com.mygdx.game.Screens.BuyPhase.Components.Shop;
 import com.mygdx.game.SingleGame;
@@ -39,6 +40,8 @@ public class BuyScene extends ScreenAdapter
     BuySceneMultiplexer handler;
 
     ParticleEffect poisonParticles;
+
+    Label l;
     public BuyScene(SingleGame g, Battler p)
     {
 
@@ -50,8 +53,8 @@ public class BuyScene extends ScreenAdapter
         viewport = new FillViewport(MyGdxGame.gameWidth,MyGdxGame.gameHeight, oC);
         stage = new Stage(viewport);
         viewport.apply();
-
-
+        l = new Label("Test",MyGdxGame.skin,"try");
+        l.setFontScale(1);
         Gdx.input.setInputProcessor(stage);
 
         //background
@@ -67,6 +70,7 @@ public class BuyScene extends ScreenAdapter
         gui = new BuyGUI(player,game);
         deck = new Deck(player);
         shop = new Shop(this,player,deck);
+        l.setPosition(0,0);
 
 
 
@@ -95,7 +99,9 @@ public class BuyScene extends ScreenAdapter
     public void resize(int width, int height) {
 
         stage.getViewport().update(width,height,true);
-        game.batch.setProjectionMatrix(stage.getCamera().combined);
+        stage.getCamera().position.set(MyGdxGame.gameWidth/2,MyGdxGame.gameHeight/2,0);
+        stage.getCamera().update();
+        l.setPosition(width-100,height-100);
     }
 
     public BuyGUI getGui() {
@@ -109,10 +115,11 @@ public class BuyScene extends ScreenAdapter
         stage.addActor(deck);
         stage.addActor(shop);
         stage.addActor(gui);
+        stage.addActor(l);
 
-        shop.setPosition(80,700);
-        deck.setPosition(80,150);
-        gui.setPosition((float)MyGdxGame.gameWidth/2+30,MyGdxGame.gameHeight - 300);
+        shop.setPosition(530,380);
+        deck.setPosition(420,80);
+        gui.setPosition((float)MyGdxGame.gameWidth/2,MyGdxGame.gameHeight - 200);
         handler = new BuySceneMultiplexer(stage,deck,shop);
         handler.addProcessor(stage);
         Gdx.input.setInputProcessor(handler);

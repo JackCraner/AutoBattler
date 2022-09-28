@@ -20,7 +20,7 @@ import java.util.Random;
 public class Shop extends Group
 {
 
-    float scale = 0.7f;
+    float scale = 0.6f;
 
     int shopSize =3;
     Card card1;
@@ -44,9 +44,9 @@ public class Shop extends Group
         setShop();
 
         rollShopButton = new TextButton("Roll", MyGdxGame.skin);
-        rollShopButton.setSize(150,100);
+        rollShopButton.setSize(200,120);
         rollShopButton.getLabel().setFontScale(1.5f);
-        rollShopButton.setPosition(390,-200);
+        rollShopButton.setPosition(-430,-300);
         rollShopButton.addListener(new InputListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -89,7 +89,7 @@ public class Shop extends Group
         });
 
         card2 = new Card(getRandomSpell(),scale);
-        card2.setPosition(card2.getWidth(),0);
+        card2.setPosition(card2.getWidth() + 30,0);
         card2.addListener(new InputListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -99,7 +99,7 @@ public class Shop extends Group
         });
 
         card3 = new Card(getRandomSpell(),scale);
-        card3.setPosition(card3.getWidth()*2,0);
+        card3.setPosition(card3.getWidth()*2+60,0);
         card3.addListener(new InputListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {

@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.CombatLogic.Battler;
@@ -54,7 +55,7 @@ public class FightScene extends ScreenAdapter
         this.game = g;
 
 
-        viewport = new StretchViewport(MyGdxGame.gameWidth,MyGdxGame.gameHeight);
+        viewport = new FillViewport(MyGdxGame.gameWidth,MyGdxGame.gameHeight);
         stage = new Stage(viewport);
         viewport.apply();
         Gdx.input.setInputProcessor(stage);
@@ -162,9 +163,9 @@ public class FightScene extends ScreenAdapter
 
         stage.addActor(enemyMesh);
         stage.addActor(combatFinish);
-        playerMesh.setPosition(-30,640);
+        playerMesh.setPosition(400,370);
         enemyMesh.flip(true,false);
-        enemyMesh.setPosition(780,640);
+        enemyMesh.setPosition(1250,370);
 
 
 

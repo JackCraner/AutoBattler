@@ -30,7 +30,7 @@ public class BuySceneMultiplexer extends InputMultiplexer
         this.shop = shop;
 
         bin = new Image(new Texture(Gdx.files.local("assets/Bin.png")));
-        bin.setPosition(900,400);
+        bin.setPosition(1600,200);
         bin.setSize(100,100);
         stage.addActor(bin);
         bin.setVisible(false);
@@ -74,7 +74,7 @@ public class BuySceneMultiplexer extends InputMultiplexer
             else
             {
                 d.placeCard(hold);
-                hold.setScale(0.5f);
+                hold.setScale(0.4f);
 
             }
 
