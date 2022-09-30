@@ -4,6 +4,7 @@ package com.mygdx.game.SpellLogic;
 
 
 import com.mygdx.game.SpellLogic.SpellEffect.Effect;
+import com.mygdx.game.SpellLogic.SpellEffect.Enums.EffectType;
 import com.mygdx.game.SpellLogic.SpellEffect.Enums.SpellTypes;
 
 import java.util.ArrayList;
@@ -68,9 +69,20 @@ public class Spell
     public String getEffectDescription()
     {
         String s="";
-        for (Effect e:effects)
+        for (int i = 0;i < effects.length;i++)
         {
-            s += e.printEffect() + " | ";
+            s +=effects[i].printEffect();
+            if (i != effects.length-1)
+            {
+                if (effects[i+1].getType() == EffectType.NEGATIVE)
+                {
+                    s += " but ";
+                }
+                else
+                {
+                    s+=" and ";
+                }
+            }
         }
         return s;
     }

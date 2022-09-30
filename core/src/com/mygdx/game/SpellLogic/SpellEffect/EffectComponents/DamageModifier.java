@@ -17,7 +17,7 @@ public class DamageModifier extends IsEffectComponent
     }
     @Override
     public String printEffect() {
-        return null;
+        return (stages>0?"Increase " : " Decrease ") + getTarget().getName(0) + " " + type.name() + " Damage by " + stages + " stages";
     }
 
     public DamageTypes getType() {

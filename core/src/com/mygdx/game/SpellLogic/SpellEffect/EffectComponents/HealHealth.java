@@ -16,7 +16,7 @@ public class HealHealth extends IsEffectComponent
 
     @Override
     public String printEffect() {
-        return "Heal " +getTarget().name() + " By " + getStrength();
+        return "Increase " + getTarget().getName(0) + " Health by " + getStrength();
     }
 
     @Override

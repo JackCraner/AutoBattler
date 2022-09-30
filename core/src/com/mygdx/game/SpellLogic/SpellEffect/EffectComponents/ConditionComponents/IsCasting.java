@@ -24,6 +24,6 @@ public class IsCasting extends IsConditionComponent{
 
     @Override
     public String print() {
-        return "If " + target.name() + " is casting " + spellType.name();
+        return target.name() + " is casting " + spellType.name();
     }
 }

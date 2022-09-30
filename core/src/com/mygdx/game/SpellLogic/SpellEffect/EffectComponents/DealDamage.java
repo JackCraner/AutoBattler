@@ -24,7 +24,7 @@ public class DealDamage extends IsEffectComponent
 
     @Override
     public String printEffect() {
-        return "Deal " + getStrength() + " " + type.name() + " Damage to" + getType();
+        return "Deal " + getStrength() + " " + type.name() + " Damage to " + getTarget().getName(1);
     }
 
     @Override

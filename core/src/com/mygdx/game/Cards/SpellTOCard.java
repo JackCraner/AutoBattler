@@ -24,7 +24,7 @@ public class SpellTOCard implements CanCard
 
     @Override
     public String getDescription() {
-        return spell.getDescription();
+        return spell.getEffectDescription();
     }
 
     @Override

@@ -30,7 +30,7 @@ public class SingleGame extends ScreenAdapter
         this.parent = parent;
         this.batch = parent.batch;
         this.player = new Battler(20,50,new ModifierArray(),new ModifierArray(),new Spell[]{});
-        player.getSpellList().addItem(SpellFactory.FIRE2_1.getSpell());
+        player.getSpellList().addItem(SpellFactory.FIRE0_1.getSpell());
         livesLeft = 3;
         parent.setScreen(new BuyScene(this,player));
     }

@@ -23,7 +23,7 @@ public class ChangeStatus extends IsEffectComponent{
 
     @Override
     public String printEffect() {
-        return "Stun Target" ;
+        return newState.name() + getTarget().getName(0) ;
     }
 
     @Override

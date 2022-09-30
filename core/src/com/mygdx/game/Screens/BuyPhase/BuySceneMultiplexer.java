@@ -6,34 +6,40 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.mygdx.game.Cards.Card;
+import com.mygdx.game.CombatLogic.Battler;
 import com.mygdx.game.Screens.BuyPhase.Components.Deck;
 import com.mygdx.game.Screens.BuyPhase.Components.Shop;
 
 public class BuySceneMultiplexer extends InputMultiplexer
 {
+    BuyScene scene;
+    Battler player;
     Deck d;
     Stage stage;
+    Stage ui;
     Shop shop;
 
     Card hold;
     float xOffset;
     float yOffset;
 
-    Image bin;
 
-    public BuySceneMultiplexer(Stage s, Deck d, Shop shop)
+
+    public BuySceneMultiplexer(BuyScene scene,Battler player,Stage s, Stage ui,Deck d, Shop shop)
     {
         this.d= d;
         this.stage = s;
         this.shop = shop;
+        this.ui = ui;
+        this.player = player;
+        this.scene = scene;
 
-        bin = new Image(new Texture(Gdx.files.local("assets/Bin.png")));
-        bin.setPosition(1600,200);
-        bin.setSize(100,100);
-        stage.addActor(bin);
-        bin.setVisible(false);
 
 
     }
@@ -41,32 +47,72 @@ public class BuySceneMultiplexer extends InputMultiplexer
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         Vector2 coord = stage.screenToStageCoordinates(new Vector2(screenX,screenY));
-        Actor a = d.hit(coord.x,coord.y,true);
-        System.out.println(coord.x + "  " + coord.y);
-        if (a instanceof Card)
+
+
+        if (d.hit(coord.x,coord.y,true) !=null)
         {
 
-            hold = (Card)d.hit(coord.x,coord.y,true);
+            Actor a = d.hit(coord.x,coord.y,true);
+            if (a instanceof Card)
+            {
 
-            xOffset = coord.x - hold.getX();
-            yOffset = coord.y - hold.getY();
-            hold.setScale(0.8f);
-            d.holdCard(hold);
-            bin.setVisible(true);
+                hold = (Card)a;
 
+                xOffset = coord.x - hold.getX();
+                yOffset = coord.y - hold.getY();
+                hold.setScale(1.3f);
+                d.holdCard(hold);
+                d.setBinVisibility(true);
+                System.out.println("Bin On");
+            }
         }
+
+
         return super.touchDown(screenX, screenY, pointer, button);
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         Vector2 coord = stage.screenToStageCoordinates(new Vector2(screenX,screenY));
+
+
+        if (ui.hit(coord.x,coord.y,true) != null)
+        {
+            Actor a = ui.hit(coord.x,coord.y,true);
+
+            if (a instanceof Label)
+            {
+                Label tb = (Label) a;
+                if (tb.textEquals("Roll"))
+                {
+                    shop.rollShop(player,true);
+                    updateManaBar();
+                }
+                else if (tb.textEquals("Confirm"))
+                {
+                    scene.game.findOpponent();
+                }
+            }
+        }
+        if (shop.hit(coord.x,coord.y,true)!=null)
+        {
+            Actor a = shop.hit(coord.x,coord.y,true);
+            System.out.println("Shop");
+            if (a instanceof Card)
+            {
+                shop.buyCard(player,(Card)a);
+                d.setDeck();
+                updateManaBar();
+            }
+        }
+
         if (hold!=null)
         {
 
-            if (coord.x > bin.getX() && coord.x<bin.getX()+bin.getWidth() && coord.y>bin.getY() && coord.y<bin.getY()+ bin.getHeight())
+            Actor a = d.hit(coord.x,coord.y,true);
+            if (a instanceof Image)
             {
-                System.out.println("Bin");
+
                 d.sellCard(hold);
                 hold.remove();
 
@@ -74,11 +120,12 @@ public class BuySceneMultiplexer extends InputMultiplexer
             else
             {
                 d.placeCard(hold);
-                hold.setScale(0.4f);
+                hold.setScale(0.5f);
 
             }
 
-            bin.setVisible(false);
+            d.setBinVisibility(false);
+
             hold=null;
         }
 
@@ -112,5 +159,16 @@ public class BuySceneMultiplexer extends InputMultiplexer
 
         return super.touchDragged(screenX, screenY, pointer);
     }
+
+    private void updateManaBar()
+    {
+        ProgressBar bar = scene.getRootTable().findActor("ManaBar");
+        Label label = scene.getRootTable().findActor("ManaLabel");
+
+        bar.setValue(player.getCurrentMana());
+        label.setText(Integer.toString(player.getCurrentMana()));
+
+    }
+
 
 }

@@ -2,6 +2,7 @@ package com.mygdx.game.SpellLogic.SpellEffect.EffectComponents;
 
 import com.mygdx.game.CombatLogic.BattlerFrames.BattlerFrame;
 import com.mygdx.game.CombatLogic.EffectSystems.RemoveStatusSystem;
+import com.mygdx.game.SpellLogic.SpellEffect.Enums.TargetType;
 
 public class RemoveStatus extends IsEffectComponent
 {
@@ -24,7 +25,7 @@ public class RemoveStatus extends IsEffectComponent
 
     @Override
     public String printEffect() {
-        return null;
+        return "Cleanse " + (strength==-1?"All":strength) + " Stacks of " + (statusName=="Random"?"a Random Status":statusName) + (getTarget()== TargetType.OTHER?" Off " + getTarget().getName(1):"");
     }
 
     @Override

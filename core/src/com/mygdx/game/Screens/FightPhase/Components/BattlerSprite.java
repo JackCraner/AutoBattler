@@ -1,4 +1,4 @@
-package com.mygdx.game.Screens.FightPhase;
+package com.mygdx.game.Screens.FightPhase.Components;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;

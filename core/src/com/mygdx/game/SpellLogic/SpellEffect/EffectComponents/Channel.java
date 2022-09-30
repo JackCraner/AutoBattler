@@ -25,7 +25,7 @@ public class Channel extends IsEffectComponent
 
     @Override
     public String printEffect() {
-        return "Channel";
+        return effect.printEffect() + " For each Consecutive Cast";
     }
 
     @Override

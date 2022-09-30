@@ -4,10 +4,10 @@ package com.mygdx.game.SpellLogic.SpellEffect.EffectComponents;
 import com.mygdx.game.CombatLogic.BattlerFrames.BattlerFrame;
 import com.mygdx.game.CombatLogic.EffectSystems.GainManaSystem;
 
-public class GainMana extends IsEffectComponent
+public class GainLoseMana extends IsEffectComponent
 {
     private int strength;
-    public GainMana(int strength)
+    public GainLoseMana(int strength)
     {
         this.strength= strength;
     }
@@ -18,7 +18,7 @@ public class GainMana extends IsEffectComponent
 
     @Override
     public String printEffect() {
-        return null;
+        return (strength>0?"Increase ":"Decrease ") + getTarget().getName(0) + " Mana by " + getStrength();
     }
 
     @Override
@@ -28,6 +28,6 @@ public class GainMana extends IsEffectComponent
 
     @Override
     public IsEffectComponent clone() {
-        return new GainMana(strength);
+        return new GainLoseMana(strength);
     }
 }

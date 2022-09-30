@@ -34,11 +34,30 @@ public class ConditionObject
     }
     public String print()
     {
-        String s = "";
-        for (IsConditionComponent cc:conditionComponents)
+        String s = "If";
+        String end =" then ";
+        Iterator<IsConditionComponent> i = conditionComponents.iterator();
+        if (conditionComponents.size() == 1  && getComponent(Chance.class) != null)
         {
-            s += cc.print() + "\n";
+            return getComponent(Chance.class).print() + " to ";
         }
-        return s;
+        while(i.hasNext())
+        {
+            IsConditionComponent nextComponent = i.next();
+            if (nextComponent instanceof Chance)
+            {
+                end = " and " + nextComponent.print() + " to ";
+            }
+            else
+            {
+                s += i.next().print();
+                if (i.hasNext())
+                {
+                    s += " and ";
+                }
+            }
+
+        }
+        return s+end;
     }
 }

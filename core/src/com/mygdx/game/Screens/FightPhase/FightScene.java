@@ -11,7 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.FillViewport;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.CombatLogic.Battler;
 import com.mygdx.game.CombatLogic.BattlerFrames.BattleFrameComponents.HealthComponent;
@@ -20,6 +19,7 @@ import com.mygdx.game.CombatLogic.BattlerFrames.BattlerFrame;
 import com.mygdx.game.CombatLogic.FightFrame;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.CombatLogic.CombatManager;
+import com.mygdx.game.Screens.FightPhase.Components.BattlerMesh;
 import com.mygdx.game.SingleGame;
 
 import java.util.LinkedList;
@@ -49,9 +49,9 @@ public class FightScene extends ScreenAdapter
     public FightScene(SingleGame g, Battler p, Battler e)
     {
         this.player = p;
-        this.playerMesh = new BattlerMesh(player);
+        this.playerMesh = new BattlerMesh(player,1f);
         this.enemy = e;
-        this.enemyMesh = new BattlerMesh(enemy);
+        this.enemyMesh = new BattlerMesh(enemy,1f);
         this.game = g;
 
 
@@ -68,7 +68,7 @@ public class FightScene extends ScreenAdapter
         combatFinish = new TextButton("Next", MyGdxGame.skin);
         combatFinish.setSize(150,100);
         combatFinish.getLabel().setFontScale(1.5f);
-        combatFinish.setPosition(MyGdxGame.gameWidth/2,200);
+        combatFinish.setPosition(MyGdxGame.gameWidth/2,500);
         combatFinish.addListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
@@ -163,9 +163,9 @@ public class FightScene extends ScreenAdapter
 
         stage.addActor(enemyMesh);
         stage.addActor(combatFinish);
-        playerMesh.setPosition(400,370);
+        playerMesh.setPosition(500,700);
         enemyMesh.flip(true,false);
-        enemyMesh.setPosition(1250,370);
+        enemyMesh.setPosition(1550,700);
 
 
 

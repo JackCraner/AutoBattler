@@ -1,6 +1,7 @@
 package com.mygdx.game.SpellLogic.SpellEffect;
 
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.IsEffectComponent;
+import com.mygdx.game.SpellLogic.SpellEffect.Enums.EffectType;
 import com.mygdx.game.SpellLogic.SpellEffect.Enums.TargetType;
 
 
@@ -12,11 +13,21 @@ public class Effect
 
     private ArrayList<IsEffectComponent> effectComponents = new ArrayList<>();
     private TargetType target;
-
+    private EffectType type;
     public Effect(TargetType targetType)
     {
-        this.target = targetType;
+        this(targetType,EffectType.POSITIVE);
     }
+    public Effect(TargetType target, EffectType type)
+    {
+        this.target = target;
+        this.type = type;
+    }
+
+    public EffectType getType() {
+        return type;
+    }
+
     public <T extends IsEffectComponent> T getComponent(Class<T> componentClass)
     {
         for (IsEffectComponent ec: effectComponents)
@@ -37,9 +48,13 @@ public class Effect
     public String printEffect()
     {
         String s = "";
-        for (IsEffectComponent e: effectComponents)
+        for (int i = 0;i<effectComponents.size();i++)
         {
-            s += e.printEffect() + " : ";
+            s += effectComponents.get(i).printEffect();
+            if (i != effectComponents.size() - 1)
+            {
+                s += " and ";
+            }
         }
         return s;
     }

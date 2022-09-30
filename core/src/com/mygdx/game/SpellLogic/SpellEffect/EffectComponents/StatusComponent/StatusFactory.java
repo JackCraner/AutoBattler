@@ -18,6 +18,7 @@ import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.StatusComponent.Ti
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.StatusComponent.TickTypes.OnSpellBased;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.StatusComponent.TickTypes.TickBased;
 import com.mygdx.game.SpellLogic.SpellEffect.Enums.DamageTypes;
+import com.mygdx.game.SpellLogic.SpellEffect.Enums.ModifierType;
 import com.mygdx.game.SpellLogic.SpellEffect.Enums.TargetType;
 
 public class StatusFactory
@@ -98,7 +99,7 @@ public class StatusFactory
     public StatusObject getMoonFire()
     {
         return new StatusObject(StaticStatus.MOONFIRE.getName(),new OnSpellBased(),new Effect(TargetType.SELF){{
-            addComponent(new ChangeCost(1));
+            addComponent(new ChangeCost(1, ModifierType.ABSOLUTE));
         }});
     }
 

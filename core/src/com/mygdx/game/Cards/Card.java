@@ -49,7 +49,7 @@ public class Card extends Group
         addActor(spellTitle);
 
         spellDescription = new Label(spell.getDescription(), MyGdxGame.skin,"default");
-        spellDescription.setFontScale(scale*1.2f);
+        spellDescription.setFontScale(scale*1.4f);
         spellDescription.setWrap(true);
         spellDescription.setAlignment(Align.center);
         spellDescription.setWidth(270 * scale);

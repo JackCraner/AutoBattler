@@ -29,6 +29,6 @@ public class HasEffect extends IsConditionComponent
 
     @Override
     public String print() {
-        return "If " + target.name() + " Has " + requiredEffect;
+        return  target.getName(0) + " has " +(num>1?"atleast " + num + " Stack of ":"")+ requiredEffect;
     }
 }

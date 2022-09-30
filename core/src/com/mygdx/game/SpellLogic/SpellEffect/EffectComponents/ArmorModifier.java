@@ -25,7 +25,7 @@ public class ArmorModifier extends IsEffectComponent
 
     @Override
     public String printEffect() {
-        return null;
+        return (mod>0?"Increase " : " Decrease ") + getTarget().getName(0) + " " + type.name() + " Resistance by " + mod +" stages";
     }
 
     @Override

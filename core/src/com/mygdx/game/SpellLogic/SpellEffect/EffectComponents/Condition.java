@@ -15,7 +15,7 @@ public class Condition extends IsEffectComponent
     private Effect onSuccess;
     public Condition(ConditionObject type, Effect onSuccess)
     {
-        this(type,onSuccess,new Effect(TargetType.SELF));
+        this(type,onSuccess,null);
     }
     public Condition(ConditionObject type,Effect onSuccess, Effect onFail)
     {
@@ -48,7 +48,7 @@ public class Condition extends IsEffectComponent
     }
     @Override
     public String printEffect() {
-        return "If " + type.print() + "Then " + onSuccess.printEffect() +   " Else do " + (hasOnFail()?onFail.printEffect():"");
+        return type.print()  + onSuccess.printEffect() + (hasOnFail()?" Else do " + onFail.printEffect():"");
     }
 
     @Override

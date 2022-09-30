@@ -22,14 +22,18 @@ import com.mygdx.game.SpellLogic.SpellEffect.Enums.TargetType;
 
 public enum SpellFactory
 {
-    FIRE0_1(SpellSplash.FIRE3STRIKE,new Spell(SpellTypes.FIRE,"Fireball",2,4,new Effect(TargetType.OTHER) {{
+    FIRE0_1(SpellSplash.FIRE3STRIKE,new Spell(SpellTypes.FIRE,"Fireball",0,1,new Effect(TargetType.OTHER) {{
         addComponent(new DealDamage(2, DamageTypes.FIRE));
     }})),
-    FIRE1_1(SpellSplash.FIREASTROID,new Spell(SpellTypes.FIRE,"Fire Bomb",2,1,new Effect(TargetType.OTHER) {{
-        addComponent(new DealDamage(5, DamageTypes.FIRE));
+    FIRE0_2(SpellSplash.FIREHAND,new Spell(SpellTypes.FIRE,"Ember",0,2,new Effect(TargetType.OTHER) {{
+        addComponent(new Condition(new ConditionObject(){{
+            addComponent(new Chance(50));
+        }},new Effect(TargetType.OTHER){{
+            addComponent(new ApplyStatus(5,StatusFactory.instance.getBurn()));
+        }}));
     }})),
-    FIRE2_1(SpellSplash.FIREPYROBLAST,new Spell(SpellTypes.FIRE,"Fire Clap",2,1,new Effect(TargetType.OTHER) {{
-        addComponent(new DealDamage(7, DamageTypes.FIRE));
+    FIRE1_0(SpellSplash.FIREPYROBLAST,new Spell(SpellTypes.FIRE,"Fire Clap",2,1,new Effect(TargetType.OTHER) {{
+        addComponent(new ApplyStatus(5,StatusFactory.instance.getBurn()));
     }})),
     /**
     SHUTUP(new Spell(SpellTypes.NATURE,"Shutup",2,20,new Effect(TargetType.OTHER){{
