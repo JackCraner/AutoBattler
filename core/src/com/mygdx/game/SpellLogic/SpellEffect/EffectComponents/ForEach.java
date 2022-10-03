@@ -20,7 +20,7 @@ public class ForEach extends IsEffectComponent
 
     @Override
     public String printEffect() {
-        return "For every " + ratio+ " Stacks of " + determinant + " On "+getTarget().getName(1)+ " do " + effect.printEffect();
+        return "For every " + ratio+ " Stacks of " + determinant + " On "+getTarget().getName(1)+" " + effect.printEffect();
     }
 
     public int getRatio() {

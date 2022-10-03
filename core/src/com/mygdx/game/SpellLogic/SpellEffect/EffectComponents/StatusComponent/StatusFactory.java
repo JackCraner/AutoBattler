@@ -1,6 +1,7 @@
 package com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.StatusComponent;
 
 
+import com.mygdx.game.AssetFinder.SpellSplash;
 import com.mygdx.game.CombatLogic.BattlerFrames.BattlerStates;
 import com.mygdx.game.SpellLogic.SpellEffect.Effect;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.ApplyStatus;
@@ -31,7 +32,7 @@ public class StatusFactory
 
     public StatusObject getBurn()
     {
-        return new StatusObject(StaticStatus.BURN.getName(), new TickBased(3,true),new Effect(TargetType.SELF){{
+        return new StatusObject(StaticStatus.BURN.getName(), StaticStatus.BURN.getIcon(), new TickBased(3,false),new Effect(TargetType.SELF){{
             addComponent(new ForEach(1,"Burn",new Effect(TargetType.SELF){{
                 addComponent(new DealDamage(1, DamageTypes.FIRE));
             }}));
@@ -40,7 +41,7 @@ public class StatusFactory
     }
     public StatusObject getPoison()
     {
-        return new StatusObject(StaticStatus.POISON.getName(), new TickBased(3,true),new Effect(TargetType.SELF){{
+        return new StatusObject(StaticStatus.POISON.getName(),StaticStatus.POISON.getIcon(), new TickBased(3,true),new Effect(TargetType.SELF){{
             addComponent(new ForEach(1,"Poison",new Effect(TargetType.SELF){{
                 addComponent(new DealDamage(1,DamageTypes.FIRE));
             }}));
@@ -49,7 +50,7 @@ public class StatusFactory
     }
     public StatusObject getFreeze()
     {
-        return new StatusObject(StaticStatus.FREEZE.getName(),new TickBased(1,false),new Effect(TargetType.SELF){{
+        return new StatusObject(StaticStatus.FREEZE.getName(),StaticStatus.FREEZE.getIcon(), new TickBased(1,false),new Effect(TargetType.SELF){{
             addComponent(new Condition(new ConditionObject(){{
                 addComponent(new HasEffect(10,"Freeze",TargetType.SELF));
             }}, new Effect(TargetType.SELF){{
@@ -59,7 +60,7 @@ public class StatusFactory
     }
     public StatusObject getFrozen()
     {
-        return new StatusObject(StaticStatus.FROZEN.getName(),new DurationBased(new Effect(TargetType.SELF){{
+        return new StatusObject(StaticStatus.FROZEN.getName(),StaticStatus.FROZEN.getIcon(), new DurationBased(new Effect(TargetType.SELF){{
             addComponent(new ChangeStatus(BattlerStates.READY));
         }}),new Effect(TargetType.SELF){{
             addComponent(new ChangeStatus(BattlerStates.STUNNED));
@@ -68,7 +69,7 @@ public class StatusFactory
     }
     public StatusObject getBrittle()
     {
-        return new StatusObject(StaticStatus.BRITTLE.getName(),new TickBased(1,false),new Effect(TargetType.SELF){{
+        return new StatusObject(StaticStatus.BRITTLE.getName(),StaticStatus.BRITTLE.getIcon(), new TickBased(1,false),new Effect(TargetType.SELF){{
             addComponent(new Condition(new ConditionObject(){{
                 addComponent(new HasEffect(10,StaticStatus.BRITTLE.getName(), TargetType.SELF));
             }},new Effect(TargetType.SELF){{
@@ -78,7 +79,7 @@ public class StatusFactory
     }
     public StatusObject getBroken()
     {
-        return new StatusObject(StaticStatus.BROKEN.getName(),new DurationBased(new Effect(TargetType.SELF){{
+        return new StatusObject(StaticStatus.BROKEN.getName(),StaticStatus.BROKEN.getIcon(), new DurationBased(new Effect(TargetType.SELF){{
             for (DamageTypes t: DamageTypes.values())
             {
                 addComponent(new ArmorModifier(t,1));
@@ -93,12 +94,12 @@ public class StatusFactory
     }
     public StatusObject getWindRush()
     {
-        return new StatusObject(StaticStatus.WINDRUSH.getName(), new TickBased(1,false),new Effect(TargetType.SELF){{
+        return new StatusObject(StaticStatus.WINDRUSH.getName(),StaticStatus.WINDRUSH.getIcon(), new TickBased(1,false),new Effect(TargetType.SELF){{
         }});
     }
     public StatusObject getMoonFire()
     {
-        return new StatusObject(StaticStatus.MOONFIRE.getName(),new OnSpellBased(),new Effect(TargetType.SELF){{
+        return new StatusObject(StaticStatus.MOONFIRE.getName(),StaticStatus.MOONFIRE.getIcon(), new OnSpellBased(),new Effect(TargetType.SELF){{
             addComponent(new ChangeCost(1, ModifierType.ABSOLUTE));
         }});
     }
@@ -118,10 +119,18 @@ public class StatusFactory
     public StatusObject getDamageModifier(final DamageTypes type, final int strength)
     {
         //sus
-        return new StatusObject(type.name() + " Modifier", new DurationBased(new Effect(TargetType.SELF){{
+        return new StatusObject(type.name() + " Modifier","assets/SpellSplash/Status/"+type.name()+" Modifier.png", new DurationBased(new Effect(TargetType.SELF){{
             addComponent(new DamageModifier(-strength,type));
         }}),new Effect(TargetType.SELF){{
             addComponent(new DamageModifier(strength,type));
+        }});
+    }
+    public StatusObject getStun(String name, String icon)
+    {
+        return new StatusObject(name, icon, new DurationBased(new Effect(TargetType.SELF){{
+            addComponent(new ChangeStatus(BattlerStates.READY));
+        }}), new Effect(TargetType.OTHER){{
+            addComponent(new ChangeStatus(BattlerStates.STUNNED));
         }});
     }
 

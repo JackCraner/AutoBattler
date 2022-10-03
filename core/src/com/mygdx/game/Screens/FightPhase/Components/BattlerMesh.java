@@ -30,6 +30,7 @@ import com.mygdx.game.SingleGame;
 
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class BattlerMesh extends Group
 {
@@ -218,7 +219,9 @@ class StatusRow extends Group
 
         public StatusBox(EffectOnBattler status)
         {
-            icon = new Image(new Texture(Gdx.files.local("assets/SpellSplash/Status/" + StaticToIcon.converter.get(status.getStatusObject().getStatus_name()) + ".png")));
+            System.out.println(StaticToIcon.converter.get(status.getStatusObject().getStatus_name()));
+
+            icon = new Image(new Texture(Gdx.files.local(status.getStatusObject().getStatus_icon())));
             icon.setSize(100,100);
             stack = new Label(Integer.toString(status.getStackNumber()),MyGdxGame.skin,"try");
             stack.setSize(80,80);

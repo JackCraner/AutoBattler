@@ -2,16 +2,19 @@ package com.mygdx.game.CombatLogic.EffectSystems;
 
 import com.mygdx.game.CombatLogic.BattlerFrames.BattleFrameComponents.CastComponent;
 import com.mygdx.game.CombatLogic.BattlerFrames.BattleFrameComponents.EffectListComponent;
+import com.mygdx.game.CombatLogic.BattlerFrames.BattleFrameComponents.SpellListComponent;
 import com.mygdx.game.CombatLogic.BattlerFrames.BattlerFrame;
 import com.mygdx.game.CombatLogic.BattlerFrames.EffectOnBattler;
 import com.mygdx.game.CombatLogic.CombatSystems.CastSystem;
+import com.mygdx.game.SpellLogic.Spell;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.Condition;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.ConditionComponents.Chance;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.ConditionComponents.ConditionObject;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.ConditionComponents.HasEffect;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.ConditionComponents.IsCasting;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.ConditionComponents.IsConditionComponent;
-
+import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.ConditionComponents.Unique;
+import com.mygdx.game.SpellLogic.SpellEffect.Enums.TargetType;
 
 
 import java.util.Iterator;
@@ -32,8 +35,16 @@ public class ConditionSystem implements IsEffectSystem<Condition>
 
         ConditionObject conditionType = effect.getType();
         boolean check = checkCondition(conditionType, battlers);
+        if (check)
+        {
+            CastSystem.instance.routeEffect(effect.getEffect(check), battlers);
+        }
+        else if (!check & effect.hasOnFail())
+        {
+            CastSystem.instance.routeEffect(effect.getEffect(check), battlers);
+        }
 
-        CastSystem.instance.routeEffect(effect.getEffect(check), battlers);
+
     }
     public boolean checkCondition(ConditionObject cObject, BattlerFrame[] battlers)
     {
@@ -52,6 +63,10 @@ public class ConditionSystem implements IsEffectSystem<Condition>
             else if (cc instanceof IsCasting)
             {
                 stepper =isCasting((IsCasting) cc,battlers[((IsCasting) cc).getTarget().getValue()]);
+            }
+            else if (cc instanceof Unique)
+            {
+                stepper = unique((Unique)cc,battlers[TargetType.SELF.getValue()]);
             }
 
             if (!stepper)
@@ -98,6 +113,19 @@ public class ConditionSystem implements IsEffectSystem<Condition>
             return true;
         }
         return false;
+    }
+    public boolean unique(Unique type, BattlerFrame target)
+    {
+        String spellName = target.getComponent(CastComponent.class).getSpell().getName();
+        int counter = 0;
+        for (Spell s: target.getComponent(SpellListComponent.class).getSpellList())
+        {
+            if (s.getName() == spellName)
+            {
+                counter ++;
+            }
+        }
+        return (counter<=1);
     }
 
 

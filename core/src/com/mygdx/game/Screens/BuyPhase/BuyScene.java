@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -129,6 +131,8 @@ public class BuyScene extends ScreenAdapter
     @Override
     public void show() {
         super.show();
+        handler = new BuySceneMultiplexer(this,player,stage,ui,deck,shop);
+
         stage.addActor(scene);
         stage.addActor(shop);
         stage.addActor(deck);
@@ -139,8 +143,8 @@ public class BuyScene extends ScreenAdapter
         shop.setPosition(MyGdxGame.gameWidth/2,800);
         deck.setPosition(420,150);
         //gui.setPosition((float)MyGdxGame.gameWidth/2,MyGdxGame.gameHeight - 200);
-        handler = new BuySceneMultiplexer(this,player,stage,ui,deck,shop);
 
+        handler.addProcessor(ui);
         Gdx.input.setInputProcessor(handler);
     }
     @Override
@@ -173,11 +177,12 @@ public class BuyScene extends ScreenAdapter
         float tableWidth = Gdx.graphics.getWidth();
         float singleCell = tableWidth/20;
 
+        System.out.println(player.getCurrentMana() + "  " + player.getMaxMana());
         manaBar = new ProgressBar(0,player.getMaxMana(),1f,false, MyGdxGame.skin);
         manaBar.setColor(Color.BLUE);
         manaBar.setValue(player.getCurrentMana());
 
-        manaLabel = new Label(Integer.toString(player.getCurrentMana()),MyGdxGame.skin,"try");
+        manaLabel = new Label(Integer.toString(player.getCurrentMana()) + " / " + player.getMaxMana(),MyGdxGame.skin,"try");
         manaLabel.setFontScale(Gdx.graphics.getDensity()/1.3f);
         manaLabel.setAlignment(Align.center);
 
@@ -218,11 +223,11 @@ public class BuyScene extends ScreenAdapter
 
         finishButton = new TextButton("Confirm", MyGdxGame.skin);
         finishButton.getLabel().setFontScale(Gdx.graphics.getDensity());
-        finishButton.addListener(new EventListener() {
+        finishButton.addListener(new InputListener() {
             @Override
-            public boolean handle(Event event) {
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 game.findOpponent();
-                return true;
+                return super.touchDown(event, x, y, pointer, button);
             }
         });
 
@@ -244,6 +249,15 @@ public class BuyScene extends ScreenAdapter
         uiTable.pack();
         innerUI.pack();
         bottomButtons.pack();
+
+        rollButton.addListener(new InputListener(){
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                handler.rollButtonExecute();
+                return super.touchDown(event, x, y, pointer, button);
+            }
+        });
+
         manaBar.setName("ManaBar");
         manaLabel.setName("ManaLabel");
 

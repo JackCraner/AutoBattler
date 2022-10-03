@@ -13,6 +13,11 @@ public class DealDamage extends IsEffectComponent
         this.strength= strength;
         this.type = type;
     }
+    public DealDamage(float strength)
+    {
+        this.strength= strength;
+        this.type = DamageTypes.NEUTRAL;
+    }
 
     public DamageTypes getType() {
         return type;
@@ -24,7 +29,7 @@ public class DealDamage extends IsEffectComponent
 
     @Override
     public String printEffect() {
-        return "Deal " + getStrength() + " " + type.name() + " Damage to " + getTarget().getName(1);
+        return "Deal " + getStrength() + (type==DamageTypes.NEUTRAL?"":" "+type.name()) + " Damage to " + getTarget().getName(1);
     }
 
     @Override

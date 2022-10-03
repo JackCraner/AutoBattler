@@ -42,7 +42,7 @@ public class CombatManager {
         bfs.addComponent(new SpellListComponent(b.getSpellList()));
         bfs.addComponent(new CastComponent(b.getSpellList().getCurrent()));
         bfs.addComponent(new HealthComponent(b.getHealth()));
-        bfs.addComponent(new ManaComponent(b.getCurrentMana(),b.getCurrentMana()));
+        bfs.addComponent(new ManaComponent(b.getMaxMana(),b.getCurrentMana()));
         return bfs;
     }
 
@@ -142,7 +142,7 @@ public class CombatManager {
                 {
                     CastTimeSystem.instance.resetCastTime(newBattlers[i]);
                     newBattlers[i].getComponent(CastComponent.class).setSpell(newBattlers[i].getComponent(SpellListComponent.class).getNext());
-                    newBattlers[i].getComponent(CastComponent.class).setCastTimer(0);
+                    newBattlers[i].getComponent(CastComponent.class).setCastTimer(1);
 
                 }
                     CastTimeSystem.instance.incrementCastTime(newBattlers[i]);
@@ -150,7 +150,7 @@ public class CombatManager {
             }
             else
             {
-                newBattlers[i].getComponent(CastComponent.class).setCastTimer(0);
+                newBattlers[i].getComponent(CastComponent.class).setCastTimer(1);
             }
 
 
@@ -170,7 +170,7 @@ public class CombatManager {
     {
         for (BattlerFrame b: battlers)
         {
-            if (b.getComponent(HealthComponent.class).getCurrentHealth() < 0)
+            if (b.getComponent(HealthComponent.class).getCurrentHealth() <= 0)
             {
                 return true;
             }

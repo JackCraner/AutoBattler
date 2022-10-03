@@ -12,7 +12,7 @@ public class RepeatN extends IsEffectComponent
     private Effect effect;
     public RepeatN(int num, Effect effect)
     {
-        this.numberOfRepeats = num;
+        this.numberOfRepeats = num + 1;
         this.effect = effect;
     }
     public RepeatN(int num)
@@ -34,7 +34,7 @@ public class RepeatN extends IsEffectComponent
 
     @Override
     public String printEffect() {
-        return null;
+        return "Repeat effect " + numberOfRepeats + " times";
     }
 
     @Override

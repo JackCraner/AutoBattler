@@ -72,8 +72,10 @@ public class Spell
         for (int i = 0;i < effects.length;i++)
         {
             s +=effects[i].printEffect();
+
             if (i != effects.length-1)
             {
+
                 if (effects[i+1].getType() == EffectType.NEGATIVE)
                 {
                     s += " but ";

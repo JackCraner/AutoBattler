@@ -36,11 +36,13 @@ public class ConditionObject
     {
         String s = "If";
         String end =" then ";
-        Iterator<IsConditionComponent> i = conditionComponents.iterator();
+
         if (conditionComponents.size() == 1  && getComponent(Chance.class) != null)
         {
             return getComponent(Chance.class).print() + " to ";
         }
+
+        Iterator<IsConditionComponent> i = conditionComponents.iterator();
         while(i.hasNext())
         {
             IsConditionComponent nextComponent = i.next();
@@ -50,7 +52,7 @@ public class ConditionObject
             }
             else
             {
-                s += i.next().print();
+                s += nextComponent.print();
                 if (i.hasNext())
                 {
                     s += " and ";

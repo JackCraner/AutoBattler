@@ -10,17 +10,23 @@ public class StatusObject
     private String status_name;
     private Effect statusEffect;
     private IsTickType type;
-    public StatusObject(String name, IsTickType type, Effect statusEffect)
+    private String status_icon;
+    public StatusObject(String name,String iconLocation, IsTickType type, Effect statusEffect)
     {
         this.status_name = name;
         this.type= type;
-
+        this.status_icon = iconLocation;
         this.statusEffect =statusEffect;
     }
 
 
     public Effect getStatusEffect() {
         return statusEffect;
+    }
+
+    public String getStatus_icon() {
+        return status_icon;
+
     }
 
     public String getStatus_name() {

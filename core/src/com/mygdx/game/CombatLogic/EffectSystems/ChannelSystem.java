@@ -31,11 +31,11 @@ public class ChannelSystem implements  IsEffectSystem<Channel> {
         CastComponent battlerCast = battlers[TargetType.SELF.getValue()].getComponent(CastComponent.class);
         CastSystem.instance.routeEffect(effect.getEffect(), battlers);
 
-        for (int i = battlerHistory.getCastHistoryList().size()-1;i>=0;i--)
-        {
 
+        for (int i = 0;i< battlerHistory.getCastHistoryList().size();i++)
+        {
             Map.Entry<Spell, BattlerStates> currentEntry = battlerHistory.getCastHistoryList().get(i);
-            if (currentEntry.getKey() == battlerCast.getSpell() && currentEntry.getValue() == BattlerStates.READY)
+            if (currentEntry.getKey().getName() == battlerCast.getSpell().getName())
             {
                 CastSystem.instance.routeEffect(effect.getEffect(), battlers);
             }

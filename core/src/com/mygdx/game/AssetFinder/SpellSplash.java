@@ -64,6 +64,33 @@ public enum SpellSplash
     ICESNOWFLAKE("Ice/19"),
     ICESHATTER("Ice/20"),
 
+
+    WINDFINGERTIPS("Wind/1"),
+    WINDPOINT("Wind/2"),
+    WINDSPHERE("Wind/3"),
+    WINDHANDSPHERE("Wind/4"),
+    WINDTHROW("Wind/5"),
+    WINDSHIELD("Wind/6"),
+    WINDGUST("Wind/7"),
+    WINDTHROW2("Wind/8"),
+    WINDSTAFF("Wind/9"),
+    WINDTORNADO("Wind/10"),
+    WINDSTAFF2("Wind/11"),
+    WINDBLOW("Wind/14"),
+    WINDMETEOR("Wind/15"),
+    WINDWING("Wind/16"),
+    WINDPULSE("Wind/20"),
+    WINDWISP("Wind/21"),
+    WINDSTORM("Wind/25"),
+    WINDRAIN("Wind/27"),
+    WIND3STRIKE("Wind/28"),
+    WINDRUNE("Wind/30"),
+    WINDSPEED("Wind/32"),
+    WINDPOTION("Wind/37"),
+    WINDSTRIKE("Wind/46"),
+    WINDTRANSFORM("Wind/45"),
+    WINDENLIGHTEN("Wind/48"),
+    WINDBOMB("Wind/50"),
     ;
 
     private String location;

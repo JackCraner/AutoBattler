@@ -32,7 +32,7 @@ public class ApplyStatus extends IsEffectComponent
     public String printEffect() {
         if (statusObject.getType() instanceof TickBased)
         {
-            return "Apply " + strength + " Stacks of " + statusObject.getStatus_name();
+            return "Apply " + strength + " Stacks of " + statusObject.getStatus_name() + " to " + getTarget().getName(1);
         }
         else if (statusObject.getType() instanceof DurationBased)
         {
@@ -40,7 +40,7 @@ public class ApplyStatus extends IsEffectComponent
         }
         else if (statusObject.getType() instanceof OnSpellBased)
         {
-            return "The next " + strength + " spells have " + statusObject.getStatusEffect().printEffect();
+            return "The next " + (strength>1?strength + " spells have ": " spell has ") + statusObject.getStatusEffect().printEffect();
         }
         return "";
     }

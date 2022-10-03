@@ -2,6 +2,7 @@ package com.mygdx.game.SpellLogic.SpellEffect.EffectComponents;
 
 
 import com.mygdx.game.CombatLogic.BattlerFrames.BattlerFrame;
+import com.mygdx.game.CombatLogic.EffectSystems.HealSystem;
 
 public class HealHealth extends IsEffectComponent
 {
@@ -15,13 +16,18 @@ public class HealHealth extends IsEffectComponent
     }
 
     @Override
-    public String printEffect() {
+    public String printEffect()
+    {
+        if (strength==-1)
+        {
+            return "Set " + getTarget().getName(0) + " Health to Full";
+        }
         return "Increase " + getTarget().getName(0) + " Health by " + getStrength();
     }
 
     @Override
     public void getExecution(BattlerFrame[] battlers) {
-
+        HealSystem.instance.execute(this,battlers);
     }
 
     @Override

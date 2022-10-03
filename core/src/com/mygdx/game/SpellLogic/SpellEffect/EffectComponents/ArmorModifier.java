@@ -14,6 +14,11 @@ public class ArmorModifier extends IsEffectComponent
         this.mod = armorModifier;
         this.type =type;
     }
+    public ArmorModifier(int mod)
+    {
+        this.mod = mod;
+        this.type = DamageTypes.NEUTRAL;
+    }
 
     public DamageTypes getType() {
         return type;
@@ -25,7 +30,7 @@ public class ArmorModifier extends IsEffectComponent
 
     @Override
     public String printEffect() {
-        return (mod>0?"Increase " : " Decrease ") + getTarget().getName(0) + " " + type.name() + " Resistance by " + mod +" stages";
+        return (mod>0?"Increase " : " Decrease ") + getTarget().getName(0) +  (type==DamageTypes.NEUTRAL?" Resistances":" "+type.name() + " Resistance") + " by " + mod +" stages";
     }
 
     @Override

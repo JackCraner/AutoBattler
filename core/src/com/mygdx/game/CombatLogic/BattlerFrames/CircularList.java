@@ -57,7 +57,8 @@ public class CircularList<T>
     public void removeItem(T item)
     {
         list.remove(item);
-        pushList();
+        pointer--;
+
     }
     public List<T> getList() {
         return list;

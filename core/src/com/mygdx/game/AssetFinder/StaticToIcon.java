@@ -5,15 +5,10 @@ import java.util.HashMap;
 public class StaticToIcon
 {
 
+    public static HashMap<String,String> converter = new HashMap<>();
     public static StaticToIcon instance = new StaticToIcon();
     private StaticToIcon()
     {
-
-    }
-
-
-    public static HashMap<String,String> converter = new HashMap<>();
-    {{
         converter.put("Burn","Burn");
         converter.put("Frozen", "Freeze");
         converter.put("Freeze", "8");
@@ -24,5 +19,7 @@ public class StaticToIcon
         converter.put("ICE Modifier", "Ice Modifier");
         converter.put("Moon Fire", "7");
     }
-    }
+
+
+
 }

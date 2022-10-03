@@ -27,7 +27,7 @@ public class ChangeCost extends IsEffectComponent
 
     @Override
     public String printEffect() {
-        return (type==ModifierType.ABSOLUTE?"Change cost of spells to " + newCost: (newCost>0?"Increase ":"Decrease ") + " cost of spells by" + newCost);
+        return (type==ModifierType.ABSOLUTE?"Mana cost of " + newCost: (newCost>0?"Increased ":"Decreased ") + " Mana Cost by " + newCost);
     }
 
     @Override

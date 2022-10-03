@@ -25,7 +25,7 @@ public class GainMaxStat extends IsEffectComponent
 
     @Override
     public String printEffect() {
-        return (strength>0?"Increase ": "Decrease ") + getTarget().getName(0) + " " + type.name() + " by" + strength;
+        return (strength>0?"Increase ": "Decrease ") + getTarget().getName(0)  + type.name() + " Permanently by " + strength;
     }
 
     @Override

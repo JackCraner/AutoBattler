@@ -49,10 +49,10 @@ public class Card extends Group
         addActor(spellTitle);
 
         spellDescription = new Label(spell.getDescription(), MyGdxGame.skin,"default");
-        spellDescription.setFontScale(scale*1.4f);
+        spellDescription.setFontScale(getDescriptionSize());
         spellDescription.setWrap(true);
         spellDescription.setAlignment(Align.center);
-        spellDescription.setWidth(270 * scale);
+        spellDescription.setWidth(280 * scale);
         spellDescription.setPosition(cardSprite.getX() + (float)(cardSprite.getWidth()*0.21),(cardSprite.getY()+(cardSprite.getHeight()*0.25f))-(spellDescription.getHeight()));
         addActor(spellDescription);
 
@@ -134,7 +134,7 @@ public class Card extends Group
     {
 
         spellTitle.setFontScale(scale);
-        spellDescription.setFontScale(scale*1.2f);
+        spellDescription.setFontScale(getDescriptionSize());
         spellCostLabel.setFontScale(scale);
         castTimeLabel.setFontScale(scale);
 
@@ -150,5 +150,10 @@ public class Card extends Group
 
 
     }
+    private float getDescriptionSize()
+    {
+        return (Gdx.graphics.getDensity()/2) * scale;
+    }
+
 
 }

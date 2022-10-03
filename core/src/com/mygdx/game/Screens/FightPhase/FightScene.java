@@ -68,7 +68,7 @@ public class FightScene extends ScreenAdapter
         combatFinish = new TextButton("Next", MyGdxGame.skin);
         combatFinish.setSize(150,100);
         combatFinish.getLabel().setFontScale(1.5f);
-        combatFinish.setPosition(MyGdxGame.gameWidth/2,500);
+        combatFinish.setPosition(MyGdxGame.gameWidth/2,300);
         combatFinish.addListener(new EventListener() {
             @Override
             public boolean handle(Event event) {

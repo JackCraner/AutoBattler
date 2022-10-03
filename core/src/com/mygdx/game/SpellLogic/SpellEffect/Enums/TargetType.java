@@ -4,7 +4,7 @@ public enum TargetType
 {
 
     SELF (0, "Your", "Yourself"),
-    OTHER(1,"The Opponent's", "The Opponent"),
+    OTHER(1,"the Opponent's", "the Opponent"),
     ;
 
     private int value;
@@ -14,6 +14,7 @@ public enum TargetType
     {
         this.value = value;
         this.name = name;
+        this.name2 = name2;
     }
     public String getName(int value)
     {

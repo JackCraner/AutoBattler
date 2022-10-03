@@ -63,7 +63,7 @@ public class BuySceneMultiplexer extends InputMultiplexer
                 hold.setScale(1.3f);
                 d.holdCard(hold);
                 d.setBinVisibility(true);
-                System.out.println("Bin On");
+
             }
         }
 
@@ -76,28 +76,10 @@ public class BuySceneMultiplexer extends InputMultiplexer
         Vector2 coord = stage.screenToStageCoordinates(new Vector2(screenX,screenY));
 
 
-        if (ui.hit(coord.x,coord.y,true) != null)
-        {
-            Actor a = ui.hit(coord.x,coord.y,true);
-
-            if (a instanceof Label)
-            {
-                Label tb = (Label) a;
-                if (tb.textEquals("Roll"))
-                {
-                    shop.rollShop(player,true);
-                    updateManaBar();
-                }
-                else if (tb.textEquals("Confirm"))
-                {
-                    scene.game.findOpponent();
-                }
-            }
-        }
         if (shop.hit(coord.x,coord.y,true)!=null)
         {
             Actor a = shop.hit(coord.x,coord.y,true);
-            System.out.println("Shop");
+
             if (a instanceof Card)
             {
                 shop.buyCard(player,(Card)a);
@@ -166,9 +148,19 @@ public class BuySceneMultiplexer extends InputMultiplexer
         Label label = scene.getRootTable().findActor("ManaLabel");
 
         bar.setValue(player.getCurrentMana());
-        label.setText(Integer.toString(player.getCurrentMana()));
+        label.setText(Integer.toString(player.getCurrentMana())+ " / " + player.getMaxMana());
 
     }
 
+    public void confirmButtonExecute()
+    {
+        scene.game.findOpponent();
+    }
+    public void rollButtonExecute()
+    {
+
+        shop.rollShop(player,true);
+        updateManaBar();
+    }
 
 }

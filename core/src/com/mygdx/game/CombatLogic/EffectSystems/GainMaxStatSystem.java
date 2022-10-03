@@ -23,12 +23,39 @@ public class GainMaxStatSystem implements IsEffectSystem<GainMaxStat> {
         if (effect.getType() == StatType.MANA)
         {
             ManaComponent battlerManaComponent =  battlers[effect.getTarget().getValue()].getComponent(ManaComponent.class);
-            battlerManaComponent.setMaxMana(battlerManaComponent.getMaxMana() + effect.getStrength());
+            if (battlerManaComponent.getMaxMana() + effect.getStrength() > 1)
+            {
+                battlerManaComponent.setMaxMana(battlerManaComponent.getMaxMana() + effect.getStrength());
+            }
+            else
+            {
+                battlerManaComponent.setMaxMana(1);
+            }
+
+            if (battlerManaComponent.getCurrentMana() >= battlerManaComponent.getMaxMana())
+            {
+                battlerManaComponent.setCurrentMana(battlerManaComponent.getMaxMana());
+            }
+
+
         }
         else if (effect.getType() == StatType.HEALTH)
         {
             HealthComponent battlerHealthComponent = battlers[effect.getTarget().getValue()].getComponent(HealthComponent.class);
-            battlerHealthComponent.setMaxHealth(battlerHealthComponent.getMaxHealth() + effect.getStrength());
+            if (battlerHealthComponent.getMaxHealth() + effect.getStrength() > 1)
+            {
+                battlerHealthComponent.setMaxHealth(battlerHealthComponent.getMaxHealth() + effect.getStrength());
+            }
+            else
+            {
+                battlerHealthComponent.setMaxHealth(1);
+            }
+
+            if (battlerHealthComponent.getCurrentHealth() >= battlerHealthComponent.getMaxHealth())
+            {
+                battlerHealthComponent.setCurrentHealth(battlerHealthComponent.getMaxHealth());
+            }
+
         }
     }
 }

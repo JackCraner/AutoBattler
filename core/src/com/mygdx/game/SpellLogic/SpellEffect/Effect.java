@@ -25,6 +25,7 @@ public class Effect
     }
 
     public EffectType getType() {
+
         return type;
     }
 
@@ -69,7 +70,7 @@ public class Effect
     }
     public Effect clone()
     {
-        Effect newClone = new Effect(target);
+        Effect newClone = new Effect(target,type);
         for (IsEffectComponent iec:effectComponents)
         {
             newClone.addComponent(iec.clone());

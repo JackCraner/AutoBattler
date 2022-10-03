@@ -7,6 +7,7 @@ import com.mygdx.game.CombatLogic.BattlerFrames.BattleFrameComponents.HealthComp
 import com.mygdx.game.CombatLogic.BattlerFrames.BattlerFrame;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.DealDamage;
 import com.mygdx.game.SpellLogic.SpellEffect.Enums.DamageTypes;
+import com.mygdx.game.SpellLogic.SpellEffect.Enums.TargetType;
 
 public class DealDamageSystem implements IsEffectSystem<DealDamage>
 {
@@ -22,7 +23,7 @@ public class DealDamageSystem implements IsEffectSystem<DealDamage>
     {
 
         HealthComponent battlerComponent = battlers[effect.getTarget().getValue()].getComponent(HealthComponent.class);
-        BuffArray battlerBuffComponent = battlers[effect.getTarget().getValue()].getComponent(BuffArray.class);
+        BuffArray battlerBuffComponent = battlers[TargetType.SELF.getValue()].getComponent(BuffArray.class);
         ArmorArray battlerArmorComponent = battlers[effect.getTarget().getValue()].getComponent(ArmorArray.class);
         float damageValue = calculateStrength(effect.getStrength(),effect.getType(),battlerArmorComponent.getArmorFor(effect.getType()),battlerBuffComponent.getBuffFor(effect.getType()));
         battlerComponent.setCurrentHealth(battlerComponent.getCurrentHealth() - (int)damageValue);
@@ -32,7 +33,7 @@ public class DealDamageSystem implements IsEffectSystem<DealDamage>
 
     private float calculateStrength(float amount, DamageTypes type, int armorStage, int buffStage)
     {
-        return amount * stageToPercent(buffStage);
+        return amount * (stageToPercent(buffStage) / stageToPercent(armorStage));
 
     }
     private float stageToPercent(int stage)

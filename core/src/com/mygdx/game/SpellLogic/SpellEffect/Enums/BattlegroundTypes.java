@@ -1,13 +1,16 @@
 package com.mygdx.game.SpellLogic.SpellEffect.Enums;
 
 import com.mygdx.game.SpellLogic.SpellEffect.Effect;
+import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.ApplyStatus;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.ArmorModifier;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.Condition;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.ConditionComponents.Chance;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.ConditionComponents.ConditionObject;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.ConditionComponents.IsCasting;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.DealDamage;
+import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.GainLoseMana;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.GainMaxStat;
+import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.StatusComponent.StatusFactory;
 
 import java.util.Random;
 
@@ -33,6 +36,10 @@ public enum BattlegroundTypes
             addComponent(new ArmorModifier(DamageTypes.ROCK,-1));
         }}));
     }}),
+    CATEGORY5(new Effect(TargetType.SELF){{
+        addComponent(new GainLoseMana(-1));
+        addComponent(new ApplyStatus(1, StatusFactory.instance.getWindRush()));
+    }})
     ;
     private Effect effect;
     BattlegroundTypes(Effect e)

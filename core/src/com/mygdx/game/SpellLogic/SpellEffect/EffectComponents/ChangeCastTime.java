@@ -24,7 +24,7 @@ public class ChangeCastTime extends IsEffectComponent{
 
     @Override
     public String printEffect() {
-        return (castTimeType==ModifierType.ABSOLUTE?"Change cast time of spells to " + castTimeModifier: (castTimeModifier>0?"Increase ":"Decrease ") + " cast time of spells by" + castTimeModifier);
+        return (castTimeType==ModifierType.ABSOLUTE?"Cast Time of " + castTimeModifier: (castTimeModifier>0?"Increased ":"Decreased ") + " Cast Time by" + castTimeModifier);
     }
 
     @Override
