@@ -2,6 +2,7 @@ package com.mygdx.game.CombatLogic.CombatSystems;
 
 import com.mygdx.game.CombatLogic.BattlerFrames.BattleFrameComponents.HealthComponent;
 import com.mygdx.game.CombatLogic.BattlerFrames.BattleFrameComponents.ManaComponent;
+import com.mygdx.game.CombatLogic.BattlerFrames.BattleFrameComponents.TurnCounterComponent;
 import com.mygdx.game.CombatLogic.BattlerFrames.BattlerFrame;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.IntReplacement.Absolute;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.IntReplacement.IntFormat;
@@ -69,6 +70,10 @@ public class NumberSystem
         else if (intReplacement.getType() == IntReplacementTypes.CurrentMana)
         {
             return battlers[intReplacement.getTarget().getValue()].getComponent(ManaComponent.class).getCurrentMana();
+        }
+        else if (intReplacement.getType() == IntReplacementTypes.TurnNumber)
+        {
+            return battlers[intReplacement.getTarget().getValue()].getComponent(TurnCounterComponent.class).getTurnCounter();
         }
 
         return 0;

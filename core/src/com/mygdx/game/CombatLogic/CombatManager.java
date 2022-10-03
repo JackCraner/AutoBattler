@@ -11,6 +11,7 @@ import com.mygdx.game.CombatLogic.BattlerFrames.BattleFrameComponents.EffectList
 import com.mygdx.game.CombatLogic.BattlerFrames.BattleFrameComponents.HealthComponent;
 import com.mygdx.game.CombatLogic.BattlerFrames.BattleFrameComponents.ManaComponent;
 import com.mygdx.game.CombatLogic.BattlerFrames.BattleFrameComponents.SpellListComponent;
+import com.mygdx.game.CombatLogic.BattlerFrames.BattleFrameComponents.TurnCounterComponent;
 import com.mygdx.game.CombatLogic.BattlerFrames.BattlerFrame;
 import com.mygdx.game.CombatLogic.BattlerFrames.BattlerStates;
 import com.mygdx.game.CombatLogic.CombatSystems.CastSystem;
@@ -43,6 +44,7 @@ public class CombatManager {
         bfs.addComponent(new CastComponent(b.getSpellList().getCurrent()));
         bfs.addComponent(new HealthComponent(b.getHealth()));
         bfs.addComponent(new ManaComponent(b.getMaxMana(),b.getCurrentMana()));
+        bfs.addComponent(new TurnCounterComponent(0));
         return bfs;
     }
 
@@ -109,7 +111,7 @@ public class CombatManager {
 
         for (int i=startI;defineOrder(i,order);i+=step)
         {
-
+            newBattlers[i].getComponent(TurnCounterComponent.class).setTurnCounter(battlers[i].getComponent(TurnCounterComponent.class).getTurnCounter() + 1);
             ApplyStatusSystem.instance.checkAllStatusEffect(battlers[i],newBattlers[i]);
         }
 

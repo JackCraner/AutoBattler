@@ -30,12 +30,12 @@ public class ApplyStatusSystem implements IsEffectSystem<ApplyStatus> {
             if (effect.getStatusObject().getStatus_name() == eb.getStatusObject().getStatus_name() && StatusFactory.instance.isStatic(effect.getStatusObject().getStatus_name()))
             {
 
-                eb.setStackNumber(eb.getStackNumber() + effect.getStrength());
+                eb.setStackNumber(eb.getStackNumber() + effect.getStrength(battlers));
                 return;
             }
         }
 
-        EffectOnBattler eb = new EffectOnBattler(effect.getStatusObject(),effect.getStrength());
+        EffectOnBattler eb = new EffectOnBattler(effect.getStatusObject(),effect.getStrength(battlers));
         battlerComponentNew.getEffectOnBattlers().add(eb);
         if (effect.getStatusObject().getType() instanceof DurationBased)
         {

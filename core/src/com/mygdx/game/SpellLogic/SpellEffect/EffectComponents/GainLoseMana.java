@@ -13,6 +13,7 @@ public class GainLoseMana extends IsEffectComponent
     public GainLoseMana(IntFormat strength, ChangeType type)
     {
         this.strength = strength;
+        this.type = type;
     }
     public GainLoseMana(int strength)
     {
