@@ -25,7 +25,7 @@ public class DealDamageSystem implements IsEffectSystem<DealDamage>
         HealthComponent battlerComponent = battlers[effect.getTarget().getValue()].getComponent(HealthComponent.class);
         BuffArray battlerBuffComponent = battlers[TargetType.SELF.getValue()].getComponent(BuffArray.class);
         ArmorArray battlerArmorComponent = battlers[effect.getTarget().getValue()].getComponent(ArmorArray.class);
-        float damageValue = calculateStrength(effect.getStrength(),effect.getType(),battlerArmorComponent.getArmorFor(effect.getType()),battlerBuffComponent.getBuffFor(effect.getType()));
+        float damageValue = calculateStrength(effect.getStrength(battlers),effect.getType(),battlerArmorComponent.getArmorFor(effect.getType()),battlerBuffComponent.getBuffFor(effect.getType()));
         battlerComponent.setCurrentHealth(battlerComponent.getCurrentHealth() - (int)damageValue);
     }
 
