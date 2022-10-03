@@ -41,9 +41,9 @@ public class DealDamage extends IsEffectComponent
     }
 
     @Override
-    public void getExecution(BattlerFrame[] battlers)
+    public void getExecution(BattlerFrame[] battlers, BattlerFrame[] newBattlers)
     {
-        DealDamageSystem.instance.execute(this, battlers);
+        DealDamageSystem.instance.execute(this, battlers, newBattlers);
     }
 
     @Override

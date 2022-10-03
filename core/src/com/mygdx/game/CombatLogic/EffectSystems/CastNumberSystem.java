@@ -19,14 +19,15 @@ public class CastNumberSystem implements IsEffectSystem<CastTimes> {
 
     }
     @Override
-    public void execute(CastTimes effect, BattlerFrame[] battlers)
+    public void execute(CastTimes effect, BattlerFrame[] battlers, BattlerFrame[] newBattlers)
     {
 
-        Spell battlerCastSpell = battlers[TargetType.SELF.getValue()].getComponent(SpellListComponent.class).getCurrent();
-        CastHistoryComponent battlerCastHistory = battlers[TargetType.SELF.getValue()].getComponent(CastHistoryComponent.class);
+        Spell battlerCastSpell = newBattlers[TargetType.SELF.getValue()].getComponent(SpellListComponent.class).getCurrent();
+        CastHistoryComponent battlerCastHistory = newBattlers[TargetType.SELF.getValue()].getComponent(CastHistoryComponent.class);
+
         if (effect.getNumOfCasts() == 1)
         {
-            battlers[TargetType.SELF.getValue()].getComponent(SpellListComponent.class).removeSpell(battlerCastSpell);
+            newBattlers[TargetType.SELF.getValue()].getComponent(SpellListComponent.class).removeSpell(battlerCastSpell);
         }
         else
         {
@@ -40,7 +41,7 @@ public class CastNumberSystem implements IsEffectSystem<CastTimes> {
             }
             if (counter == effect.getNumOfCasts())
             {
-                battlers[TargetType.SELF.getValue()].getComponent(SpellListComponent.class).removeSpell(battlerCastSpell);
+                newBattlers[TargetType.SELF.getValue()].getComponent(SpellListComponent.class).removeSpell(battlerCastSpell);
             }
         }
 

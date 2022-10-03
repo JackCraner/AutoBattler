@@ -29,9 +29,9 @@ public class RemoveStatus extends IsEffectComponent
     }
 
     @Override
-    public void getExecution(BattlerFrame[] battlers)
+    public void getExecution(BattlerFrame[] battlers, BattlerFrame[] newBattlers)
     {
-        RemoveStatusSystem.instance.execute(this, battlers);
+        RemoveStatusSystem.instance.execute(this, battlers, newBattlers);
     }
 
     @Override

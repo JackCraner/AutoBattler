@@ -9,10 +9,10 @@ public class ChangeStatusSystem implements IsEffectSystem<ChangeStatus>{
     public static ChangeStatusSystem instance = new ChangeStatusSystem();
 
     @Override
-    public void execute(ChangeStatus effect, BattlerFrame[] battlers)
+    public void execute(ChangeStatus effect, BattlerFrame[] battlers, BattlerFrame[] newBattlers)
     {
 
-        BattlerState battlerComponent = battlers[effect.getTarget().getValue()].getComponent(BattlerState.class);
+        BattlerState battlerComponent = newBattlers[effect.getTarget().getValue()].getComponent(BattlerState.class);
         battlerComponent.setState(effect.getNewState());
     }
 }

@@ -30,6 +30,6 @@ public abstract class IsEffectComponent
     public abstract String printEffect();
 
 
-    public abstract void getExecution(BattlerFrame[] battlers);
+    public abstract void getExecution(BattlerFrame[] battlers, BattlerFrame[] newBattlers);
     public abstract IsEffectComponent clone();
 }

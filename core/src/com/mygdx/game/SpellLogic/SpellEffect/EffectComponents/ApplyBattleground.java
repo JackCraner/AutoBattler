@@ -22,9 +22,9 @@ public class ApplyBattleground extends IsEffectComponent
     }
 
     @Override
-    public void getExecution(BattlerFrame[] battlers) {
+    public void getExecution(BattlerFrame[] battlers, BattlerFrame[] newBattlers) {
 
-        BattleFieldSystem.instance.execute(this,battlers);
+        BattleFieldSystem.instance.execute(this,battlers,newBattlers );
     }
 
     @Override

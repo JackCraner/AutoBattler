@@ -19,14 +19,14 @@ public class DealDamageSystem implements IsEffectSystem<DealDamage>
 
 
     @Override
-    public void execute(DealDamage effect, BattlerFrame[] battlers)
+    public void execute(DealDamage effect, BattlerFrame[] battlers, BattlerFrame[] newBattlers)
     {
 
-        HealthComponent battlerComponent = battlers[effect.getTarget().getValue()].getComponent(HealthComponent.class);
+        HealthComponent battlerComponent = newBattlers[effect.getTarget().getValue()].getComponent(HealthComponent.class);
         BuffArray battlerBuffComponent = battlers[TargetType.SELF.getValue()].getComponent(BuffArray.class);
         ArmorArray battlerArmorComponent = battlers[effect.getTarget().getValue()].getComponent(ArmorArray.class);
         float damageValue = calculateStrength(effect.getStrength(battlers),effect.getType(),battlerArmorComponent.getArmorFor(effect.getType()),battlerBuffComponent.getBuffFor(effect.getType()));
-        battlerComponent.setCurrentHealth(battlerComponent.getCurrentHealth() - (int)damageValue);
+        newBattlers[effect.getTarget().getValue()].getComponent(HealthComponent.class).setCurrentHealth(battlerComponent.getCurrentHealth() - (int)damageValue);
     }
 
 

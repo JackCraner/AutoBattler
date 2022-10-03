@@ -27,9 +27,9 @@ public class ChangeStatus extends IsEffectComponent{
     }
 
     @Override
-    public void getExecution(BattlerFrame[] battlers)
+    public void getExecution(BattlerFrame[] battlers, BattlerFrame[] newBattlers)
     {
-        ChangeStatusSystem.instance.execute(this, battlers);
+        ChangeStatusSystem.instance.execute(this, battlers,newBattlers );
     }
 
     @Override

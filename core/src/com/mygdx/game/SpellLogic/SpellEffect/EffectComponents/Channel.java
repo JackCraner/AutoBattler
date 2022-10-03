@@ -29,9 +29,9 @@ public class Channel extends IsEffectComponent
     }
 
     @Override
-    public void getExecution(BattlerFrame[] battlers)
+    public void getExecution(BattlerFrame[] battlers, BattlerFrame[] newBattlers)
     {
-        ChannelSystem.instance.execute(this, battlers);
+        ChannelSystem.instance.execute(this, battlers,newBattlers );
     }
 
     @Override

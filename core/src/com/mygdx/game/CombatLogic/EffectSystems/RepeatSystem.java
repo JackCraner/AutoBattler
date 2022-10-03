@@ -14,10 +14,10 @@ public class RepeatSystem implements IsEffectSystem<RepeatN>
 
     }
     @Override
-    public void execute(RepeatN effect, BattlerFrame[] battlers)
+    public void execute(RepeatN effect, BattlerFrame[] battlers, BattlerFrame[] newBattlers)
     {
 
-        CastComponent battlerComponent = battlers[effect.getTarget().getValue()].getComponent(CastComponent.class);
+        CastComponent battlerComponent = newBattlers[effect.getTarget().getValue()].getComponent(CastComponent.class);
         Effect[] spellEffectList = battlerComponent.getSpell().getEffects();
         Effect[] newSpellEffectList = new Effect[spellEffectList.length * effect.getNumberOfRepeats()];
         for (int i=0;i<effect.getNumberOfRepeats();i++)

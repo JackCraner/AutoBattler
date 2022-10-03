@@ -5,6 +5,7 @@ import com.mygdx.game.CombatLogic.BattlerFrames.BattleFrameComponents.HealthComp
 import com.mygdx.game.CombatLogic.BattlerFrames.BattleFrameComponents.ManaComponent;
 import com.mygdx.game.CombatLogic.BattlerFrames.BattlerFrame;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.GainMaxStat;
+import com.mygdx.game.SpellLogic.SpellEffect.Enums.ChangeType;
 import com.mygdx.game.SpellLogic.SpellEffect.Enums.StatType;
 
 public class GainMaxStatSystem implements IsEffectSystem<GainMaxStat> {
@@ -17,15 +18,15 @@ public class GainMaxStatSystem implements IsEffectSystem<GainMaxStat> {
 
 
     @Override
-    public void execute(GainMaxStat effect, BattlerFrame[] battlers)
+    public void execute(GainMaxStat effect, BattlerFrame[] battlers, BattlerFrame[] newBattlers)
     {
 
         if (effect.getType() == StatType.MANA)
         {
-            ManaComponent battlerManaComponent =  battlers[effect.getTarget().getValue()].getComponent(ManaComponent.class);
-            if (battlerManaComponent.getMaxMana() + effect.getStrength() > 1)
+            ManaComponent battlerManaComponent =  newBattlers[effect.getTarget().getValue()].getComponent(ManaComponent.class);
+            if (battlerManaComponent.getMaxMana() + (effect.getStrengthType()== ChangeType.INCREASE?effect.getStrength(battlers):effect.getStrength(battlers)*-1) > 1)
             {
-                battlerManaComponent.setMaxMana(battlerManaComponent.getMaxMana() + effect.getStrength());
+                battlerManaComponent.setMaxMana(battlerManaComponent.getMaxMana() + (effect.getStrengthType()== ChangeType.INCREASE?effect.getStrength(battlers):effect.getStrength(battlers)*-1));
             }
             else
             {
@@ -41,10 +42,10 @@ public class GainMaxStatSystem implements IsEffectSystem<GainMaxStat> {
         }
         else if (effect.getType() == StatType.HEALTH)
         {
-            HealthComponent battlerHealthComponent = battlers[effect.getTarget().getValue()].getComponent(HealthComponent.class);
-            if (battlerHealthComponent.getMaxHealth() + effect.getStrength() > 1)
+            HealthComponent battlerHealthComponent = newBattlers[effect.getTarget().getValue()].getComponent(HealthComponent.class);
+            if (battlerHealthComponent.getMaxHealth() + (effect.getStrengthType()== ChangeType.INCREASE?effect.getStrength(battlers):effect.getStrength(battlers)*-1) > 1)
             {
-                battlerHealthComponent.setMaxHealth(battlerHealthComponent.getMaxHealth() + effect.getStrength());
+                battlerHealthComponent.setMaxHealth(battlerHealthComponent.getMaxHealth() + (effect.getStrengthType()== ChangeType.INCREASE?effect.getStrength(battlers):effect.getStrength(battlers)*-1));
             }
             else
             {

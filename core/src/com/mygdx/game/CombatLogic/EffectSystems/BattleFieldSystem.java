@@ -11,18 +11,18 @@ public class BattleFieldSystem implements IsEffectSystem<ApplyBattleground>
     public static BattleFieldSystem instance = new BattleFieldSystem();
 
 
-    public void execute(ApplyBattleground ab, BattlerFrame[] battlers)
+    public void execute(ApplyBattleground ab, BattlerFrame[] battlers, BattlerFrame[] newBattlers)
     {
         for (int i =0;i<battlers.length;i++)
         {
-            battlers[i].getComponent(BattlegroundComponent.class).setBattleground(ab.getBattleground());
+            newBattlers[i].getComponent(BattlegroundComponent.class).setBattleground(ab.getBattleground());
         }
     }
-    public void applyBattleground(BattlerFrame[] battlers)
+    public void applyBattleground(BattlerFrame[] battlers, BattlerFrame[] battlersNew)
     {
         for (int i =0;i<battlers.length;i++)
         {
-            CastSystem.instance.routeEffect(battlers[i].getComponent(BattlegroundComponent.class).getBattleground().getEffect(),new BattlerFrame[]{battlers[i],battlers[i]});
+            CastSystem.instance.routeEffect(battlers[i].getComponent(BattlegroundComponent.class).getBattleground().getEffect(),new BattlerFrame[]{battlers[i],battlers[i]}, battlersNew);
         }
     }
 

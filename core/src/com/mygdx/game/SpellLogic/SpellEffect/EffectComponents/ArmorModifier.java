@@ -34,8 +34,8 @@ public class ArmorModifier extends IsEffectComponent
     }
 
     @Override
-    public void getExecution(BattlerFrame[] battlers) {
-        ArmorModifierSystem.instance.execute(this, battlers);
+    public void getExecution(BattlerFrame[] battlers, BattlerFrame[] newBattlers) {
+        ArmorModifierSystem.instance.execute(this, battlers,newBattlers );
     }
 
     @Override

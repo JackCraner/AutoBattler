@@ -38,8 +38,8 @@ public class ForEach extends IsEffectComponent
     }
 
     @Override
-    public void getExecution(BattlerFrame[] battlers) {
-        ForEachSystem.instance.execute(this, battlers);
+    public void getExecution(BattlerFrame[] battlers, BattlerFrame[] newBattlers) {
+        ForEachSystem.instance.execute(this, battlers, newBattlers);
     }
 
     @Override

@@ -6,7 +6,7 @@ import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.IsEffectComponent;
 
 public interface IsEffectSystem<T extends IsEffectComponent>
 {
-    public void execute(T effect, BattlerFrame[] battlers);
+    public void execute(T effect, BattlerFrame[] battlers, BattlerFrame[] newBattlers);
 
 
 

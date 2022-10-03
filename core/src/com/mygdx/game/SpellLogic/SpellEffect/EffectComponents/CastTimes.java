@@ -22,9 +22,9 @@ public class CastTimes extends IsEffectComponent
     }
 
     @Override
-    public void getExecution(BattlerFrame[] battlers)
+    public void getExecution(BattlerFrame[] battlers, BattlerFrame[] newBattlers)
     {
-        CastNumberSystem.instance.execute(this, battlers);
+        CastNumberSystem.instance.execute(this, battlers, newBattlers);
     }
 
     @Override

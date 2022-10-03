@@ -83,7 +83,7 @@ public class CombatManager {
         BattlerFrame[] newBattlers = newFightFrame.getBattleFrames();
 
         //cast
-        BattleFieldSystem.instance.applyBattleground(newBattlers);
+        BattleFieldSystem.instance.applyBattleground(battlers,newBattlers);
 
 
         //Order
@@ -110,7 +110,7 @@ public class CombatManager {
         for (int i=startI;defineOrder(i,order);i+=step)
         {
 
-            ApplyStatusSystem.instance.checkAllStatusEffect(newBattlers[i]);
+            ApplyStatusSystem.instance.checkAllStatusEffect(battlers[i],newBattlers[i]);
         }
 
 
@@ -128,12 +128,12 @@ public class CombatManager {
                     if (CastTimeSystem.instance.isReady(battlers[i]))
                     {
 
-                        CastSystem.instance.castSpell(newBattlers[i],newBattlers[Math.abs(i - 1)]);
+                        CastSystem.instance.castSpell(battlers[i],battlers[Math.abs(i-1)],newBattlers[i],newBattlers[Math.abs(i - 1)]);
                         ManaSystem.instance.spendMana(newBattlers[i]);
                         CastTimeSystem.instance.resetCastTime(newBattlers[i]);
                         CastSystem.instance.archiveCast(newBattlers[i]);
                         CastSystem.instance.updateCastComponent(newBattlers[i]);
-                        ApplyStatusSystem.instance.checkAllOnSpellEffect(newBattlers[i]);
+                        ApplyStatusSystem.instance.checkAllOnSpellEffect(battlers[i],newBattlers[i]);
 
 
                     }

@@ -5,7 +5,6 @@ import com.mygdx.game.CombatLogic.BattlerFrames.BattlerFrame;
 import com.mygdx.game.CombatLogic.EffectSystems.ConditionSystem;
 import com.mygdx.game.SpellLogic.SpellEffect.Effect;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.ConditionComponents.ConditionObject;
-import com.mygdx.game.SpellLogic.SpellEffect.Enums.TargetType;
 
 public class Condition extends IsEffectComponent
 {
@@ -52,9 +51,9 @@ public class Condition extends IsEffectComponent
     }
 
     @Override
-    public void getExecution(BattlerFrame[] battlers)
+    public void getExecution(BattlerFrame[] battlers, BattlerFrame[] newBattlers)
     {
-        ConditionSystem.instance.execute(this, battlers);
+        ConditionSystem.instance.execute(this, battlers,newBattlers );
     }
 
     @Override

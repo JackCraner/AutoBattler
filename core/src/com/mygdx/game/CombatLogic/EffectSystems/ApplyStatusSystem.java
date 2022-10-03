@@ -20,11 +20,12 @@ public class ApplyStatusSystem implements IsEffectSystem<ApplyStatus> {
 
 
     @Override
-    public void execute(ApplyStatus effect, BattlerFrame[] battlers)
+    public void execute(ApplyStatus effect, BattlerFrame[] battlers, BattlerFrame[] newBattlers)
     {
 
         EffectListComponent battlerComponent = battlers[effect.getTarget().getValue()].getComponent(EffectListComponent.class);
-        for (EffectOnBattler eb : battlerComponent.getEffectOnBattlers())
+        EffectListComponent battlerComponentNew = newBattlers[effect.getTarget().getValue()].getComponent(EffectListComponent.class);
+        for (EffectOnBattler eb : battlerComponentNew.getEffectOnBattlers())
         {
             if (effect.getStatusObject().getStatus_name() == eb.getStatusObject().getStatus_name() && StatusFactory.instance.isStatic(effect.getStatusObject().getStatus_name()))
             {
@@ -35,23 +36,23 @@ public class ApplyStatusSystem implements IsEffectSystem<ApplyStatus> {
         }
 
         EffectOnBattler eb = new EffectOnBattler(effect.getStatusObject(),effect.getStrength());
-        battlerComponent.getEffectOnBattlers().add(eb);
+        battlerComponentNew.getEffectOnBattlers().add(eb);
         if (effect.getStatusObject().getType() instanceof DurationBased)
         {
-            doStatusEffect(eb,battlers[effect.getTarget().getValue()]);
+            doStatusEffect(eb,battlers[effect.getTarget().getValue()],newBattlers[effect.getTarget().getValue()]);
         }
     }
 
-    public void checkAllStatusEffect(BattlerFrame host)
+    public void checkAllStatusEffect(BattlerFrame host, BattlerFrame hostNew)
     {
         EffectListComponent battlerComponent = host.getComponent(EffectListComponent.class);
         for (int i =0; i<battlerComponent.getEffectOnBattlers().size();i++)
 
         {
             if (battlerComponent.getEffectOnBattlers().get(i).getStatusObject().getType() instanceof TickBased) {
-                handleTickEffect(battlerComponent.getEffectOnBattlers().get(i), host);
+                handleTickEffect(battlerComponent.getEffectOnBattlers().get(i), host,hostNew);
             } else if (battlerComponent.getEffectOnBattlers().get(i).getStatusObject().getType() instanceof DurationBased) {
-                handleDurationEffect(battlerComponent.getEffectOnBattlers().get(i), host);
+                handleDurationEffect(battlerComponent.getEffectOnBattlers().get(i), host,hostNew);
             }
 
 
@@ -61,7 +62,7 @@ public class ApplyStatusSystem implements IsEffectSystem<ApplyStatus> {
 
 
     }
-    public void checkAllOnSpellEffect(BattlerFrame host)
+    public void checkAllOnSpellEffect(BattlerFrame host,BattlerFrame hostNew)
     {
         EffectListComponent battlerComponent = host.getComponent(EffectListComponent.class);
         boolean hasOnSpell = false;
@@ -77,7 +78,7 @@ public class ApplyStatusSystem implements IsEffectSystem<ApplyStatus> {
                     host.getComponent(CastComponent.class).setSpell(host.getComponent(CastComponent.class).getSpell().cleanClone());
                 }
 
-                handleOnSpell(battlerComponent.getEffectOnBattlers().get(i),host);
+                handleOnSpell(battlerComponent.getEffectOnBattlers().get(i),host,hostNew);
 
             }
         }
@@ -85,23 +86,23 @@ public class ApplyStatusSystem implements IsEffectSystem<ApplyStatus> {
 
 
 
-    public void handleDurationEffect(EffectOnBattler effect, BattlerFrame host)
+    public void handleDurationEffect(EffectOnBattler effect, BattlerFrame host, BattlerFrame hostNew)
     {
        if (incrementDownEffect(effect,host))
        {
            Effect undoEffect = ((DurationBased)effect.getStatusObject().getType()).getWhenFinished();
-           CastSystem.instance.routeEffect(undoEffect, new BattlerFrame[]{host,host});
+           CastSystem.instance.routeEffect(undoEffect, new BattlerFrame[]{host,host}, new BattlerFrame[]{hostNew,hostNew});
        }
 
 
 
     }
-    public void handleTickEffect(EffectOnBattler effect, BattlerFrame host)
+    public void handleTickEffect(EffectOnBattler effect, BattlerFrame host, BattlerFrame hostNew)
     {
         TickBased effectType =(TickBased) effect.getStatusObject().getType();
         if(effect.getCd() == effectType.getSpeed())
         {
-            doStatusEffect(effect,host);
+            doStatusEffect(effect,host,hostNew);
             effect.setCd(0);
             if (effectType.getDoesDecrease())
             {
@@ -112,14 +113,14 @@ public class ApplyStatusSystem implements IsEffectSystem<ApplyStatus> {
         }
         effect.setCd(effect.getCd()+1);
     }
-    public void handleOnSpell(EffectOnBattler effect,BattlerFrame host)
+    public void handleOnSpell(EffectOnBattler effect,BattlerFrame host, BattlerFrame hostNew)
     {
         OnSpellBased effectType = (OnSpellBased) effect.getStatusObject().getType();
 
         if (host.getComponent(CastComponent.class).getCastTimer() == 0)
         {
 
-            doStatusEffect(effect,host);
+            doStatusEffect(effect,host,hostNew);
             incrementDownEffect(effect,host);
         }
     }
@@ -128,9 +129,9 @@ public class ApplyStatusSystem implements IsEffectSystem<ApplyStatus> {
 
 
 
-    public void doStatusEffect(EffectOnBattler effect, BattlerFrame host)
+    public void doStatusEffect(EffectOnBattler effect, BattlerFrame host, BattlerFrame hostNew)
     {
-        CastSystem.instance.routeEffect(effect.getStatusObject().getStatusEffect(), new BattlerFrame[]{host,host});
+        CastSystem.instance.routeEffect(effect.getStatusObject().getStatusEffect(), new BattlerFrame[]{host,host}, new BattlerFrame[]{hostNew,hostNew});
     }
 
 

@@ -28,9 +28,9 @@ public class ChangeCastTime extends IsEffectComponent{
     }
 
     @Override
-    public void getExecution(BattlerFrame[] battlers)
+    public void getExecution(BattlerFrame[] battlers, BattlerFrame[] newBattlers)
     {
-        ChangeCasttimeSystem.instance.execute(this,battlers);
+        ChangeCasttimeSystem.instance.execute(this,battlers,newBattlers );
     }
 
     @Override

@@ -3,20 +3,33 @@ package com.mygdx.game.SpellLogic.SpellEffect.EffectComponents;
 
 import com.mygdx.game.CombatLogic.BattlerFrames.BattlerFrame;
 import com.mygdx.game.CombatLogic.EffectSystems.GainMaxStatSystem;
+import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.IntReplacement.IntFormat;
+import com.mygdx.game.SpellLogic.SpellEffect.Enums.ChangeType;
 import com.mygdx.game.SpellLogic.SpellEffect.Enums.StatType;
 
 public class GainMaxStat extends IsEffectComponent
 {
-    private int strength;
+    private IntFormat strength;
     private StatType type;
+    private ChangeType strengthType;
+
+    public GainMaxStat(StatType type, IntFormat strength, ChangeType strengthType)
+    {
+        this.type = type;
+        this.strength = strength;
+        this.strengthType = strengthType;
+    }
     public GainMaxStat(StatType type,int strength)
     {
-        this.strength = strength;
-        this.type = type;
+        this(type,new IntFormat(strength),(strength>0?ChangeType.INCREASE:ChangeType.DECREASE));
     }
 
-    public int getStrength() {
-        return strength;
+    public ChangeType getStrengthType() {
+        return strengthType;
+    }
+
+    public int getStrength(BattlerFrame[] battlers) {
+        return strength.execute(battlers);
     }
 
     public StatType getType() {
@@ -25,16 +38,16 @@ public class GainMaxStat extends IsEffectComponent
 
     @Override
     public String printEffect() {
-        return (strength>0?"Increase ": "Decrease ") + getTarget().getName(0)  + type.name() + " Permanently by " + strength;
+        return strengthType.getName() + getTarget().getName(0)  + type.name() + " Permanently by " + strength.print();
     }
 
     @Override
-    public void getExecution(BattlerFrame[] battlers) {
-        GainMaxStatSystem.instance.execute(this, battlers);
+    public void getExecution(BattlerFrame[] battlers, BattlerFrame[] newBattlers) {
+        GainMaxStatSystem.instance.execute(this, battlers,newBattlers );
     }
 
     @Override
     public IsEffectComponent clone() {
-        return new GainMaxStat(type,strength);
+        return new GainMaxStat(type,strength,strengthType);
     }
 }

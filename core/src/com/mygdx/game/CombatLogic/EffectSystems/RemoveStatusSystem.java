@@ -21,11 +21,11 @@ public class RemoveStatusSystem implements IsEffectSystem<RemoveStatus>
 
     Random r = new Random();
     @Override
-    public void execute(RemoveStatus effect, BattlerFrame[] battlers)
+    public void execute(RemoveStatus effect, BattlerFrame[] battlers, BattlerFrame[] newBattlers)
     {
 
         EffectOnBattler foundEffect = null;
-        EffectListComponent battlerComponent = battlers[effect.getTarget().getValue()].getComponent(EffectListComponent.class);
+        EffectListComponent battlerComponent = newBattlers[effect.getTarget().getValue()].getComponent(EffectListComponent.class);
         String effectToAffect = "";
         if (effect.getStatusName() == "random")
         {

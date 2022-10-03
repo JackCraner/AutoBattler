@@ -14,6 +14,7 @@ import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.Condition;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.ConditionComponents.Chance;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.ConditionComponents.ConditionObject;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.ConditionComponents.HasEffect;
+import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.ConditionComponents.Inequality;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.ConditionComponents.IsCasting;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.ConditionComponents.Unique;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.DealDamage;
@@ -21,6 +22,7 @@ import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.ForEach;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.GainLoseMana;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.GainMaxStat;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.HealHealth;
+import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.IntReplacement.Absolute;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.IntReplacement.IntFormat;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.IntReplacement.IntReplacements.EqualTo;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.IntReplacement.IntReplacements.IntReplacementTypes;
@@ -47,7 +49,7 @@ import com.mygdx.game.SpellLogic.SpellEffect.Enums.TargetType;
 public enum SpellFactory
 {
     FIRE0_1(SpellSplash.FIRE3STRIKE,new Spell(SpellTypes.FIRE,"Fireball",0,1,new Effect(TargetType.OTHER) {{
-        addComponent(new DealDamage(new IntFormat(new EqualTo(IntReplacementTypes.CurrentHealth,TargetType.OTHER), new NumberBranch(Symbols.SUBTRACT, 5)), DamageTypes.NEUTRAL));
+       addComponent(new DealDamage(2));
     }})),
     FIRE0_2(SpellSplash.FIREHAND,new Spell(SpellTypes.FIRE,"Ember",2,2,new Effect(TargetType.OTHER) {{
         addComponent(new Condition(new ConditionObject(){{

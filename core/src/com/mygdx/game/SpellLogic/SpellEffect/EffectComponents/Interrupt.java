@@ -18,8 +18,8 @@ public class Interrupt extends IsEffectComponent{
     }
 
     @Override
-    public void getExecution(BattlerFrame[] battlers) {
-        InterruptSystem.instance.execute(this,battlers);
+    public void getExecution(BattlerFrame[] battlers, BattlerFrame[] newBattlers) {
+        InterruptSystem.instance.execute(this,battlers,newBattlers );
     }
 
     @Override

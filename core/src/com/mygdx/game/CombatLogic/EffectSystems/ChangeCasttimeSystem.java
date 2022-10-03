@@ -14,15 +14,15 @@ public class ChangeCasttimeSystem implements IsEffectSystem<ChangeCastTime> {
 
     }
     @Override
-    public void execute(ChangeCastTime effect, BattlerFrame[] battlers)
+    public void execute(ChangeCastTime effect, BattlerFrame[] battlers, BattlerFrame[] newBattlers)
     {
         if (effect.getCastTimeType() == ModifierType.ABSOLUTE)
         {
-            battlers[effect.getTarget().getValue()].getComponent(CastComponent.class).getSpell().setCastTime(effect.getCastTimeModifier());
+            newBattlers[effect.getTarget().getValue()].getComponent(CastComponent.class).getSpell().setCastTime(effect.getCastTimeModifier());
         }
         else if (effect.getCastTimeType() == ModifierType.ADDITIVE)
         {
-            Spell s = battlers[effect.getTarget().getValue()].getComponent(CastComponent.class).getSpell();
+            Spell s = newBattlers[effect.getTarget().getValue()].getComponent(CastComponent.class).getSpell();
             if (s.getCastTime() + effect.getCastTimeModifier() < 1)
             {
                 s.setCastTime(1);

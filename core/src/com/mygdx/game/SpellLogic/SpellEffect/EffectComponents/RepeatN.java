@@ -38,8 +38,8 @@ public class RepeatN extends IsEffectComponent
     }
 
     @Override
-    public void getExecution(BattlerFrame[] battlers) {
-        RepeatSystem.instance.execute(this, battlers);
+    public void getExecution(BattlerFrame[] battlers, BattlerFrame[] newBattlers) {
+        RepeatSystem.instance.execute(this, battlers,newBattlers );
     }
 
     @Override

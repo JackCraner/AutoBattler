@@ -17,15 +17,15 @@ public class ChangeCostSystem implements IsEffectSystem<ChangeCost> {
 
 
     @Override
-    public void execute(ChangeCost effect, BattlerFrame[] battlers)
+    public void execute(ChangeCost effect, BattlerFrame[] battlers, BattlerFrame[] newBattlers)
     {
         if (effect.getType() == ModifierType.ABSOLUTE)
         {
-            battlers[effect.getTarget().getValue()].getComponent(CastComponent.class).getSpell().setManaCost(effect.getNewCost());
+            newBattlers[effect.getTarget().getValue()].getComponent(CastComponent.class).getSpell().setManaCost(effect.getNewCost());
         }
         else if (effect.getType() == ModifierType.ADDITIVE)
         {
-            Spell s = battlers[effect.getTarget().getValue()].getComponent(CastComponent.class).getSpell();
+            Spell s = newBattlers[effect.getTarget().getValue()].getComponent(CastComponent.class).getSpell();
             if (s.getManaCost() + effect.getNewCost() < 0)
             {
                 s.setManaCost(0);

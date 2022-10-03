@@ -7,24 +7,20 @@ import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.HealHealth;
 public class HealSystem implements IsEffectSystem<HealHealth> {
     public static HealSystem instance = new HealSystem();
     @Override
-    public void execute(HealHealth effect, BattlerFrame[] battlers)
+    public void execute(HealHealth effect, BattlerFrame[] battlers, BattlerFrame[] newBattlers)
     {
-        HealthComponent battlerComponent = battlers[effect.getTarget().getValue()].getComponent(HealthComponent.class);
-        if (effect.getStrength() == -1)
+        HealthComponent battlerComponent = newBattlers[effect.getTarget().getValue()].getComponent(HealthComponent.class);
+
+
+        if ((battlerComponent.getCurrentHealth()+ effect.getStrength(battlers)) > battlerComponent.getMaxHealth())
         {
             battlerComponent.setCurrentHealth(battlerComponent.getMaxHealth());
         }
         else
         {
-            if ((battlerComponent.getCurrentHealth()+ effect.getStrength()) > battlerComponent.getMaxHealth())
-            {
-                battlerComponent.setCurrentHealth(battlerComponent.getMaxHealth());
-            }
-            else
-            {
-                battlerComponent.setCurrentHealth((int) (battlerComponent.getCurrentHealth()+ effect.getStrength()));
-            }
+            battlerComponent.setCurrentHealth((int) (battlerComponent.getCurrentHealth()+ effect.getStrength(battlers)));
         }
+
 
     }
 }

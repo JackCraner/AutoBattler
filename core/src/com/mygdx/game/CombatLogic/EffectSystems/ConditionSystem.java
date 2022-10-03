@@ -6,11 +6,13 @@ import com.mygdx.game.CombatLogic.BattlerFrames.BattleFrameComponents.SpellListC
 import com.mygdx.game.CombatLogic.BattlerFrames.BattlerFrame;
 import com.mygdx.game.CombatLogic.BattlerFrames.EffectOnBattler;
 import com.mygdx.game.CombatLogic.CombatSystems.CastSystem;
+import com.mygdx.game.CombatLogic.CombatSystems.NumberSystem;
 import com.mygdx.game.SpellLogic.Spell;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.Condition;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.ConditionComponents.Chance;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.ConditionComponents.ConditionObject;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.ConditionComponents.HasEffect;
+import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.ConditionComponents.Inequality;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.ConditionComponents.IsCasting;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.ConditionComponents.IsConditionComponent;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.ConditionComponents.Unique;
@@ -30,23 +32,23 @@ public class ConditionSystem implements IsEffectSystem<Condition>
 
 
     @Override
-    public void execute(Condition effect, BattlerFrame[] battlers)
+    public void execute(Condition effect, BattlerFrame[] battlers, BattlerFrame[] newBattlers)
     {
 
         ConditionObject conditionType = effect.getType();
-        boolean check = checkCondition(conditionType, battlers);
+        boolean check = checkCondition(conditionType, battlers, newBattlers);
         if (check)
         {
-            CastSystem.instance.routeEffect(effect.getEffect(check), battlers);
+            CastSystem.instance.routeEffect(effect.getEffect(true), battlers, newBattlers);
         }
-        else if (!check & effect.hasOnFail())
+        else if (effect.hasOnFail())
         {
-            CastSystem.instance.routeEffect(effect.getEffect(check), battlers);
+            CastSystem.instance.routeEffect(effect.getEffect(false), battlers, newBattlers);
         }
 
 
     }
-    public boolean checkCondition(ConditionObject cObject, BattlerFrame[] battlers)
+    public boolean checkCondition(ConditionObject cObject, BattlerFrame[] battlers, BattlerFrame[] newBattlers)
     {
         boolean stepper = true;
         for (Iterator<? extends IsConditionComponent> it = cObject.getComponentIterator(); it.hasNext(); )
@@ -62,11 +64,15 @@ public class ConditionSystem implements IsEffectSystem<Condition>
             }
             else if (cc instanceof IsCasting)
             {
-                stepper =isCasting((IsCasting) cc,battlers[((IsCasting) cc).getTarget().getValue()]);
+                stepper =isCasting((IsCasting) cc,newBattlers[((IsCasting) cc).getTarget().getValue()]);
             }
             else if (cc instanceof Unique)
             {
                 stepper = unique((Unique)cc,battlers[TargetType.SELF.getValue()]);
+            }
+            else if (cc instanceof Inequality)
+            {
+                stepper = inequality((Inequality)cc,battlers );
             }
 
             if (!stepper)
@@ -126,6 +132,10 @@ public class ConditionSystem implements IsEffectSystem<Condition>
             }
         }
         return (counter<=1);
+    }
+    public boolean inequality(Inequality type, BattlerFrame[] battlers)
+    {
+        return NumberSystem.instance.handleIntFormat(type.getPara1(),battlers) > NumberSystem.instance.handleIntFormat(type.getPara2(),battlers);
     }
 
 

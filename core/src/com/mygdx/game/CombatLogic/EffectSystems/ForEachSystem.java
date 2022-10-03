@@ -15,10 +15,10 @@ public class ForEachSystem implements IsEffectSystem<ForEach>
     public static ForEachSystem instance = new ForEachSystem();
 
     @Override
-    public void execute(ForEach effect, BattlerFrame[] battlers)
+    public void execute(ForEach effect, BattlerFrame[] battlers, BattlerFrame[] newBattlers)
     {
 
-        EffectListComponent battlerComponent = battlers[effect.getTarget().getValue()].getComponent(EffectListComponent.class);
+        EffectListComponent battlerComponent = newBattlers[effect.getTarget().getValue()].getComponent(EffectListComponent.class);
         for (EffectOnBattler e: battlerComponent.getEffectOnBattlers())
         {
 
@@ -28,7 +28,7 @@ public class ForEachSystem implements IsEffectSystem<ForEach>
                 for (int i =(int)effect.getRatio(); i<=e.getStackNumber();i += effect.getRatio())
                 {
 
-                    CastSystem.instance.routeEffect(effect.getEffect(), battlers);
+                    CastSystem.instance.routeEffect(effect.getEffect(), battlers, newBattlers);
 
                 }
             }

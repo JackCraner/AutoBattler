@@ -20,24 +20,24 @@ public class CastSystem
 
     }
 
-    public void castSpell(BattlerFrame caster, BattlerFrame other)
+    public void castSpell(BattlerFrame caster, BattlerFrame other, BattlerFrame casterNew, BattlerFrame otherNew)
     {
-        Spell s = caster.getComponent(CastComponent.class).getSpell();
+        Spell s = casterNew.getComponent(CastComponent.class).getSpell();
 
         for (Effect e: s.getEffects())
         {
-            routeEffect(e,new BattlerFrame[]{caster,other});
+            routeEffect(e,new BattlerFrame[]{caster,other}, new BattlerFrame[]{casterNew,otherNew});
         }
-        caster.getComponent(SpellListComponent.class).pushNext();
+        casterNew.getComponent(SpellListComponent.class).pushNext();
 
     }
-    public void routeEffect(Effect e, BattlerFrame[] battlers)
+    public void routeEffect(Effect e, BattlerFrame[] battlers, BattlerFrame[] newBattlers)
     {
 
         for (Iterator<? extends IsEffectComponent> it = e.getComponentIterator(); it.hasNext(); )
         {
             IsEffectComponent cs = it.next();
-            cs.getExecution(battlers);
+            cs.getExecution(battlers, newBattlers);
         }
 
     }

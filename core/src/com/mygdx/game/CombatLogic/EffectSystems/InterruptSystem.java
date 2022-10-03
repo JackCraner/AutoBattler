@@ -8,7 +8,7 @@ public class InterruptSystem implements IsEffectSystem<Interrupt> {
 
     public static InterruptSystem instance = new InterruptSystem();
     @Override
-    public void execute(Interrupt effect, BattlerFrame[] battlers) {
-        battlers[effect.getTarget().getValue()].getComponent(CastComponent.class).setCastTimer(1);
+    public void execute(Interrupt effect, BattlerFrame[] battlers, BattlerFrame[] newBattlers) {
+        newBattlers[effect.getTarget().getValue()].getComponent(CastComponent.class).setCastTimer(1);
     }
 }

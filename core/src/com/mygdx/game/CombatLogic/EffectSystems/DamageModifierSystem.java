@@ -19,11 +19,11 @@ public class DamageModifierSystem implements  IsEffectSystem<DamageModifier> {
     // -2 = 50%
     // -3 = 30%
     @Override
-    public void execute(DamageModifier effect, BattlerFrame[] battlers)
+    public void execute(DamageModifier effect, BattlerFrame[] battlers, BattlerFrame[] newBattlers)
     {
 
         BuffArray battlerComponent = battlers[effect.getTarget().getValue()].getComponent(BuffArray.class);
-        battlerComponent.setBuffFor(effect.getType(),battlerComponent.getBuffFor(effect.getType()) + effect.getStages());
+        newBattlers[effect.getTarget().getValue()].getComponent(BuffArray.class).setBuffFor(effect.getType(),battlerComponent.getBuffFor(effect.getType()) + effect.getStages());
 
     }
 

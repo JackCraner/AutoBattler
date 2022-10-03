@@ -13,11 +13,11 @@ public class ArmorModifierSystem implements IsEffectSystem<ArmorModifier> {
     }
 
     @Override
-    public void execute(ArmorModifier effect, BattlerFrame[] battlers)
+    public void execute(ArmorModifier effect, BattlerFrame[] battlers, BattlerFrame[] newBattlers)
     {
-
         ArmorArray battlerComponent = battlers[effect.getTarget().getValue()].getComponent(ArmorArray.class);
-        battlerComponent.setArmorFor(effect.getType(),battlerComponent.getArmorFor(effect.getType()) + effect.getMod());
+        ArmorArray battlerComponentNew = newBattlers[effect.getTarget().getValue()].getComponent(ArmorArray.class);
+        battlerComponentNew.setArmorFor(effect.getType(),battlerComponent.getArmorFor(effect.getType()) + effect.getMod());
     }
 
 

@@ -34,9 +34,9 @@ public class DamageModifier extends IsEffectComponent
     }
 
     @Override
-    public void getExecution(BattlerFrame[] battlers)
+    public void getExecution(BattlerFrame[] battlers, BattlerFrame[] newBattlers)
     {
-        DamageModifierSystem.instance.execute(this, battlers);
+        DamageModifierSystem.instance.execute(this, battlers,newBattlers );
     }
 
     @Override

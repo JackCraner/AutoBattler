@@ -31,8 +31,8 @@ public class ChangeCost extends IsEffectComponent
     }
 
     @Override
-    public void getExecution(BattlerFrame[] battlers) {
-        ChangeCostSystem.instance.execute(this, battlers);
+    public void getExecution(BattlerFrame[] battlers, BattlerFrame[] newBattlers) {
+        ChangeCostSystem.instance.execute(this, battlers, newBattlers);
     }
 
     @Override
