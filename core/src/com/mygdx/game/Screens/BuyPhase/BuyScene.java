@@ -92,6 +92,11 @@ public class BuyScene extends ScreenAdapter
 
 
     }
+
+    public SingleGame getParent() {
+        return game;
+    }
+
     @Override
     public void render(float delta) {
 

@@ -2,12 +2,12 @@ package com.mygdx.game.AssetFinder;
 
 public enum CardBaseAsset
 {
-    FIRE("CardBase"),
-    WIND("CardBase"),
-    ARCANE("CardBase"),
-    ROCK("CardBase"),
-    NEUTRAL("CardBase"),
-    NATURE("CardBase"),
+    FIRE("Card2"),
+    WIND("Card2"),
+    ARCANE("Card2"),
+    ROCK("Card2"),
+    NEUTRAL("Card2"),
+    NATURE("Card2"),
     ;
 
     private String location;

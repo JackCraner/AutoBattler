@@ -15,6 +15,10 @@ public class HealHealth extends IsEffectComponent
         this.strength = strength;
         this.type = type;
     }
+    public HealHealth(IntFormat strength)
+    {
+        this(strength,ChangeType.INCREASE);
+    }
 
     public ChangeType getType() {
         return type;

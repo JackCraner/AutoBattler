@@ -7,8 +7,10 @@ import com.mygdx.game.Cards.CanCard;
 import com.mygdx.game.Cards.SpellTOCard;
 
 import com.mygdx.game.CombatLogic.Battler;
+import com.mygdx.game.CombatLogic.ShopSystem.ShopFunction;
 import com.mygdx.game.Screens.BuyPhase.BuyScene;
 import com.mygdx.game.Cards.Card;
+import com.mygdx.game.SpellLogic.Spell;
 import com.mygdx.game.SpellLogic.SpellFactory;
 
 
@@ -60,9 +62,10 @@ public class Shop extends Group
 
     private void setShop()
     {
+        Spell[] spells = ShopFunction.getShopSpells(parent.getParent().getTurnCount());
         for (int i = 0;i  <cards.length;i++)
         {
-            cards[i] = new Card(getRandomSpell(),scale);
+            cards[i] = new Card(new SpellTOCard(spells[i]),scale);
             shopTable.add(cards[i]).space(50);
         }
         addActor(shopTable);

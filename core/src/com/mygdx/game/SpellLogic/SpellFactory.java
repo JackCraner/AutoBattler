@@ -3,6 +3,7 @@ package com.mygdx.game.SpellLogic;
 import com.mygdx.game.AssetFinder.Projectiles;
 import com.mygdx.game.AssetFinder.SpellSplash;
 import com.mygdx.game.SpellLogic.SpellEffect.Effect;
+import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.AddSpell;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.ApplyBattleground;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.ApplyStatus;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.ArmorModifier;
@@ -136,6 +137,12 @@ public enum SpellFactory
     }}, new Effect(TargetType.SELF){{
         addComponent(new RemoveStatus(-1,StaticStatus.WINDRUSH.getName()));
     }}})),
+    WIND1_2(SpellSplash.WINDWISP, new Spell(SpellTypes.WIND,"Mess of the Wind",1,3,new Effect(TargetType.SELF){{
+        addComponent(new ApplyStatus(new IntFormat(new EqualTo(IntReplacementTypes.TurnNumber,TargetType.SELF)),StatusFactory.instance.getWindRush()));
+    }})),
+    WIND1_3(SpellSplash.WINDSTRIKE, new Spell(SpellTypes.WIND,"Gusting Strike",1,2,new Effect(TargetType.OTHER){{
+        addComponent(new DealDamage(new IntFormat(new EqualTo(IntReplacementTypes.LastSpellMana,TargetType.SELF))));
+    }})),
     WIND2_1(SpellSplash.WINDBLOW, new Spell(SpellTypes.WIND,"Interrupting Gale",2,1,new Effect(TargetType.OTHER){{
         addComponent(new Interrupt());
     }})),
@@ -212,7 +219,7 @@ public enum SpellFactory
         }}));
     }})),
     WIND5_1(SpellSplash.WINDENLIGHTEN, new Spell(SpellTypes.WIND,"Eurus' Enlightenment",5,2, new Effect(TargetType.SELF){{
-        addComponent(new HealHealth(-1));
+        addComponent(new HealHealth(new IntFormat(new EqualTo(IntReplacementTypes.MaxHealth,TargetType.SELF))));
         addComponent(new ApplyStatus(10,StatusFactory.instance.getWindRush()));
         addComponent(new CastTimes(1));
     }})),
@@ -230,6 +237,11 @@ public enum SpellFactory
     WIND5_3(SpellSplash.WINDGUST, new Spell(SpellTypes.WIND,"Category 5", 5,3,new Effect(TargetType.SELF){{
         addComponent(new ApplyBattleground(BattlegroundTypes.CATEGORY5));
         addComponent(new CastTimes(1));
+    }})),
+
+
+    ARCANE0_1(SpellSplash.ARCANEGLOWHAND, new Spell(SpellTypes.ARCANE, "Arcano",0,1, new Effect(TargetType.OTHER){{
+        addComponent(new AddSpell(1));
     }}))
 
 

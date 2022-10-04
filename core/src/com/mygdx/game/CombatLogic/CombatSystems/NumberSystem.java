@@ -1,7 +1,10 @@
 package com.mygdx.game.CombatLogic.CombatSystems;
 
+import com.mygdx.game.CombatLogic.BattlerFrames.BattleFrameComponents.CastComponent;
+import com.mygdx.game.CombatLogic.BattlerFrames.BattleFrameComponents.CastHistoryComponent;
 import com.mygdx.game.CombatLogic.BattlerFrames.BattleFrameComponents.HealthComponent;
 import com.mygdx.game.CombatLogic.BattlerFrames.BattleFrameComponents.ManaComponent;
+import com.mygdx.game.CombatLogic.BattlerFrames.BattleFrameComponents.SpellListComponent;
 import com.mygdx.game.CombatLogic.BattlerFrames.BattleFrameComponents.TurnCounterComponent;
 import com.mygdx.game.CombatLogic.BattlerFrames.BattlerFrame;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.IntReplacement.Absolute;
@@ -11,7 +14,6 @@ import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.IntReplacement.Int
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.IntReplacement.IsIntFormat;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.IntReplacement.NumberBranch;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.IntReplacement.Symbols;
-import com.mygdx.game.SpellLogic.SpellEffect.Enums.StatType;
 
 public class NumberSystem
 {
@@ -74,6 +76,26 @@ public class NumberSystem
         else if (intReplacement.getType() == IntReplacementTypes.TurnNumber)
         {
             return battlers[intReplacement.getTarget().getValue()].getComponent(TurnCounterComponent.class).getTurnCounter();
+        }
+        else if (intReplacement.getType() == IntReplacementTypes.LastSpellMana)
+        {
+            return battlers[intReplacement.getTarget().getValue()].getComponent(CastComponent.class).getSpell().getManaCost();
+        }
+        else if (intReplacement.getType() == IntReplacementTypes.NumberOfSpells)
+        {
+            return battlers[intReplacement.getTarget().getValue()].getComponent(SpellListComponent.class).getSpellList().size();
+        }
+        else if (intReplacement.getType() == IntReplacementTypes.NumberOfCasts)
+        {
+            return battlers[intReplacement.getTarget().getValue()].getComponent(CastHistoryComponent.class).getCastHistoryList().size();
+        }
+        else if (intReplacement.getType() == IntReplacementTypes.MaxHealth)
+        {
+            return battlers[intReplacement.getTarget().getValue()].getComponent(HealthComponent.class).getMaxHealth();
+        }
+        else if (intReplacement.getType() == IntReplacementTypes.MaxMana)
+        {
+            return battlers[intReplacement.getTarget().getValue()].getComponent(ManaComponent.class).getMaxMana();
         }
 
         return 0;

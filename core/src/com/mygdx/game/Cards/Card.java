@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.mygdx.game.MyGdxGame;
 
@@ -32,28 +33,28 @@ public class Card extends Group
 
         cardSprite = new Image(new Texture(Gdx.files.local(spell.getCardBase())));
         cardSprite.setSize(width * scale,height * scale);
-        addActor(cardSprite);
+
 
         imageSprite = new Image(new Texture(Gdx.files.local(spell.getSplashArt())));
         imageSprite.setSize(300*scale,300*scale);
         imageSprite.setPosition(cardSprite.getX()+(cardSprite.getWidth()*0.18f),cardSprite.getY()+(cardSprite.getHeight()*0.45f));
         addActor(imageSprite);
-
+        addActor(cardSprite);
         spellTitle = new Label(spell.getTitle(), MyGdxGame.skin,"title");
-        spellTitle.setFontScale(scale);
+        spellTitle.setFontScale(titleTextScale(spellTitle));
         spellTitle.setWrap(true);
         spellTitle.setAlignment(Align.center);
         spellTitle.setWidth(270 * scale);
         spellTitle.setHeight(40*scale);
-        spellTitle.setPosition(cardSprite.getX() + (float)(cardSprite.getWidth()*0.21),(cardSprite.getY()+(cardSprite.getHeight()*0.41f))-(spellTitle.getHeight()));
+        spellTitle.setPosition(cardSprite.getX() + (float)(cardSprite.getWidth()*0.21),(cardSprite.getY()+(cardSprite.getHeight()*0.93f))-(spellTitle.getHeight()));
         addActor(spellTitle);
 
         spellDescription = new Label(spell.getDescription(), MyGdxGame.skin,"default");
-        spellDescription.setFontScale(getDescriptionSize());
+        spellDescription.setFontScale(descriptionTextScale(spellDescription));
         spellDescription.setWrap(true);
         spellDescription.setAlignment(Align.center);
         spellDescription.setWidth(280 * scale);
-        spellDescription.setPosition(cardSprite.getX() + (float)(cardSprite.getWidth()*0.21),(cardSprite.getY()+(cardSprite.getHeight()*0.25f))-(spellDescription.getHeight()));
+        spellDescription.setPosition(cardSprite.getX() + (float)(cardSprite.getWidth()*0.21),(cardSprite.getY()+(cardSprite.getHeight()*0.28f))-(spellDescription.getHeight()));
         addActor(spellDescription);
 
         spellCostLabel = new Label(Integer.toString(spell.getManaCost()),MyGdxGame.skin,"title");
@@ -76,6 +77,23 @@ public class Card extends Group
 
 
     }
+    private float titleTextScale(Label label)
+    {
+        if (label.getText().length > 8)
+        {
+            return(float) (scale/(1 + (label.getText().length*0.02)));
+        }
+        return scale;
+    }
+    private float descriptionTextScale(Label label)
+    {
+        if (label.getText().length > 20)
+        {
+            return (float)((scale*1.8)/(1+(label.getText().length*0.005)));
+        }
+        return scale*2;
+    }
+
 
     public CanCard getCardItem() {
         return spell;
@@ -124,8 +142,8 @@ public class Card extends Group
     {
 
         imageSprite.setPosition(cardSprite.getX()+(cardSprite.getWidth()*0.18f),cardSprite.getY()+(cardSprite.getHeight()*0.45f));
-        spellTitle.setPosition(cardSprite.getX() + (float)(cardSprite.getWidth()*0.21),(cardSprite.getY()+(cardSprite.getHeight()*0.41f))-(spellTitle.getHeight()));
-        spellDescription.setPosition(cardSprite.getX() + (float)(cardSprite.getWidth()*0.21),(cardSprite.getY()+(cardSprite.getHeight()*0.25f))-(spellDescription.getHeight()));
+        spellTitle.setPosition(cardSprite.getX() + (float)(cardSprite.getWidth()*0.21),(cardSprite.getY()+(cardSprite.getHeight()*0.93f))-(spellTitle.getHeight()));
+        spellDescription.setPosition(cardSprite.getX() + (float)(cardSprite.getWidth()*0.21),(cardSprite.getY()+(cardSprite.getHeight()*0.28f))-(spellDescription.getHeight()));
         spellCostLabel.setPosition(cardSprite.getX()- (float)(cardSprite.getWidth()*0.25),(cardSprite.getY()+(cardSprite.getHeight()*0.96f))-(spellCostLabel.getHeight()));
         castTimeLabel.setPosition(cardSprite.getX()+ (float)(cardSprite.getWidth()*0.57),(cardSprite.getY()+(cardSprite.getHeight()*0.96f))-(castTimeLabel.getHeight()));
 
@@ -133,10 +151,11 @@ public class Card extends Group
     public void scale()
     {
 
-        spellTitle.setFontScale(scale);
-        spellDescription.setFontScale(getDescriptionSize());
+        spellTitle.setFontScale(titleTextScale(spellTitle));
+        spellDescription.setFontScale(descriptionTextScale(spellDescription));
         spellCostLabel.setFontScale(scale);
         castTimeLabel.setFontScale(scale);
+
 
 
         imageSprite.setSize(300*scale,300*scale);
