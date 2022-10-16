@@ -77,6 +77,11 @@ public class Card extends Group
 
 
     }
+
+    public float getScale() {
+        return scale;
+    }
+
     private float titleTextScale(Label label)
     {
         if (label.getText().length > 8)

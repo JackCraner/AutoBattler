@@ -11,7 +11,7 @@ public enum StaticStatus
     WINDRUSH("Wind Rush", "29"),
     MOONFIRE("Moon Fire", "7"),
     DOUBLEEFFECT("Double Effect", "null"),
-
+    CURSE("Curse","17"),
     ;
     private String name;
     private String icon;

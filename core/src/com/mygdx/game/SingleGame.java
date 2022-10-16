@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import com.mygdx.game.CombatLogic.Battler;
 import com.mygdx.game.CombatLogic.BattlerFrames.ModifierArray;
+import com.mygdx.game.CombatLogic.EnemieAI.EnemyFactory;
 import com.mygdx.game.Screens.BuyPhase.BuyScene;
 import com.mygdx.game.Screens.FightPhase.FightScene;
 import com.mygdx.game.SpellLogic.Spell;
@@ -29,7 +30,7 @@ public class SingleGame extends ScreenAdapter
     {
         this.parent = parent;
         this.batch = parent.batch;
-        this.player = new Battler(20,50,new ModifierArray(),new ModifierArray(),new Spell[]{});
+        this.player = new Battler(100,50,new ModifierArray(),new ModifierArray(),new Spell[]{});
         player.getSpellList().addItem(SpellFactory.FIRE0_1.getSpell());
         livesLeft = 3;
         parent.setScreen(new BuyScene(this,player));
@@ -66,8 +67,8 @@ public class SingleGame extends ScreenAdapter
     public void findOpponent()
     {
         //generate enemy pass into fight Scene
-        Battler enemy = new Battler(20,50,new ModifierArray(),new ModifierArray(),new Spell[]{SpellFactory.FIRE0_1.getSpell()});
-        parent.setScreen(new FightScene(this,player,enemy));
+
+        parent.setScreen(new FightScene(this,player, EnemyFactory.makeEnemy(getTurnCount())));
     }
     public void returnToShop()
     {

@@ -6,6 +6,7 @@ import com.mygdx.game.CombatLogic.BattlerFrames.BattlerStates;
 import com.mygdx.game.SpellLogic.SpellEffect.Effect;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.ApplyStatus;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.ArmorModifier;
+import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.ChangeCastTime;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.ChangeCost;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.ChangeStatus;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.Condition;
@@ -101,6 +102,14 @@ public class StatusFactory
     {
         return new StatusObject(StaticStatus.MOONFIRE.getName(),StaticStatus.MOONFIRE.getIcon(), new OnSpellBased(),new Effect(TargetType.SELF){{
             addComponent(new ChangeCost(1, ModifierType.ABSOLUTE));
+        }});
+    }
+
+    public StatusObject getCurse()
+    {
+        return new StatusObject(StaticStatus.CURSE.getName(), StaticStatus.CURSE.getIcon(), new OnSpellBased(),new Effect(TargetType.SELF){{
+            addComponent(new ChangeCost(1,ModifierType.ADDITIVE));
+            addComponent(new ChangeCastTime(1,ModifierType.ADDITIVE));
         }});
     }
 

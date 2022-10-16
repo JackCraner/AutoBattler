@@ -1,5 +1,7 @@
 package com.mygdx.game.CombatLogic.ShopSystem;
 
+import com.mygdx.game.Cards.SpellTOCard;
+import com.mygdx.game.CombatLogic.Battler;
 import com.mygdx.game.SpellLogic.Spell;
 import com.mygdx.game.SpellLogic.SpellFactory;
 
@@ -38,6 +40,26 @@ public class ShopFunction
 
         return shopSpells;
     }
+
+    public static boolean buyShopSpell(Spell s, Battler purchaser)
+    {
+        int buyPremium = 5;
+        if (purchaser.getSpellList().getList().size() < 10)
+        {
+            if (purchaser.getCurrentMana() >= s.getManaCost()+ buyPremium)
+            {
+                purchaser.setCurrentMana(purchaser.getCurrentMana() - (s.getManaCost()+buyPremium));
+                purchaser.getSpellList().addItem(s);
+                return  true;
+            }
+        }
+
+        return false;
+
+    }
+
+
+
     private static int getShopTier(int roundCount)
     {
         return (int)(Math.floor((float)roundCount/2)<=5?Math.floor((float)roundCount/2):5);
@@ -47,49 +69,41 @@ public class ShopFunction
         switch (shopTier)
         {
             case 0:
+                return new int[]{70,25,5,0,0,0};
             case 1:
+                return new int[]{50,30,10,10,0,0};
             case 2:
+                return new int[]{30,40,15,10,5,0};
             case 3:
-                return new int[]{60,30,10};
+                return new int[]{15,25,25,20,10,5};
             case 4:
-                return new int[]{70,30,0};
+                return new int[]{10,15,30,20,15,10};
             case 5:
-                return new int[]{100,0,0};
+                return new int[]{10,15,20,30,15,10};
 
         }
-        return new int[]{100,0,0};
+        return new int[]{100,0,0,0,0,0};
     }
     static Random random = new Random();
     private static int getRandomSpellCost(int[] shopTierProbabilities)
     {
         int number = random.nextInt(100);
-        if (number < shopTierProbabilities[0])
+        int bound = 0;
+        for (int i =0;i <shopTierProbabilities.length;i++)
         {
-            return 0;
+            bound += shopTierProbabilities[i];
+            if (number <=bound)
+            {
+                return i;
+            }
         }
-        else if (number < shopTierProbabilities[0]+shopTierProbabilities[1])
-        {
-            return 1;
-        }
-        else
-        {
-            return 2;
-        }
+        return 0;
     }
     private static Spell getRandomSpellOfCost(int cost)
     {
-        System.out.println(cost);
-        if (cost>0)
-        {
-            int ranCost = random.nextInt(cost);
-            int ran = random.nextInt(spellsSorted[ranCost].size());
-            return spellsSorted[ranCost].get(ran).getSpell();
-        }
-        else
-        {
-            int ran = random.nextInt(spellsSorted[cost].size());
-            return spellsSorted[cost].get(ran).getSpell();
-        }
+        int ran = random.nextInt(spellsSorted[cost].size());
+        return spellsSorted[cost].get(ran).getSpell();
+
 
     }
 

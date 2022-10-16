@@ -93,31 +93,17 @@ public class Shop extends Group
     }
     public void buyCard(Battler p ,Card c)
     {
-        if (p.getSpellList().getList().size() < 10)
+        if (c.getCardItem() instanceof SpellTOCard)
         {
-            if (c.getCardItem() instanceof SpellTOCard)
+            Spell s = ((SpellTOCard)c.getCardItem()).getSpell();
+            if (ShopFunction.buyShopSpell(s,p))
             {
-                SpellTOCard sTc = (SpellTOCard)c.getCardItem();
-                if (canAfford(p,sTc.getManaCost()))
-                {
-                    spendMana(p,sTc.getManaCost());
-                    player.getSpellList().addItem(sTc.getSpell());
-                    rollShop(p,false);
-                }
+                rollShop(p,false);
             }
         }
 
+    }
 
-    }
-    public void spendMana(Battler p,int cost)
-    {
-        p.setCurrentMana(player.getCurrentMana() - cost);
-    }
-    public boolean canAfford(Battler p, int cost)
-    {
-        return p.getCurrentMana() >= cost;
-
-    }
 
     @Override
     public Actor hit(float x, float y, boolean touchable) {

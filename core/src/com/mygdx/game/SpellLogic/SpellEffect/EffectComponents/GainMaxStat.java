@@ -21,7 +21,7 @@ public class GainMaxStat extends IsEffectComponent
     }
     public GainMaxStat(StatType type,int strength)
     {
-        this(type,new IntFormat(strength),(strength>0?ChangeType.INCREASE:ChangeType.DECREASE));
+        this(type,new IntFormat(Math.abs(strength)),(strength>0?ChangeType.INCREASE:ChangeType.DECREASE));
     }
 
     public ChangeType getStrengthType() {
@@ -38,7 +38,7 @@ public class GainMaxStat extends IsEffectComponent
 
     @Override
     public String printEffect() {
-        return strengthType.getName() + getTarget().getName(0)  + type.name() + " Permanently by " + strength.print();
+        return strengthType.getName() + " " + getTarget().getName(0) +" Max " + type.name() + " Permanently by " + strength.print();
     }
 
     @Override

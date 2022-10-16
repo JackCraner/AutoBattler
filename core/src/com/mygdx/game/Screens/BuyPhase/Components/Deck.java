@@ -108,11 +108,13 @@ public class Deck extends Group
         currentIndex = deckCards.indexOf(c);
         c.setZIndex(deckCards.size());
         deckCards.remove(c);
+        this.removeActor(c);
         bin.toFront();
     }
     public void placeCard(Card c)
     {
         deckCards.add(currentIndex,c);
+        this.addActor(c);
         orderPlayerSpells();
         formDeck();
     }

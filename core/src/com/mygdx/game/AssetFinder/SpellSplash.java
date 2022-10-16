@@ -41,7 +41,9 @@ public enum SpellSplash
     ARCANESTAFF("Arcane/23"),
     ARCANESOULSUCK("Arcane/28"),
     ARCANEEYE("Arcane/42"),
+    ARCANESWAP("Arcane/43"),
     ARCANEBOTTLE("Arcane/45"),
+    ARCANEWEB("Arcane/46"),
 
     //ICE
     ICEBOLT("Ice/1"),

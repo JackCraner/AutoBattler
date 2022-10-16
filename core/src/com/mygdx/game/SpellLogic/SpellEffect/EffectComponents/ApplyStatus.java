@@ -4,6 +4,7 @@ package com.mygdx.game.SpellLogic.SpellEffect.EffectComponents;
 import com.mygdx.game.CombatLogic.BattlerFrames.BattlerFrame;
 import com.mygdx.game.CombatLogic.EffectSystems.ApplyStatusSystem;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.IntReplacement.IntFormat;
+import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.StatusComponent.StatusFactory;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.StatusComponent.StatusObject;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.StatusComponent.TickTypes.DurationBased;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.StatusComponent.TickTypes.OnSpellBased;
@@ -37,6 +38,10 @@ public class ApplyStatus extends IsEffectComponent
 
     @Override
     public String printEffect() {
+        if (StatusFactory.instance.isStatic(statusObject.getStatus_name()))
+        {
+            return "Apply " + strength.print() + " Stacks of " + statusObject.getStatus_name() + " to " + getTarget().getName(1);
+        }
         if (statusObject.getType() instanceof TickBased)
         {
             return "Apply " + strength.print() + " Stacks of " + statusObject.getStatus_name() + " to " + getTarget().getName(1);

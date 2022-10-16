@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.mygdx.game.Cards.Card;
+import com.mygdx.game.Cards.HightlightedCard;
 import com.mygdx.game.CombatLogic.Battler;
 import com.mygdx.game.Screens.BuyPhase.Components.Deck;
 import com.mygdx.game.Screens.BuyPhase.Components.Shop;
@@ -25,7 +26,7 @@ public class BuySceneMultiplexer extends InputMultiplexer
     Stage ui;
     Shop shop;
 
-    Card hold;
+    HightlightedCard hold;
     float xOffset;
     float yOffset;
 
@@ -56,12 +57,16 @@ public class BuySceneMultiplexer extends InputMultiplexer
             if (a instanceof Card)
             {
 
-                hold = (Card)a;
+                hold = new HightlightedCard((Card)a);
+                hold.setScale(0.9f);
+                xOffset = hold.getWidth()/2;
+                yOffset = 0;
+                hold.setPosition(coord.x+-xOffset,coord.y-yOffset);
+                this.stage.addActor(hold);
 
-                xOffset = coord.x - hold.getX();
-                yOffset = coord.y - hold.getY();
-                hold.setScale(1.3f);
-                d.holdCard(hold);
+              ;
+                System.out.println(xOffset + "   " + coord.x + "    " + hold.getX() + "   " + d.getX());
+                d.holdCard(hold.getCard());
                 d.setBinVisibility(true);
 
             }
@@ -76,7 +81,7 @@ public class BuySceneMultiplexer extends InputMultiplexer
         Vector2 coord = stage.screenToStageCoordinates(new Vector2(screenX,screenY));
 
 
-        if (shop.hit(coord.x,coord.y,true)!=null)
+        if (shop.hit(coord.x,coord.y,true)!=null && hold==null)
         {
             Actor a = shop.hit(coord.x,coord.y,true);
 
@@ -95,19 +100,20 @@ public class BuySceneMultiplexer extends InputMultiplexer
             if (a instanceof Image)
             {
 
-                d.sellCard(hold);
-                hold.remove();
+                d.sellCard(hold.getCard());
+
 
             }
             else
             {
-                d.placeCard(hold);
                 hold.setScale(0.5f);
+                d.placeCard(hold.getCard());
+
 
             }
 
             d.setBinVisibility(false);
-
+            hold.remove();
             hold=null;
         }
 
@@ -122,12 +128,12 @@ public class BuySceneMultiplexer extends InputMultiplexer
         if (hold != null)
         {
 
-            hold.setPosition(coord.x - xOffset,coord.y -yOffset);
+           hold.setPosition(coord.x - xOffset,coord.y -yOffset);
 
             for (int i = 0;i<d.getDeckCards().size();i++)
             {
 
-                if (d.getDeckCards().get(i).getX() > hold.getX())
+                if (d.getDeckCards().get(i).getX() + d.getX() > hold.getX())
                 {
 
                     d.pushDeck(i);

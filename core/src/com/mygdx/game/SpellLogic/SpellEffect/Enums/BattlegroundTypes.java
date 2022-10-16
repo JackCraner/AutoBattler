@@ -3,6 +3,7 @@ package com.mygdx.game.SpellLogic.SpellEffect.Enums;
 import com.mygdx.game.SpellLogic.SpellEffect.Effect;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.ApplyStatus;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.ArmorModifier;
+import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.ChangeCost;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.Condition;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.ConditionComponents.Chance;
 import com.mygdx.game.SpellLogic.SpellEffect.EffectComponents.ConditionComponents.ConditionObject;
@@ -39,6 +40,9 @@ public enum BattlegroundTypes
     CATEGORY5(new Effect(TargetType.SELF){{
         addComponent(new GainLoseMana(-1));
         addComponent(new ApplyStatus(1, StatusFactory.instance.getWindRush()));
+    }}),
+    MOONLIGHT(new Effect(TargetType.SELF){{
+        //addComponent(new ChangeCost());
     }})
     ;
     private Effect effect;

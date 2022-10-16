@@ -17,7 +17,7 @@ public class GainLoseMana extends IsEffectComponent
     }
     public GainLoseMana(int strength)
     {
-        this(new IntFormat(strength),(strength>0?ChangeType.INCREASE:ChangeType.DECREASE));
+        this(new IntFormat(Math.abs(strength)),(strength>0?ChangeType.INCREASE:ChangeType.DECREASE));
     }
 
     public int getStrength(BattlerFrame[] battlers) {

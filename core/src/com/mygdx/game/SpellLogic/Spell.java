@@ -13,16 +13,27 @@ public class Spell
 {
     private int manaCost;
     private int castTime;
+    private String description;
     private Effect[] effects;
     private String name;
     private SpellTypes spellType;
-    public Spell(SpellTypes spellType,String name,int manaCost,int castTime,Effect[] effects)
+    public Spell(SpellTypes spellType,String name,int manaCost,int castTime,Effect[] effects, String description)
     {
+
         this.spellType = spellType;
         this.manaCost = manaCost;
         this.castTime =castTime;
         this.effects = effects;
         this.name = name;
+        this.description = description;
+    }
+    public Spell(SpellTypes spellType,String name, int manaCost,int castTime, Effect effect, String description)
+    {
+        this(spellType,name,manaCost,castTime,new Effect[]{effect}, description);
+    }
+    public Spell(SpellTypes spellType,String name,int manaCost,int castTime,Effect[] effects)
+    {
+        this(spellType,name,manaCost,castTime,effects, null);
     }
     public Spell(SpellTypes spellType,String name, int manaCost,int castTime, Effect effect)
     {
@@ -68,25 +79,31 @@ public class Spell
     }
     public String getEffectDescription()
     {
-        String s="";
-        for (int i = 0;i < effects.length;i++)
+
+        if (description == null)
         {
-            s +=effects[i].printEffect();
-
-            if (i != effects.length-1)
+            String s="";
+            for (int i = 0;i < effects.length;i++)
             {
+                s +=effects[i].printEffect();
 
-                if (effects[i+1].getType() == EffectType.NEGATIVE)
+                if (i != effects.length-1)
                 {
-                    s += " but ";
-                }
-                else
-                {
-                    s+=" and ";
+
+                    if (effects[i+1].getType() == EffectType.NEGATIVE)
+                    {
+                        s += " but ";
+                    }
+                    else
+                    {
+                        s+=" and ";
+                    }
                 }
             }
+            return s;
         }
-        return s;
+        return description;
+
     }
     public Spell clone()
     {
@@ -95,7 +112,7 @@ public class Spell
         {
             newList[i] = effects[i].clone();
         }
-        return new Spell(spellType,name,manaCost,castTime,newList);
+        return new Spell(spellType,name,manaCost,castTime,newList,description);
 
 
     }

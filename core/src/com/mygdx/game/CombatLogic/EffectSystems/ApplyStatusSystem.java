@@ -45,7 +45,7 @@ public class ApplyStatusSystem implements IsEffectSystem<ApplyStatus> {
 
     public void checkAllStatusEffect(BattlerFrame host, BattlerFrame hostNew)
     {
-        EffectListComponent battlerComponent = host.getComponent(EffectListComponent.class);
+        EffectListComponent battlerComponent = hostNew.getComponent(EffectListComponent.class);
         for (int i =0; i<battlerComponent.getEffectOnBattlers().size();i++)
 
         {
@@ -88,7 +88,7 @@ public class ApplyStatusSystem implements IsEffectSystem<ApplyStatus> {
 
     public void handleDurationEffect(EffectOnBattler effect, BattlerFrame host, BattlerFrame hostNew)
     {
-       if (incrementDownEffect(effect,host))
+       if (incrementDownEffect(effect,hostNew))
        {
            Effect undoEffect = ((DurationBased)effect.getStatusObject().getType()).getWhenFinished();
            CastSystem.instance.routeEffect(undoEffect, new BattlerFrame[]{host,host}, new BattlerFrame[]{hostNew,hostNew});
@@ -106,7 +106,7 @@ public class ApplyStatusSystem implements IsEffectSystem<ApplyStatus> {
             effect.setCd(0);
             if (effectType.getDoesDecrease())
             {
-                incrementDownEffect(effect,host);
+                incrementDownEffect(effect,hostNew);
             }
 
 
@@ -117,7 +117,7 @@ public class ApplyStatusSystem implements IsEffectSystem<ApplyStatus> {
     {
         OnSpellBased effectType = (OnSpellBased) effect.getStatusObject().getType();
 
-        if (host.getComponent(CastComponent.class).getCastTimer() == 0)
+        if (hostNew.getComponent(CastComponent.class).getCastTimer() == 0)
         {
 
             doStatusEffect(effect,host,hostNew);
